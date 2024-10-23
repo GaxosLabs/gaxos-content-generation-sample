@@ -1,15 +1,15 @@
 using System.Collections.Generic;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models;
-using ContentGeneration.Models.Meshy;
+using ContentGeneration.Models.Suno;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace ContentGeneration.Editor.MainWindow.Components.Meshy
+namespace ContentGeneration.Editor.MainWindow.Components.Suno
 {
-    public class TextToMesh : VisualElementComponent, IGeneratorVisualElement
+    public class SunoClip : VisualElementComponent, IGeneratorVisualElement
     {
-        public new class UxmlFactory : UxmlFactory<TextToMesh, UxmlTraits>
+        public new class UxmlFactory : UxmlFactory<SunoClip, UxmlTraits>
         {
         }
 
@@ -30,17 +30,17 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
 
         PromptInput prompt => this.Q<PromptInput>("prompt");
         VisualElement promptRequired => this.Q<VisualElement>("promptRequired");
-        PromptInput negativePrompt => this.Q<PromptInput>("negativePrompt");
-        EnumField artStyle => this.Q<EnumField>("artStyle");
+        EnumField model => this.Q<EnumField>("model");
+        Toggle makeInstrumental => this.Q<Toggle>("makeInstrumental");
 
         Button improvePrompt => this.Q<Button>("improvePromptButton");
         
-        public TextToMesh()
+        public SunoClip()
         {
             generationOptionsElement.OnCodeHasChanged = RefreshCode;
             prompt.OnChanged += _ => RefreshCode();
-            negativePrompt.OnChanged += _ => RefreshCode();
-            artStyle.RegisterValueChangedCallback(_ => RefreshCode());
+            model.RegisterValueChangedCallback(_ => RefreshCode());
+            makeInstrumental.RegisterValueChangedCallback(_ => RefreshCode());
 
             requestSent.style.display = DisplayStyle.None;
             requestFailed.style.display = DisplayStyle.None;
@@ -89,13 +89,13 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
                 generateButton.SetEnabled(false);
                 sendingRequest.style.display = DisplayStyle.Flex;
 
-                var parameters = new MeshyTextToMeshParameters
+                var parameters = new SunoClipParameters
                 {
-                    Prompt = prompt.value,
-                    NegativePrompt = string.IsNullOrEmpty(negativePrompt.value) ? null : negativePrompt.value,
-                    ArtStyle =(TextToMeshArtStyle)artStyle.value
+                    GptDescriptionPrompt = prompt.value,
+                    Mv = (Model)model.value,
+                    MakeInstrumental = makeInstrumental.value,
                 };
-                ContentGenerationApi.Instance.RequestMeshyTextToMeshGeneration(
+                ContentGenerationApi.Instance.RequestSunoClipGeneration(
                     parameters,
                     generationOptionsElement.GetGenerationOptions(), data: new
                     {
@@ -124,12 +124,12 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
         void RefreshCode()
         {
             code.value =
-                "var requestId = await ContentGenerationApi.Instance.RequestMeshyTextToMeshGeneration\n" +
-                "\t(new MeshyTextToMeshParameters\n" +
+                "var requestId = await ContentGenerationApi.Instance.RequestSunoClipGeneration\n" +
+                "\t(new SunoClipParameters\n" +
                 "\t{\n" +
-                $"\t\tPrompt = \"{prompt.value}\",\n" +
-                (string.IsNullOrEmpty(negativePrompt.value) ? "" : $"\t\tNegativePrompt = \"{negativePrompt.value}\",\n") +
-                $"\t\tArtStyle = ArtStyle.{artStyle.value}\n" +
+                $"\t\tGptDescriptionPrompt = \"{prompt.value}\",\n" +
+                $"\t\tMv = Model.{model.value},\n" +
+                $"\t\tMakeInstrumental = {makeInstrumental.value},\n" +
                 "\t},\n" +
                 $"{generationOptionsElement?.GetCode()}" +
                 ")";
@@ -138,12 +138,12 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
         public Generator generator => Generator.MeshyTextToMesh;
         public void Show(Favorite favorite)
         {
-            var parameters = favorite.GeneratorParameters.ToObject<MeshyTextToMeshParameters>();
+            var parameters = favorite.GeneratorParameters.ToObject<SunoClipParameters>();
             generationOptionsElement.Show(favorite.GenerationOptions);
 
-            prompt.value = parameters.Prompt;
-            negativePrompt.value = parameters.NegativePrompt;
-            artStyle.value = parameters.ArtStyle;
+            prompt.value = parameters.GptDescriptionPrompt;
+            model.value = parameters.Mv;
+            makeInstrumental.value = parameters.MakeInstrumental;
             
             RefreshCode();
         }

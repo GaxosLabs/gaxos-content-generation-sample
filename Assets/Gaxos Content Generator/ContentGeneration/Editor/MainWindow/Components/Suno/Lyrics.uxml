@@ -1,0 +1,42 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="../Common.uss" />
+    <Style src="../DallE/TextToImage.uss" />
+    <ui:VisualElement class="container-spaced">
+        <uie:ObjectField label="Model" name="model" type="UnityEngine.Object, UnityEngine.CoreModule" allow-scene-objects="false" tooltip="Select the 3D model that you want to texture using AI.  Tip: Ensure the model is properly prepared and compatible with the texturing process" />
+        <ui:Label name="modelRequired" text="Model is required" class="error-label" style="visibility: hidden;" />
+        <ui:Label tabindex="-1" text="Object prompt:" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+        <ContentGeneration.Editor.MainWindow.Components.PromptInput name="objectPrompt" tooltip="Provide a detailed description of the 3D model you&apos;re attaching to the AI for texturing purposes.  Usage: Help the AI understand the specific characteristics and details of the model" style="height: 140px;" />
+        <ui:Label name="objectPromptRequired" text="Object prompt is required" class="error-label" style="visibility: hidden;" />
+        <ui:Label tabindex="-1" text="Style prompt:" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+        <ContentGeneration.Editor.MainWindow.Components.PromptInput name="stylePrompt" tooltip="Describe in detail what you want the AI to generate as a texture for the 3D model, including colors, textures, and shapes.  Tip: Be specific to guide the AI accurately in creating the desired texture" style="height: 140px;" />
+        <ui:Label name="stylePromptRequired" text="Style prompt is required" class="error-label" style="visibility: hidden;" />
+        <ui:Button name="improvePromptButton" text="Improve prompt" tooltip="Allow the AI to enhance your style prompt for better texturing results.  Benefit: Improves AI understanding and interpretation of your input for more accurate textures" />
+        <ui:Label tabindex="-1" text="Negative prompt:" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+        <ContentGeneration.Editor.MainWindow.Components.PromptInput name="negativePrompt" tooltip="Specify details that you do not want to be included in the 3D model&apos;s texture.  Purpose: Assist the AI in avoiding certain elements or styles during the texturing process" style="height: 140px;" />
+        <ui:Toggle label="Enable Original UV" name="enableOriginalUv" value="true" tooltip="Use the model&apos;s original UV mapping instead of generating new UVs.  Note: Quality of results may vary depending on the availability and quality of original UVs" />
+        <ui:Toggle label="Enable PBR" name="enablePbr" value="true" tooltip="Request the AI to generate PBR maps (e.g., metallic, roughness, normals) in addition to the base color texture.  Purpose: Enhance the realism and compatibility of the textured model with physically based rendering (PBR) workflows" />
+        <ui:EnumField label="Resolution" type="ContentGeneration.Models.Meshy.Resolution, ContentGeneration" name="resolution" tooltip="Choose the resolution at which the AI will deliver the texture (e.g., 1024, 2048, 4096).  Tip: Higher resolutions offer better detail but may require more processing time" />
+        <ui:EnumField label="Art Style" type="ContentGeneration.Models.Meshy.TextToTextureArtStyle, ContentGeneration" name="artStyle" tooltip="Choose the type of art style you want for your 3D model&apos;s texture (e.g., Realistic, Japanese Anime, Cartoon Line Art).  Recommendation: Select a style that aligns with your project&apos;s visual theme" />
+        <ContentGeneration.Editor.MainWindow.Components.GenerationOptionsElement 
+                name="generationOptions" 
+                AllowMakeTransparent="false"
+        />
+        <ui:Button name="generateButton" text="Generate" class="generateButton" />
+        <ui:VisualElement>
+            <ui:VisualElement name="sendingRequest">
+                <ui:Label text="Sending request" />
+            </ui:VisualElement>
+            <ui:VisualElement name="requestSent">
+                <ui:Label text="Request sent" />
+            </ui:VisualElement>
+            <ui:VisualElement name="requestFailed" class="error-label">
+                <ui:Label text="Request failed, check the console for details" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement style="flex-grow: 1;">
+            <ui:Label tabindex="-1" text="Code" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+            <ui:TextField picking-mode="Ignore" readonly="true" multiline="true" name="code" class="code" />
+        </ui:VisualElement>
+        <ContentGeneration.Editor.MainWindow.Components.WeblinkButton URl="https://docs.meshy.ai/api-text-to-texture" Icon="Meshy" Title="Meshy\nDocumentation" class="documentationLink" />
+    </ui:VisualElement>
+</ui:UXML>

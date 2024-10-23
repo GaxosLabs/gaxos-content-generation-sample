@@ -21,5 +21,6 @@
         <ContentGeneration.Editor.MainWindow.Components.Meshy.MeshyTextToVoxelRequestedItem name="meshyTextToVoxelRequestedItem" style="display: none; flex-grow: 0.5; min-height: 120px;" />
         <ContentGeneration.Editor.MainWindow.Components.Meshy.MeshyImageToMeshRequestedItem name="meshyImageToMeshRequestedItem" style="display: none; flex-grow: 0.5; min-height: 120px;" />
         <ContentGeneration.Editor.MainWindow.Components.StabilityAI.StabilityFast3dRequestedItem name="stabilityFast3dRequestedItem" style="display: none; flex-grow: 0.5; min-height: 120px;" />
+        <ContentGeneration.Editor.MainWindow.Components.Suno.SunoClipRequestedItem name="sunoClipRequestedItem" style="display: none; flex-grow: 0.5; min-height: 120px;" />
     </ContentGeneration.Editor.MainWindow.Components.SubWindow>
 </ui:UXML>

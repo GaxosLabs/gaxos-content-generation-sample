@@ -10,6 +10,7 @@ using ContentGeneration.Models.DallE;
 using ContentGeneration.Models.Gaxos;
 using ContentGeneration.Models.Meshy;
 using ContentGeneration.Models.Stability;
+using ContentGeneration.Models.Suno;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -395,6 +396,16 @@ namespace ContentGeneration
         {
             return RequestGeneration(
                 Generator.GaxosMasking,
+                generatorParameters, options, data);
+        }
+        
+        public Task<string> RequestSunoClipGeneration(
+            SunoClipParameters generatorParameters,
+            GenerationOptions options = GenerationOptions.None,
+            object data = null)
+        {
+            return RequestGeneration(
+                Generator.SunoClip,
                 generatorParameters, options, data);
         }
     }

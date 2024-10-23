@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ContentGeneration.Editor.MainWindow.Components.Meshy;
 using ContentGeneration.Editor.MainWindow.Components.StabilityAI;
+using ContentGeneration.Editor.MainWindow.Components.Suno;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models;
 using Unity.EditorCoroutines.Editor;
@@ -32,29 +33,22 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
 
         Button refreshButton => this.Q<Button>("refreshButton");
         MultiColumnListView listView => this.Q<MultiColumnListView>();
-        IRequestedItem defaultRequestedItem => this.Q<RequestedItem>("defaultRequestedItem");
+        IRequestedItem defaultRequestedItem => this.Q<RequestedItem>();
 
-        IRequestedItem meshyTextToMeshRequestedItem =>
-            this.Q<MeshyTextToMeshRequestedItem>("meshyTextToMeshRequestedItem");
-
-        IRequestedItem meshyTextToTextureRequestedItem =>
-            this.Q<MeshyTextToTextureRequestedItem>("meshyTextToTextureRequestedItem");
-
-        IRequestedItem meshyTextToVoxelRequestedItem =>
-            this.Q<MeshyTextToVoxelRequestedItem>("meshyTextToVoxelRequestedItem");
-
-        IRequestedItem meshyImageToMeshRequestedItem =>
-            this.Q<MeshyImageToMeshRequestedItem>("meshyImageToMeshRequestedItem");
-
-        IRequestedItem stabilityFast3dRequestedItem =>
-            this.Q<StabilityFast3dRequestedItem>("stabilityFast3dRequestedItem");
+        IRequestedItem meshyTextToMeshRequestedItem => this.Q<MeshyTextToMeshRequestedItem>();
+        IRequestedItem meshyTextToTextureRequestedItem => this.Q<MeshyTextToTextureRequestedItem>();
+        IRequestedItem meshyTextToVoxelRequestedItem => this.Q<MeshyTextToVoxelRequestedItem>();
+        IRequestedItem meshyImageToMeshRequestedItem => this.Q<MeshyImageToMeshRequestedItem>();
+        IRequestedItem stabilityFast3dRequestedItem => this.Q<StabilityFast3dRequestedItem>();
+        IRequestedItem sunoClipRequestedItem => this.Q<SunoClipRequestedItem>();
 
         IRequestedItem[] allRequestedItems => new[]
         {
             defaultRequestedItem, 
             meshyTextToMeshRequestedItem, meshyTextToTextureRequestedItem,
             meshyTextToVoxelRequestedItem, meshyImageToMeshRequestedItem, 
-            stabilityFast3dRequestedItem
+            stabilityFast3dRequestedItem,
+            sunoClipRequestedItem
         };
 
         string _selectedId;
@@ -269,6 +263,10 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                     else if (request.Generator == Generator.StabilityStableFast3d)
                     {
                         stabilityFast3dRequestedItem.value = request;
+                    }
+                    else if (request.Generator == Generator.SunoClip)
+                    {
+                        sunoClipRequestedItem.value = request;
                     }
                     else
                     {

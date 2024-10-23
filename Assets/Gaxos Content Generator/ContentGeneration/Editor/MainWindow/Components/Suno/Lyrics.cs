@@ -9,11 +9,11 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Resolution = ContentGeneration.Models.Meshy.Resolution;
 
-namespace ContentGeneration.Editor.MainWindow.Components.Meshy
+namespace ContentGeneration.Editor.MainWindow.Components.Suno
 {
-    public class TextToTexture : VisualElementComponent, IGeneratorVisualElement
+    public class Lyrics : VisualElementComponent, IGeneratorVisualElement
     {
-        public new class UxmlFactory : UxmlFactory<TextToTexture, UxmlTraits>
+        public new class UxmlFactory : UxmlFactory<Lyrics, UxmlTraits>
         {
         }
 
@@ -51,7 +51,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
         
         Button improvePrompt => this.Q<Button>("improvePromptButton");
 
-        public TextToTexture()
+        public Lyrics()
         {
             generationOptionsElement.OnCodeHasChanged = RefreshCode;
 
