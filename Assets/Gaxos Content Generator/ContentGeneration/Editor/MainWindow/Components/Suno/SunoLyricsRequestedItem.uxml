@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/Gaxos%20Content%20Generator/ContentGeneration/Editor/MainWindow/Components/Common.uss?fileID=7433441132597879392&amp;guid=4c0a09080b844861802367d6e07fa07b&amp;type=3#Common" />
+    <Style src="project://database/Assets/Gaxos%20Content%20Generator/ContentGeneration/Editor/MainWindow/Components/RequestsList/RequestedItemCommon.uss?fileID=7433441132597879392&amp;guid=e0bcc31d369374816b900e6a1daa74b2&amp;type=3#RequestedItemCommon" />
+    <ContentGeneration.Editor.MainWindow.Components.RequestsList.RequestedItemCommon ShowImages="false">
+        <ui:TextField picking-mode="Ignore" label="Title" name="title" readonly="true" />
+        <ui:TextField picking-mode="Ignore" label="Lyrics" name="lyrics" multiline="true" readonly="true" style="font-size: 15px; height: 300px;" />
+    </ContentGeneration.Editor.MainWindow.Components.RequestsList.RequestedItemCommon>
+</ui:UXML>

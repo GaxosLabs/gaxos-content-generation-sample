@@ -4,14 +4,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using ContentGeneration.Editor.MainWindow.Components.RequestsList;
 using ContentGeneration.Models;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components.Suno
 {
-    public class LyricsRequestedItem : VisualElementComponent, IRequestedItem
+    public class SunoLyricsRequestedItem : VisualElementComponent, IRequestedItem
     {
-        public new class UxmlFactory : UxmlFactory<LyricsRequestedItem, UxmlTraits>
+        public new class UxmlFactory : UxmlFactory<SunoLyricsRequestedItem, UxmlTraits>
         {
         }
 
@@ -23,35 +22,17 @@ namespace ContentGeneration.Editor.MainWindow.Components.Suno
             }
         }
 
-        Button saveButton => this.Q<Button>("saveButton");
-
         RequestedItemCommon requestedItemCommon => this.Q<RequestedItemCommon>();
+        TextField title => this.Q<TextField>("title");
+        TextField lyrics => this.Q<TextField>("lyrics");
 
-        public LyricsRequestedItem()
+        public SunoLyricsRequestedItem()
         {
             requestedItemCommon.OnDeleted += () =>
             {
                 OnDeleted?.Invoke();
             };
             requestedItemCommon.OnRefreshed += v => value = v;
-
-            saveButton.SetEnabled(false);
-            saveButton.clicked += () =>
-            {
-                if (!saveButton.enabledSelf)
-                    return;
-
-                saveButton.SetEnabled(false);
-                // MeshyModelHelper.Save(value.GeneratorResult).ContinueInMainThreadWith(t =>
-                // {
-                //     if (t.IsFaulted)
-                //     {
-                //         Debug.LogException(t.Exception!.InnerException);
-                //     }
-                //
-                //     saveButton.SetEnabled(true);
-                // });
-            };
         }
 
         CancellationTokenSource _cancellationTokenSource;
@@ -66,10 +47,12 @@ namespace ContentGeneration.Editor.MainWindow.Components.Suno
 
                 _cancellationTokenSource?.Cancel();
 
+                title.value = value?.GeneratorResult?["title"]?.ToObject<string>();
+                lyrics.value = value?.GeneratorResult?["text"]?.ToObject<string>();
+                
                 if (value == null)
                     return;
 
-                saveButton.SetEnabled(value.Status == RequestStatus.Generated);
                 _cancellationTokenSource = new CancellationTokenSource();
             }
         }

@@ -41,6 +41,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
         IRequestedItem meshyImageToMeshRequestedItem => this.Q<MeshyImageToMeshRequestedItem>();
         IRequestedItem stabilityFast3dRequestedItem => this.Q<StabilityFast3dRequestedItem>();
         IRequestedItem sunoClipRequestedItem => this.Q<SunoClipRequestedItem>();
+        IRequestedItem sunoLyricsRequestedItem => this.Q<SunoLyricsRequestedItem>();
 
         IRequestedItem[] allRequestedItems => new[]
         {
@@ -48,7 +49,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
             meshyTextToMeshRequestedItem, meshyTextToTextureRequestedItem,
             meshyTextToVoxelRequestedItem, meshyImageToMeshRequestedItem, 
             stabilityFast3dRequestedItem,
-            sunoClipRequestedItem
+            sunoClipRequestedItem, sunoLyricsRequestedItem
         };
 
         string _selectedId;
@@ -267,6 +268,10 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                     else if (request.Generator == Generator.SunoClip)
                     {
                         sunoClipRequestedItem.value = request;
+                    }
+                    else if (request.Generator == Generator.SunoLyrics)
+                    {
+                        sunoLyricsRequestedItem.value = request;
                     }
                     else
                     {
