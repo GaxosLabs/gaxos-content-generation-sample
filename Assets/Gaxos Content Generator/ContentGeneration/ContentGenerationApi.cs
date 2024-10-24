@@ -408,5 +408,14 @@ namespace ContentGeneration
                 Generator.SunoClip,
                 generatorParameters, options, data);
         }
+        public Task<string> RequestSunoClipWithLyricsGeneration(
+            SunoClipWithLyricsParameters generatorParameters,
+            GenerationOptions options = GenerationOptions.None,
+            object data = null)
+        {
+            return RequestGeneration(
+                Generator.SunoClip,
+                generatorParameters, options, data);
+        }
     }
 }

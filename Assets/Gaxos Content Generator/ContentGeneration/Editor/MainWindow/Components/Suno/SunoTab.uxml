@@ -11,6 +11,9 @@
             <ContentGeneration.Editor.MainWindow.Components.Tab Tab-Name="Clip">
                 <ContentGeneration.Editor.MainWindow.Components.Suno.SunoClip style="flex-direction: column-reverse;" />
             </ContentGeneration.Editor.MainWindow.Components.Tab>
+            <ContentGeneration.Editor.MainWindow.Components.Tab Tab-Name="Clip with lyrics">
+                <ContentGeneration.Editor.MainWindow.Components.Suno.SunoClipWithLyrics style="flex-direction: column-reverse;" />
+            </ContentGeneration.Editor.MainWindow.Components.Tab>
             <ContentGeneration.Editor.MainWindow.Components.Tab Tab-Name="Lyrics">
                 <ContentGeneration.Editor.MainWindow.Components.Suno.Lyrics style="flex-direction: column-reverse;" />
             </ContentGeneration.Editor.MainWindow.Components.Tab>

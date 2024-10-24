@@ -3,6 +3,8 @@
     <Style src="./PromptInput.uss" />
     <ui:VisualElement name="promptInput" tooltip="" class="promptInput" style="flex-grow: 1;">
         <ui:VisualElement />
-        <ui:TextField picking-mode="Ignore" label="Write here your prompt" name="text" multiline="true" auto-correction="true" keyboard-type="ASCIICapable" class="promptInput" style="flex-direction: column; flex-grow: 1; margin-bottom: 5px; white-space: normal; text-overflow: ellipsis; font-size: 15px;" />
+        <ui:TextField picking-mode="Ignore" label="Write here your prompt" name="text" multiline="true"
+                      auto-correction="true" keyboard-type="ASCIICapable" class="promptInput"
+                      style="flex-direction: column; flex-grow: 1; margin-bottom: 5px; white-space: normal; text-overflow: ellipsis; font-size: 15px;" />
     </ui:VisualElement>
 </ui:UXML>
