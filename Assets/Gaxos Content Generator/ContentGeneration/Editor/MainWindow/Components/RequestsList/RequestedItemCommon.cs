@@ -46,10 +46,15 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
         Button saveFavorite => this.Q<Button>("saveFavorite");
         Button deleteFavorite => this.Q<Button>("deleteFavorite");
 
+        bool _showImages;
         bool showImages
         {
-            get => imagesContainer.style.display == DisplayStyle.Flex;
-            set => imagesContainer.style.display = value ? DisplayStyle.Flex : DisplayStyle.None;
+            get => _showImages;
+            set
+            {
+                _showImages = value;
+                this.value = this.value;
+            }
         }
         public override VisualElement contentContainer => this.Q<VisualElement>("childrenContainer");
 

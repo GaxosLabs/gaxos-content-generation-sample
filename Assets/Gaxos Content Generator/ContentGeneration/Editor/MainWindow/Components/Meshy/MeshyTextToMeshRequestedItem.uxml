@@ -21,6 +21,7 @@
                        name="videoButton"
                        style="color: rgb(107, 107, 255); border-top-width: 0; border-right-width: 0; border-bottom-width: 1px; border-left-width: 0; background-color: rgba(111, 111, 111, 0); border-left-color: rgb(88, 90, 197); border-right-color: rgb(88, 90, 197); border-top-color: rgb(88, 90, 197); border-bottom-color: rgb(88, 90, 197); -unity-font-style: bold; border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0;" />
             <ui:Button text="Refine" parse-escape-sequences="true" display-tooltip-when-elided="true"
+                       tooltip="In order to get textures you need to Refine your model"
                        name="refineButton" style="background-color: rgb(140, 138, 80);" />
             <ui:Button text="Save model to project" parse-escape-sequences="true" display-tooltip-when-elided="true"
                        name="saveButton" />
