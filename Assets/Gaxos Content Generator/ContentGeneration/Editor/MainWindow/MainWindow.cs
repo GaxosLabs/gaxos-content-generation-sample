@@ -3,6 +3,7 @@ using System.Linq;
 using ContentGeneration.Editor.MainWindow.Components;
 using ContentGeneration.Editor.MainWindow.Components.BasicExamples;
 using ContentGeneration.Editor.MainWindow.Components.DallE;
+using ContentGeneration.Editor.MainWindow.Components.ElevenLabs;
 using ContentGeneration.Editor.MainWindow.Components.Gaxos;
 using ContentGeneration.Editor.MainWindow.Components.Meshy;
 using ContentGeneration.Editor.MainWindow.Components.Suno;
@@ -28,6 +29,7 @@ namespace ContentGeneration.Editor.MainWindow
         StabilityTab _stabilityAITab;
         MeshyTab _meshyTab;
         SunoTab _sunoTab;
+        ElevenLabsTab _elevenLabsTab;
 
         public static MainWindow instance { get; private set; }
 
@@ -54,6 +56,7 @@ namespace ContentGeneration.Editor.MainWindow
             _stabilityAITab = rootInstance.Q<StabilityTab>();
             _meshyTab = rootInstance.Q<MeshyTab>();
             _sunoTab = rootInstance.Q<SunoTab>();
+            _elevenLabsTab = rootInstance.Q<ElevenLabsTab>();
             var multiTextToImage = rootInstance.Q<MultiTextToImage>();
             var multiMasking = rootInstance.Q<MultiMasking>();
             var requestsList = rootInstance.Q<RequestsListTab>();
@@ -94,6 +97,10 @@ namespace ContentGeneration.Editor.MainWindow
             rootInstance.Q<SubWindowToggleIcon>("subWindowToggleSuno").OnToggled += (sender, v) =>
             {
                 ToggleSubWindow(sender, v, subWindowsContainer, _sunoTab);
+            };
+            rootInstance.Q<SubWindowToggleIcon>("subWindowToggleElevenLabs").OnToggled += (sender, v) =>
+            {
+                ToggleSubWindow(sender, v, subWindowsContainer, _elevenLabsTab);
             };
             rootInstance.Q<SubWindowToggleIcon>("subWindowToggleMultiTextToImage").OnToggled += (sender, v) =>
             {
@@ -210,6 +217,9 @@ namespace ContentGeneration.Editor.MainWindow
                 case Generator.GaxosTextToImage:
                 case Generator.GaxosMasking:
                     toggleName = "subWindowToggleGaxos";
+                    break;
+                case Generator.ElevenLabsSound:
+                    toggleName = "subWindowToggleElevenLabs";
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("generator", favorite.Generator.ToString());

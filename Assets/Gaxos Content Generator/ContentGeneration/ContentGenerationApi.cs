@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ContentGeneration.Models;
 using ContentGeneration.Models.DallE;
+using ContentGeneration.Models.ElevenLabs;
 using ContentGeneration.Models.Gaxos;
 using ContentGeneration.Models.Meshy;
 using ContentGeneration.Models.Stability;
@@ -424,6 +425,15 @@ namespace ContentGeneration
         {
             return RequestGeneration(
                 Generator.SunoLyrics,
+                generatorParameters, options, data);
+        }
+        public Task<string> RequestElevenLabsSoundGeneration(
+            ElevenLabsSoundParameters generatorParameters,
+            GenerationOptions options = GenerationOptions.None,
+            object data = null)
+        {
+            return RequestGeneration(
+                Generator.ElevenLabsSound,
                 generatorParameters, options, data);
         }
     }
