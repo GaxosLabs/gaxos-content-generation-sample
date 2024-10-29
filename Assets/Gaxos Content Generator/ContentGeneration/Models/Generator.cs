@@ -11,7 +11,7 @@ namespace ContentGeneration.Models
         DallETextToImage, DallEInpainting,
         MeshyTextToMesh, MeshyTextToTexture, MeshyTextToVoxel, MeshyImageTo3d,
         GaxosTextToImage, GaxosMasking,
-        SunoClip, SunoLyrics,
+        SunoClipWithPrompt, SunoClipWithLyrics, SunoLyrics,
         ElevenLabsSound
     }
     
@@ -36,7 +36,8 @@ namespace ContentGeneration.Models
                 Generator.MeshyImageTo3d => "meshy-image-to-3d",
                 Generator.GaxosTextToImage => "gaxos-text-to-image",
                 Generator.GaxosMasking => "gaxos-masking",
-                Generator.SunoClip => "suno-clip",
+                Generator.SunoClipWithPrompt => "suno-clip-with-prompt",
+                Generator.SunoClipWithLyrics => "suno-clip-with-lyrics",
                 Generator.SunoLyrics => "suno-lyrics",
                 Generator.ElevenLabsSound => "elevenlabs-sound",
                 _ => generator.ToString()

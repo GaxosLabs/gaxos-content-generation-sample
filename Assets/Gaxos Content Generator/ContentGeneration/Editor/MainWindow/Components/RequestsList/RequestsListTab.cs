@@ -265,7 +265,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                     {
                         stabilityFast3dRequestedItem.value = request;
                     }
-                    else if (request.Generator == Generator.SunoClip)
+                    else if (request.Generator == Generator.SunoClipWithPrompt || request.Generator == Generator.SunoClipWithLyrics)
                     {
                         sunoClipRequestedItem.value = request;
                     }

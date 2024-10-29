@@ -210,7 +210,8 @@ namespace ContentGeneration.Editor.MainWindow
                 case Generator.MeshyImageTo3d:
                     toggleName = "subWindowToggleMeshy";
                     break;
-                case Generator.SunoClip:
+                case Generator.SunoClipWithPrompt:
+                case Generator.SunoClipWithLyrics:
                 case Generator.SunoLyrics:
                     toggleName = "subWindowToggleSuno";
                     break;
