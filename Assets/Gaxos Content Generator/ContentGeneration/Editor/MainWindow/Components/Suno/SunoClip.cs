@@ -95,7 +95,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Suno
                     Mv = (Model)model.value,
                     MakeInstrumental = makeInstrumental.value,
                 };
-                ContentGenerationApi.Instance.RequestSunoClipGeneration(
+                ContentGenerationApi.Instance.RequestSunoClipWithPromptGeneration(
                     parameters,
                     generationOptionsElement.GetGenerationOptions(), data: new
                     {

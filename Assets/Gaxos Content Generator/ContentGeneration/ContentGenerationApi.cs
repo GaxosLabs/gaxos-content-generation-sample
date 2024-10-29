@@ -399,13 +399,13 @@ namespace ContentGeneration
                 generatorParameters, options, data);
         }
         
-        public Task<string> RequestSunoClipGeneration(
+        public Task<string> RequestSunoClipWithPromptGeneration(
             SunoClipParameters generatorParameters,
             GenerationOptions options = GenerationOptions.None,
             object data = null)
         {
             return RequestGeneration(
-                Generator.SunoClip,
+                Generator.SunoClipWithPrompt,
                 generatorParameters, options, data);
         }
         public Task<string> RequestSunoClipWithLyricsGeneration(
@@ -414,7 +414,7 @@ namespace ContentGeneration
             object data = null)
         {
             return RequestGeneration(
-                Generator.SunoClip,
+                Generator.SunoClipWithLyrics,
                 generatorParameters, options, data);
         }
         public Task<string> RequestSunoLyricsGeneration(
