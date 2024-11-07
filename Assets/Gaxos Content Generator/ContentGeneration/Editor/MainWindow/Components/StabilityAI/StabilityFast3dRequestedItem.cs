@@ -79,7 +79,8 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
 
             if (path.Length == 0) return;
 
-            var model = await MeshyModelHelper.DownloadFileAsync(request.GeneratorResult["asset"]!.ToObject<string>());
+            var model = await MeshyModelHelper.DownloadFileAsync(
+                (request.GeneratorResult["asset"] ?? request.GeneratorResult["url"])!.ToObject<string>());
             await File.WriteAllBytesAsync(path, model);
 
             if (path.StartsWith(Application.dataPath))
