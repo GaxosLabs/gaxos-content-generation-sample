@@ -436,5 +436,14 @@ namespace ContentGeneration
                 Generator.ElevenLabsSound,
                 generatorParameters, options, data);
         }
+        public Task<string> RequestElevenLabsTextToSpeechGeneration(
+            ElevenLabsTextToSpeechParameters generatorParameters,
+            GenerationOptions options = GenerationOptions.None,
+            object data = null)
+        {
+            return RequestGeneration(
+                Generator.ElevenLabsTextToSpeech,
+                generatorParameters, options, data);
+        }
     }
 }

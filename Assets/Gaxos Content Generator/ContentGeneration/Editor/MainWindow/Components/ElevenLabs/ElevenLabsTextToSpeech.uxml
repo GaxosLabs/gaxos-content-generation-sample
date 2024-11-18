@@ -1,16 +1,25 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
-    <Style src="../Common.uss" />
+    <Style src="project://database/Assets/Gaxos%20Content%20Generator/ContentGeneration/Editor/MainWindow/Components/Common.uss?fileID=7433441132597879392&amp;guid=4c0a09080b844861802367d6e07fa07b&amp;type=3#Common" />
     <ui:VisualElement class="container-spaced">
-        <ContentGeneration.Editor.MainWindow.Components.PromptInput name="text" tooltip="The text that will get converted into a sound effect." style="height: 140px;" />
+        <ui:EnumField label="Voice Id" name="voiceId" />
+        <ui:TextField label="text" name="text" />
         <ui:Label name="textRequired" text="Text is required" class="error-label" style="visibility: hidden;" />
-        <ui:Button name="improvePromptButton" text="Improve prompt" tooltip="Use AI to enhance your initial prompt for better results.  Benefit: Improves AI understanding and interpretation of your input" />
-        <ui:Toggle label="Send Duration" name="sendDuration" />
-        <ui:Slider show-input-field="true" picking-mode="Ignore" label="Duration (in seconds)" value="11" high-value="22" name="duration" low-value="0.5" tooltip="The duration of the sound which will be generated in seconds. Must be at least 0.5 and at most 22. If set to None we will guess the optimal duration using the prompt" />
-        <ui:Slider show-input-field="true" picking-mode="Ignore" label="Prompt influence" value=".3" high-value="1" name="promptInfluence" low-value="0" tooltip="A higher prompt influence makes your generation follow the prompt more closely while also making generations less variable" />
-        <ContentGeneration.Editor.MainWindow.Components.GenerationOptionsElement 
-                name="generationOptions" 
-                AllowMakeTransparent="false"
-        />
+        <ui:EnumField label="Output format" type="ContentGeneration.Models.ElevenLabs.OutputFormat, ContentGeneration" name="outputFormat" />
+        <ui:EnumField label="Model Id" name="modelId" />
+        <ui:EnumField label="Language Code" name="languageCode" />
+        <ui:Toggle label="Send Voice Settings" name="sendDuration" />
+        <ui:VisualElement name="voiceSettings">
+            <ui:FloatField label="Stability" name="stability" />
+            <ui:FloatField label="Similarity boost" name="similarityBoost" />
+            <ui:FloatField label="Style" name="style" />
+            <ui:Toggle label="Use speaker boost" name="useSpeakerBoost" />
+        </ui:VisualElement>
+
+        <ui:IntegerField label="Seed" name="seed" />
+        <ui:TextField label="Previous request ids (Comma separated)" name="previousRequestIds" />
+        <ui:TextField label="Next request ids (Comma separated)" name="nextRequestIds" />
+        <ui:EnumField label="Apply text normalization" type="ContentGeneration.Models.ElevenLabs.TextNormalization, ContentGeneration" name="applyTextNormalization" />
+
         <ui:Button name="generateButton" text="Generate" class="generateButton" />
         <ui:VisualElement>
             <ui:VisualElement name="sendingRequest">
