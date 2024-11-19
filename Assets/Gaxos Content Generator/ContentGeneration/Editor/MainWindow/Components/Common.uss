@@ -147,6 +147,9 @@ ScrollerSlider .unity-base-slider__dragger {
     color: rgb(2, 231, 244);
 }
 
+.container-spaced {
+    margin-top: 10px;
+}
 .container-spaced > * {
     margin-bottom: 10px;
 }
