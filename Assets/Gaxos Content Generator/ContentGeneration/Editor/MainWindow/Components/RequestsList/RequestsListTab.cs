@@ -276,7 +276,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                     {
                         sunoLyricsRequestedItem.value = request;
                     }
-                    else if (request.Generator == Generator.ElevenLabsSound)
+                    else if (request.Generator == Generator.ElevenLabsSound || request.Generator == Generator.ElevenLabsTextToSpeech)
                     {
                         elevenLabSoundRequestedItem.value = request;
                     }
@@ -338,7 +338,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                 var sortColumnDescription = listView.sortColumnDescriptions[0];
                 if (sortColumnDescription.columnName == "id")
                 {
-                    ContentGenerationStore.Instance.sortBy = new QueryParameters.SortBy()
+                    ContentGenerationStore.Instance.sortBy = new QueryParameters.SortBy
                     {
                         Target = QueryParameters.SortTarget.Id,
                         Direction = sortColumnDescription.direction == SortDirection.Ascending
@@ -348,7 +348,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                 }
                 else if (sortColumnDescription.columnName == "created")
                 {
-                    ContentGenerationStore.Instance.sortBy = new QueryParameters.SortBy()
+                    ContentGenerationStore.Instance.sortBy = new QueryParameters.SortBy
                     {
                         Target = QueryParameters.SortTarget.CreatedAt,
                         Direction = sortColumnDescription.direction == SortDirection.Ascending

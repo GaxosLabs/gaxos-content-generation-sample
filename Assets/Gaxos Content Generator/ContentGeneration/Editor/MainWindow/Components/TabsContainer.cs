@@ -47,17 +47,17 @@ namespace ContentGeneration.Editor.MainWindow.Components
                             tabToggles.Add(tabToggle);
                             visualElement.style.display = DisplayStyle.None;
                         }
-                        if (MainWindow.instance.showFavorite != null)
+                        if (MainWindow.instance.ShowFavorite != null)
                         {
                             var generatorVisualElements = t.Children().
                                 Where(i => i is IGeneratorVisualElement).Cast<IGeneratorVisualElement>();
                             foreach (var generatorVisualElement in generatorVisualElements)
                             {
-                                if (generatorVisualElement.generator == MainWindow.instance.showFavorite?.Generator)
+                                if (generatorVisualElement.generator == MainWindow.instance.ShowFavorite?.Generator)
                                 {
                                     showRadioButton = createdTabs[t.tabName];
-                                    generatorVisualElement.Show(MainWindow.instance.showFavorite);
-                                    MainWindow.instance.showFavorite = null;
+                                    generatorVisualElement.Show(MainWindow.instance.ShowFavorite);
+                                    MainWindow.instance.ShowFavorite = null;
                                 }
                             }
                         }

@@ -19,6 +19,6 @@ namespace ContentGeneration.Models.ElevenLabs
         [JsonProperty("next_text")] public string NextText;
         [JsonProperty("previous_request_ids")] public string[] PreviousRequestIds;
         [JsonProperty("next_request_ids")] public string[] NextRequestIds;
-        [JsonProperty("apply_text_normalization"), JsonConverter(typeof(TextNormalizationConverter))] public TextNormalization[] ApplyTextNormalization;
+        [JsonProperty("apply_text_normalization"), JsonConverter(typeof(TextNormalizationConverter))] public TextNormalization ApplyTextNormalization;
     }
 }

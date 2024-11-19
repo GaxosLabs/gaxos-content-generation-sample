@@ -97,7 +97,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.ElevenLabs
                 generateButton.SetEnabled(false);
                 sendingRequest.style.display = DisplayStyle.Flex;
 
-                var parameters = new ElevenLabsSoundParameters()
+                var parameters = new ElevenLabsSoundParameters
                 {
                     Text = text.value,
                     DurationSeconds = sendDuration.value ? duration.value: null,
@@ -143,7 +143,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.ElevenLabs
                 ")";
         }
 
-        public Generator generator => Generator.MeshyTextToTexture;
+        public Generator generator => Generator.ElevenLabsSound;
         public void Show(Favorite favorite)
         {
             var parameters = favorite.GeneratorParameters.ToObject<ElevenLabsSoundParameters>();

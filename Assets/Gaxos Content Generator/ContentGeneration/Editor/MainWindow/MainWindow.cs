@@ -185,7 +185,7 @@ namespace ContentGeneration.Editor.MainWindow
             }
         }
 
-        public Favorite showFavorite;
+        public Favorite ShowFavorite;
         public void GoTo(Favorite favorite)
         {
             string toggleName;
@@ -220,6 +220,7 @@ namespace ContentGeneration.Editor.MainWindow
                     toggleName = "subWindowToggleGaxos";
                     break;
                 case Generator.ElevenLabsSound:
+                case Generator.ElevenLabsTextToSpeech:
                     toggleName = "subWindowToggleElevenLabs";
                     break;
                 default:
@@ -227,7 +228,7 @@ namespace ContentGeneration.Editor.MainWindow
             }
 
             _allToggles.First(i => i.name == toggleName).ToggleOn();
-            showFavorite = favorite;
+            ShowFavorite = favorite;
         }
     }
 }
