@@ -212,8 +212,8 @@ namespace ContentGeneration.Editor.MainWindow.Components.ElevenLabs
                     $"\t\tSeed = ${seed.value},\n" +
                     $"\t\tPreviousText = \"${previousText.value}\",\n" +
                     $"\t\tNextText = \"${nextText.value}\",\n" +
-                    $"\t\tPreviousRequestIds = [${string.Join(',', previousRequestIds.value.Split(',')).Select(i => $"\"{i}\"")}],\n" +
-                    $"\t\tNextRequestIds = [${string.Join(',', nextRequestIds.value.Split(',')).Select(i => $"\"{i}\"")}],\n" +
+                    $"\t\tPreviousRequestIds = [{string.Join(',', previousRequestIds.value.Split(',').Select(i => $"\"{i}\""))}],\n" +
+                    $"\t\tNextRequestIds = [{string.Join(',', nextRequestIds.value.Split(',').Select(i => $"\"{i}\""))}],\n" +
                     $"\t\tApplyTextNormalization = TextNormalization.${applyTextNormalization.value},\n"
                 ;
             if (sendVoiceSettings.value)
