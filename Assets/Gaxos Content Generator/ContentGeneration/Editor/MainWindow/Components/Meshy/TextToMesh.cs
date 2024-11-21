@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models;
-using ContentGeneration.Models.DallE;
 using ContentGeneration.Models.Meshy;
 using UnityEngine;
 using UnityEngine.UIElements;

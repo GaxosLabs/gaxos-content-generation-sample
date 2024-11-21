@@ -16,9 +16,21 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
 
         public new class UxmlTraits : VisualElement.UxmlTraits
         {
+            readonly UxmlBoolAttributeDescription _showImages = new()
+            {
+                name = "ShowImages",
+                defaultValue = true
+            };
             public override IEnumerable<UxmlChildElementDescription> uxmlChildElementsDescription
             {
                 get { yield return new UxmlChildElementDescription(typeof(VisualElement)); }
+            }
+            
+            public override void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
+            {
+                base.Init(ve, bag, cc);
+                var element = (RequestedItemCommon)ve;
+                element.showImages = _showImages.GetValueFromBag(bag, cc);
             }
         }
 
@@ -34,6 +46,16 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
         Button saveFavorite => this.Q<Button>("saveFavorite");
         Button deleteFavorite => this.Q<Button>("deleteFavorite");
 
+        bool _showImages;
+        bool showImages
+        {
+            get => _showImages;
+            set
+            {
+                _showImages = value;
+                this.value = this.value;
+            }
+        }
         public override VisualElement contentContainer => this.Q<VisualElement>("childrenContainer");
 
         public RequestedItemCommon()
@@ -178,7 +200,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                 generatorParameters.value = value.GeneratorParameters?.ToString();
 
                 imagesContainer.style.display = DisplayStyle.None;
-                if (value is { Status: RequestStatus.Generated, Assets: not null })
+                if (value is { Status: RequestStatus.Generated, Assets: not null } && showImages)
                 {
                     var imagesToRemove = 
                         imagesContainer.Children()

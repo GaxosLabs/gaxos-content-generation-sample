@@ -108,7 +108,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
                     value.GeneratorResult != null && !value.GeneratorResult.ContainsKey("refine_status"));
                 saveButton.SetEnabled(value.GeneratorResult != null);
 
-                refineStatus.text = "Not requested";
+                refineStatus.text = "Not requested (In order to get textures you need to Refine your model)";
                 refineErrorDetails.style.display = DisplayStyle.None;
 
                 if (value.GeneratorResult != null && 

@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using ContentGeneration.Editor.MainWindow.Components.ElevenLabs;
 using ContentGeneration.Editor.MainWindow.Components.Meshy;
 using ContentGeneration.Editor.MainWindow.Components.StabilityAI;
+using ContentGeneration.Editor.MainWindow.Components.Suno;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models;
 using Unity.EditorCoroutines.Editor;
@@ -32,29 +34,25 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
 
         Button refreshButton => this.Q<Button>("refreshButton");
         MultiColumnListView listView => this.Q<MultiColumnListView>();
-        IRequestedItem defaultRequestedItem => this.Q<RequestedItem>("defaultRequestedItem");
+        IRequestedItem defaultRequestedItem => this.Q<RequestedItem>();
 
-        IRequestedItem meshyTextToMeshRequestedItem =>
-            this.Q<MeshyTextToMeshRequestedItem>("meshyTextToMeshRequestedItem");
-
-        IRequestedItem meshyTextToTextureRequestedItem =>
-            this.Q<MeshyTextToTextureRequestedItem>("meshyTextToTextureRequestedItem");
-
-        IRequestedItem meshyTextToVoxelRequestedItem =>
-            this.Q<MeshyTextToVoxelRequestedItem>("meshyTextToVoxelRequestedItem");
-
-        IRequestedItem meshyImageToMeshRequestedItem =>
-            this.Q<MeshyImageToMeshRequestedItem>("meshyImageToMeshRequestedItem");
-
-        IRequestedItem stabilityFast3dRequestedItem =>
-            this.Q<StabilityFast3dRequestedItem>("stabilityFast3dRequestedItem");
+        IRequestedItem meshyTextToMeshRequestedItem => this.Q<MeshyTextToMeshRequestedItem>();
+        IRequestedItem meshyTextToTextureRequestedItem => this.Q<MeshyTextToTextureRequestedItem>();
+        IRequestedItem meshyTextToVoxelRequestedItem => this.Q<MeshyTextToVoxelRequestedItem>();
+        IRequestedItem meshyImageToMeshRequestedItem => this.Q<MeshyImageToMeshRequestedItem>();
+        IRequestedItem stabilityFast3dRequestedItem => this.Q<StabilityFast3dRequestedItem>();
+        IRequestedItem sunoClipRequestedItem => this.Q<SunoClipRequestedItem>();
+        IRequestedItem sunoLyricsRequestedItem => this.Q<SunoLyricsRequestedItem>();
+        IRequestedItem elevenLabSoundRequestedItem => this.Q<ElevenLabSoundRequestedItem>();
 
         IRequestedItem[] allRequestedItems => new[]
         {
             defaultRequestedItem, 
             meshyTextToMeshRequestedItem, meshyTextToTextureRequestedItem,
             meshyTextToVoxelRequestedItem, meshyImageToMeshRequestedItem, 
-            stabilityFast3dRequestedItem
+            stabilityFast3dRequestedItem,
+            sunoClipRequestedItem, sunoLyricsRequestedItem,
+            elevenLabSoundRequestedItem
         };
 
         string _selectedId;
@@ -270,6 +268,18 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                     {
                         stabilityFast3dRequestedItem.value = request;
                     }
+                    else if (request.Generator == Generator.SunoClipWithPrompt || request.Generator == Generator.SunoClipWithLyrics)
+                    {
+                        sunoClipRequestedItem.value = request;
+                    }
+                    else if (request.Generator == Generator.SunoLyrics)
+                    {
+                        sunoLyricsRequestedItem.value = request;
+                    }
+                    else if (request.Generator == Generator.ElevenLabsSound || request.Generator == Generator.ElevenLabsTextToSpeech)
+                    {
+                        elevenLabSoundRequestedItem.value = request;
+                    }
                     else
                     {
                         defaultRequestedItem.value = request;
@@ -328,7 +338,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                 var sortColumnDescription = listView.sortColumnDescriptions[0];
                 if (sortColumnDescription.columnName == "id")
                 {
-                    ContentGenerationStore.Instance.sortBy = new QueryParameters.SortBy()
+                    ContentGenerationStore.Instance.sortBy = new QueryParameters.SortBy
                     {
                         Target = QueryParameters.SortTarget.Id,
                         Direction = sortColumnDescription.direction == SortDirection.Ascending
@@ -338,7 +348,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                 }
                 else if (sortColumnDescription.columnName == "created")
                 {
-                    ContentGenerationStore.Instance.sortBy = new QueryParameters.SortBy()
+                    ContentGenerationStore.Instance.sortBy = new QueryParameters.SortBy
                     {
                         Target = QueryParameters.SortTarget.CreatedAt,
                         Direction = sortColumnDescription.direction == SortDirection.Ascending

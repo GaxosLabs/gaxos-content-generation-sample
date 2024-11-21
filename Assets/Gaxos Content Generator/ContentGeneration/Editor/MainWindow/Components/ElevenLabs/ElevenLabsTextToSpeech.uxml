@@ -1,0 +1,39 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/Gaxos%20Content%20Generator/ContentGeneration/Editor/MainWindow/Components/Common.uss?fileID=7433441132597879392&amp;guid=4c0a09080b844861802367d6e07fa07b&amp;type=3#Common" />
+    <ui:VisualElement class="container-spaced">
+        <ui:DropdownField label="Voice Id" name="voiceId" />
+        <ui:TextField label="Text" name="text" multiline="true" style="white-space: normal; text-overflow: ellipsis; font-size: 15px;" />
+        <ui:Label name="textRequired" text="Text is required" class="error-label" style="visibility: hidden;" />
+        <ui:EnumField label="Output format" type="ContentGeneration.Models.ElevenLabs.OutputFormat, ContentGeneration" name="outputFormat" />
+        <ui:Toggle label="Send Voice Settings" name="sendVoiceSettings" />
+        <ui:VisualElement name="voiceSettings">
+            <ui:FloatField label="Stability" name="stability" />
+            <ui:FloatField label="Similarity boost" name="similarityBoost" />
+            <ui:FloatField label="Style" name="style" />
+            <ui:Toggle label="Use speaker boost" name="useSpeakerBoost" />
+        </ui:VisualElement>
+        <ui:IntegerField label="Seed" name="seed" />
+        <ui:TextField label="Previous text" name="previousText" />
+        <ui:TextField label="Next text" name="nextText" />
+        <ui:TextField label="Previous request ids (Comma separated)" name="previousRequestIds" />
+        <ui:TextField label="Next request ids (Comma separated)" name="nextRequestIds" />
+        <ui:EnumField label="Apply text normalization" type="ContentGeneration.Models.ElevenLabs.TextNormalization, ContentGeneration" name="applyTextNormalization" />
+        <ui:Button name="generateButton" text="Generate" class="generateButton" />
+        <ui:VisualElement>
+            <ui:VisualElement name="sendingRequest">
+                <ui:Label text="Sending request" />
+            </ui:VisualElement>
+            <ui:VisualElement name="requestSent">
+                <ui:Label text="Request sent" />
+            </ui:VisualElement>
+            <ui:VisualElement name="requestFailed" class="error-label">
+                <ui:Label text="Request failed, check the console for details" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement style="flex-grow: 1;">
+            <ui:Label tabindex="-1" text="Code" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+            <ui:TextField picking-mode="Ignore" readonly="true" multiline="true" name="code" class="code" />
+        </ui:VisualElement>
+        <ContentGeneration.Editor.MainWindow.Components.WeblinkButton URl="https://elevenlabs.io/docs/api-reference/text-to-speech" Icon="Eleven Labs" Title="Eleven Labs\nDocumentation" class="documentationLink" />
+    </ui:VisualElement>
+</ui:UXML>

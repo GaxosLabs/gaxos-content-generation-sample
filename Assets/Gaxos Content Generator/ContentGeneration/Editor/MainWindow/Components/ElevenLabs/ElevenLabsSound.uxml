@@ -1,0 +1,32 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="../Common.uss" />
+    <ui:VisualElement class="container-spaced">
+        <ContentGeneration.Editor.MainWindow.Components.PromptInput name="text" tooltip="The text that will get converted into a sound effect." style="height: 140px;" />
+        <ui:Label name="textRequired" text="Text is required" class="error-label" style="visibility: hidden;" />
+        <ui:Button name="improvePromptButton" text="Improve prompt" tooltip="Use AI to enhance your initial prompt for better results.  Benefit: Improves AI understanding and interpretation of your input" />
+        <ui:Toggle label="Send Duration" name="sendDuration" />
+        <ui:Slider show-input-field="true" picking-mode="Ignore" label="Duration (in seconds)" value="11" high-value="22" name="duration" low-value="0.5" tooltip="The duration of the sound which will be generated in seconds. Must be at least 0.5 and at most 22. If set to None we will guess the optimal duration using the prompt" />
+        <ui:Slider show-input-field="true" picking-mode="Ignore" label="Prompt influence" value=".3" high-value="1" name="promptInfluence" low-value="0" tooltip="A higher prompt influence makes your generation follow the prompt more closely while also making generations less variable" />
+        <ContentGeneration.Editor.MainWindow.Components.GenerationOptionsElement 
+                name="generationOptions" 
+                AllowMakeTransparent="false"
+        />
+        <ui:Button name="generateButton" text="Generate" class="generateButton" />
+        <ui:VisualElement>
+            <ui:VisualElement name="sendingRequest">
+                <ui:Label text="Sending request" />
+            </ui:VisualElement>
+            <ui:VisualElement name="requestSent">
+                <ui:Label text="Request sent" />
+            </ui:VisualElement>
+            <ui:VisualElement name="requestFailed" class="error-label">
+                <ui:Label text="Request failed, check the console for details" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement style="flex-grow: 1;">
+            <ui:Label tabindex="-1" text="Code" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+            <ui:TextField picking-mode="Ignore" readonly="true" multiline="true" name="code" class="code" />
+        </ui:VisualElement>
+        <ContentGeneration.Editor.MainWindow.Components.WeblinkButton URl="https://docs.aimlapi.com/api-overview/audio-models-music-and-vocal/suno-ai-v2/lyrics-generation/generate-lyrics" Icon="Eleven Labs" Title="Eleven Labs\nDocumentation" class="documentationLink" />
+    </ui:VisualElement>
+</ui:UXML>

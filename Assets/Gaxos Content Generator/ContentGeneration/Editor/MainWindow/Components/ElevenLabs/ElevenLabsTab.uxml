@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ui="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd"
+>
+    <Style src="../Common.uss" />
+    <ContentGeneration.Editor.MainWindow.Components.SubWindow Sub-Window-Name="Eleven Labs" style="flex-grow: 1;">
+        <ContentGeneration.Editor.MainWindow.Components.TabsContainer>
+            <ContentGeneration.Editor.MainWindow.Components.Tab Tab-Name="Sound">
+                <ContentGeneration.Editor.MainWindow.Components.ElevenLabs.ElevenLabsSound style="flex-direction: column-reverse;" />
+            </ContentGeneration.Editor.MainWindow.Components.Tab>
+            <ContentGeneration.Editor.MainWindow.Components.Tab Tab-Name="Text To Speech">
+                <ContentGeneration.Editor.MainWindow.Components.ElevenLabs.ElevenLabsTextToSpeech style="flex-direction: column-reverse;" />
+            </ContentGeneration.Editor.MainWindow.Components.Tab>
+        </ContentGeneration.Editor.MainWindow.Components.TabsContainer>
+    </ContentGeneration.Editor.MainWindow.Components.SubWindow>
+
+</ui:UXML>

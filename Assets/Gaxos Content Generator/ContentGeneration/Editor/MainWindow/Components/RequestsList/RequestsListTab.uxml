@@ -15,11 +15,14 @@
                 <ui:Column name="download" width="46" />
             </ui:Columns>
         </ui:MultiColumnListView>
-        <ContentGeneration.Editor.MainWindow.Components.RequestsList.RequestedItem name="defaultRequestedItem" style="flex-grow: 0.5; min-height: 120px;" />
-        <ContentGeneration.Editor.MainWindow.Components.Meshy.MeshyTextToMeshRequestedItem name="meshyTextToMeshRequestedItem" style="display: none; flex-grow: 0.5; min-height: 120px;" />
-        <ContentGeneration.Editor.MainWindow.Components.Meshy.MeshyTextToTextureRequestedItem name="meshyTextToTextureRequestedItem" style="display: none; flex-grow: 0.5; min-height: 120px;" />
-        <ContentGeneration.Editor.MainWindow.Components.Meshy.MeshyTextToVoxelRequestedItem name="meshyTextToVoxelRequestedItem" style="display: none; flex-grow: 0.5; min-height: 120px;" />
-        <ContentGeneration.Editor.MainWindow.Components.Meshy.MeshyImageToMeshRequestedItem name="meshyImageToMeshRequestedItem" style="display: none; flex-grow: 0.5; min-height: 120px;" />
-        <ContentGeneration.Editor.MainWindow.Components.StabilityAI.StabilityFast3dRequestedItem name="stabilityFast3dRequestedItem" style="display: none; flex-grow: 0.5; min-height: 120px;" />
+        <ContentGeneration.Editor.MainWindow.Components.RequestsList.RequestedItem style="flex-grow: 0.5; min-height: 120px;" />
+        <ContentGeneration.Editor.MainWindow.Components.Meshy.MeshyTextToMeshRequestedItem style="display: none; flex-grow: 0.5; min-height: 120px;" />
+        <ContentGeneration.Editor.MainWindow.Components.Meshy.MeshyTextToTextureRequestedItem style="display: none; flex-grow: 0.5; min-height: 120px;" />
+        <ContentGeneration.Editor.MainWindow.Components.Meshy.MeshyTextToVoxelRequestedItem style="display: none; flex-grow: 0.5; min-height: 120px;" />
+        <ContentGeneration.Editor.MainWindow.Components.Meshy.MeshyImageToMeshRequestedItem style="display: none; flex-grow: 0.5; min-height: 120px;" />
+        <ContentGeneration.Editor.MainWindow.Components.StabilityAI.StabilityFast3dRequestedItem style="display: none; flex-grow: 0.5; min-height: 120px;" />
+        <ContentGeneration.Editor.MainWindow.Components.Suno.SunoClipRequestedItem style="display: none; flex-grow: 0.5; min-height: 120px;" />
+        <ContentGeneration.Editor.MainWindow.Components.Suno.SunoLyricsRequestedItem style="display: none; flex-grow: 0.5; min-height: 120px;" />
+        <ContentGeneration.Editor.MainWindow.Components.ElevenLabs.ElevenLabSoundRequestedItem style="display: none; flex-grow: 0.5; min-height: 120px;" />
     </ContentGeneration.Editor.MainWindow.Components.SubWindow>
 </ui:UXML>

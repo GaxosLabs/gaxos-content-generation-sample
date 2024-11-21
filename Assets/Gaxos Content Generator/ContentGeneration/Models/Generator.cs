@@ -10,7 +10,9 @@ namespace ContentGeneration.Models
         StabilityImageToImage, StabilityMasking,
         DallETextToImage, DallEInpainting,
         MeshyTextToMesh, MeshyTextToTexture, MeshyTextToVoxel, MeshyImageTo3d,
-        GaxosTextToImage, GaxosMasking
+        GaxosTextToImage, GaxosMasking,
+        SunoClipWithPrompt, SunoClipWithLyrics, SunoLyrics,
+        ElevenLabsSound, ElevenLabsTextToSpeech
     }
     
     internal class GeneratorTypeConverter : EnumJsonConverter<Generator>
@@ -34,6 +36,11 @@ namespace ContentGeneration.Models
                 Generator.MeshyImageTo3d => "meshy-image-to-3d",
                 Generator.GaxosTextToImage => "gaxos-text-to-image",
                 Generator.GaxosMasking => "gaxos-masking",
+                Generator.SunoClipWithPrompt => "suno-clip-with-prompt",
+                Generator.SunoClipWithLyrics => "suno-clip-with-lyrics",
+                Generator.SunoLyrics => "suno-lyrics",
+                Generator.ElevenLabsSound => "elevenlabs-sound",
+                Generator.ElevenLabsTextToSpeech => "elevenlabs-text-to-speech",
                 _ => generator.ToString()
             };
         }

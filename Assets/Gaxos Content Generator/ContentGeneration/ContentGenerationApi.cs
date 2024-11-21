@@ -7,9 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 using ContentGeneration.Models;
 using ContentGeneration.Models.DallE;
+using ContentGeneration.Models.ElevenLabs;
 using ContentGeneration.Models.Gaxos;
 using ContentGeneration.Models.Meshy;
 using ContentGeneration.Models.Stability;
+using ContentGeneration.Models.Suno;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -395,6 +397,52 @@ namespace ContentGeneration
         {
             return RequestGeneration(
                 Generator.GaxosMasking,
+                generatorParameters, options, data);
+        }
+        
+        public Task<string> RequestSunoClipWithPromptGeneration(
+            SunoClipParameters generatorParameters,
+            GenerationOptions options = GenerationOptions.None,
+            object data = null)
+        {
+            return RequestGeneration(
+                Generator.SunoClipWithPrompt,
+                generatorParameters, options, data);
+        }
+        public Task<string> RequestSunoClipWithLyricsGeneration(
+            SunoClipWithLyricsParameters generatorParameters,
+            GenerationOptions options = GenerationOptions.None,
+            object data = null)
+        {
+            return RequestGeneration(
+                Generator.SunoClipWithLyrics,
+                generatorParameters, options, data);
+        }
+        public Task<string> RequestSunoLyricsGeneration(
+            SunoLyricsParameters generatorParameters,
+            GenerationOptions options = GenerationOptions.None,
+            object data = null)
+        {
+            return RequestGeneration(
+                Generator.SunoLyrics,
+                generatorParameters, options, data);
+        }
+        public Task<string> RequestElevenLabsSoundGeneration(
+            ElevenLabsSoundParameters generatorParameters,
+            GenerationOptions options = GenerationOptions.None,
+            object data = null)
+        {
+            return RequestGeneration(
+                Generator.ElevenLabsSound,
+                generatorParameters, options, data);
+        }
+        public Task<string> RequestElevenLabsTextToSpeechGeneration(
+            ElevenLabsTextToSpeechParameters generatorParameters,
+            GenerationOptions options = GenerationOptions.None,
+            object data = null)
+        {
+            return RequestGeneration(
+                Generator.ElevenLabsTextToSpeech,
                 generatorParameters, options, data);
         }
     }

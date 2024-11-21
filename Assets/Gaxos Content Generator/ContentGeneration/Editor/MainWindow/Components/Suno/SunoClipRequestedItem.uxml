@@ -1,0 +1,15 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements"
+         xsi="http://www.w3.org/2001/XMLSchema-instance" editor="UnityEditor.UIElements"
+         noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="../Common.uss" />
+    <Style src="../RequestsList/RequestedItemCommon.uss" />
+    <ContentGeneration.Editor.MainWindow.Components.RequestsList.RequestedItemCommon class="container-spaced">
+        <ui:VisualElement name="generationTools" style="flex-direction: row; margin-bottom: 10px; margin-top: 10px;">
+            <ui:Button text="Preview" parse-escape-sequences="true" display-tooltip-when-elided="true"
+                       name="previewButton"
+                       style="color: rgb(107, 107, 255); border-top-width: 0; border-right-width: 0; border-bottom-width: 1px; border-left-width: 0; background-color: rgba(111, 111, 111, 0); border-left-color: rgb(88, 90, 197); border-right-color: rgb(88, 90, 197); border-top-color: rgb(88, 90, 197); border-bottom-color: rgb(88, 90, 197); -unity-font-style: bold; border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0;" />
+            <ui:Button text="Save to project" parse-escape-sequences="true" display-tooltip-when-elided="true"
+                       name="saveButton" />
+        </ui:VisualElement>
+    </ContentGeneration.Editor.MainWindow.Components.RequestsList.RequestedItemCommon>
+</ui:UXML>
