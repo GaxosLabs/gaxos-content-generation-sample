@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ContentGeneration.Editor.MainWindow.Components.RequestsList;
 using ContentGeneration.Models;
+using UnityEditor;
 using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components.Suno
@@ -25,6 +26,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Suno
         RequestedItemCommon requestedItemCommon => this.Q<RequestedItemCommon>();
         TextField title => this.Q<TextField>("title");
         TextField lyrics => this.Q<TextField>("lyrics");
+        Button copyToClipboard => this.Q<Button>("copyToClipboard");
 
         public SunoLyricsRequestedItem()
         {
@@ -33,6 +35,10 @@ namespace ContentGeneration.Editor.MainWindow.Components.Suno
                 OnDeleted?.Invoke();
             };
             requestedItemCommon.OnRefreshed += v => value = v;
+            copyToClipboard.clicked += () =>
+            {
+                EditorGUIUtility.systemCopyBuffer = lyrics.text;
+            };
         }
 
         CancellationTokenSource _cancellationTokenSource;

@@ -1,9 +1,13 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/Gaxos%20Content%20Generator/ContentGeneration/Editor/MainWindow/Components/Common.uss?fileID=7433441132597879392&amp;guid=4c0a09080b844861802367d6e07fa07b&amp;type=3#Common" />
+    <Style src="../Common.uss" />
     <ui:VisualElement name="root" class="container-spaced">
-        <ui:TextField picking-mode="Ignore" label="Lyrics" name="lyrics" multiline="true" style="font-size: 15px; height: 134px;" />
+        <ui:ScrollView style="height: 200px;">
+            <ui:TextField picking-mode="Ignore" label="Lyrics" name="lyrics" multiline="true" style="font-size: 15px; min-height: 162px;" />
+        </ui:ScrollView>
         <ui:Label name="promptRequired" text="Lyrics is required" class="error-label" style="visibility: hidden;" />
-        <ui:TextField picking-mode="Ignore" label="Tags" name="tags" />
+        <ui:TextField picking-mode="Ignore" label="Tags" name="tags">
+            <ContentGeneration.Editor.MainWindow.Components.WeblinkButton Title="?" URl="https://www.suno.wiki/faq/style-and-lyrics/styles-and-genres/" />
+        </ui:TextField>
         <ui:TextField picking-mode="Ignore" label="Title" name="title" />
         <ui:Button name="generateButton" text="Generate" class="generateButton" />
         <ui:VisualElement>
@@ -21,6 +25,7 @@
             <ui:Label tabindex="-1" text="Code" parse-escape-sequences="true" display-tooltip-when-elided="true" />
             <ui:TextField picking-mode="Ignore" readonly="true" multiline="true" name="code" class="code" />
         </ui:VisualElement>
-        <ContentGeneration.Editor.MainWindow.Components.WeblinkButton URl="https://docs.aimlapi.com/api-overview/audio-models-music-and-vocal/suno-ai-v2/clip-generation/generate-with-custom-lyrics" Icon="Suno" Title="Suno\nDocumentation" class="documentationLink" />
+        <ContentGeneration.Editor.MainWindow.Components.WeblinkButton 
+                URl="https://docs.aimlapi.com/api-overview/audio-models-music-and-vocal/suno-ai-v2/clip-generation/generate-with-custom-lyrics" Icon="Suno" Title="Suno\nDocumentation" class="documentationLink" />
     </ui:VisualElement>
 </ui:UXML>
