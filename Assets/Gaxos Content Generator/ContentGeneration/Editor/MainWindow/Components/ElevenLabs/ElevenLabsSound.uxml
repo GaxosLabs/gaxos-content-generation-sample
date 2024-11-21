@@ -27,6 +27,6 @@
             <ui:Label tabindex="-1" text="Code" parse-escape-sequences="true" display-tooltip-when-elided="true" />
             <ui:TextField picking-mode="Ignore" readonly="true" multiline="true" name="code" class="code" />
         </ui:VisualElement>
-        <ContentGeneration.Editor.MainWindow.Components.WeblinkButton URl="https://docs.aimlapi.com/api-overview/audio-models-music-and-vocal/suno-ai-v2/lyrics-generation/generate-lyrics" Icon="Eleven Labs" Title="Eleven Labs\nDocumentation" class="documentationLink" />
+        <ContentGeneration.Editor.MainWindow.Components.WeblinkButton URl="https://elevenlabs.io/docs/api-reference/sound-generation" Icon="Eleven Labs" Title="Eleven Labs\nDocumentation" class="documentationLink" />
     </ui:VisualElement>
 </ui:UXML>
