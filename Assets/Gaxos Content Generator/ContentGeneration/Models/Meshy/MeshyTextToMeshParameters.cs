@@ -14,6 +14,14 @@ namespace ContentGeneration.Models.Meshy
         [JsonProperty("art_style"), JsonConverter(typeof(TextToMeshArtStyleConverter))] 
         public TextToMeshArtStyle ArtStyle = TextToMeshArtStyle.Realistic;
 
-        [JsonProperty("ai_model")] string aiModel => "meshy-3";
+        [JsonProperty("seed", NullValueHandling = NullValueHandling.Ignore)] public int? Seed;
+
+        [JsonProperty("ai_model"), JsonConverter(typeof(AiModelConverter))] 
+        public AiModel AIModel;
+
+        [JsonProperty("topology"), JsonConverter(typeof(TopologyConverter))] 
+        public Topology Topology;
+
+        [JsonProperty("target_polycount")] public int TargetPolyCount = 30000;
     }
 }
