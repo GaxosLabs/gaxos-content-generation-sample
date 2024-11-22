@@ -39,6 +39,10 @@ namespace ContentGeneration.Helpers
         {
             return str.CamelCaseTo("-");
         }
+        public static string CamelCaseToUnderscores(this string str)
+        {
+            return str.CamelCaseTo("_");
+        }
 
         public static string DashesToCamelCase(this string str)
         {

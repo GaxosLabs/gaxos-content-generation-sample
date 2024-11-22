@@ -25,6 +25,7 @@
                                 <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Meshy" name="subWindowToggleMeshy" />
                                 <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Suno" name="subWindowToggleSuno" />
                                 <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Eleven Labs" name="subWindowToggleElevenLabs" />
+                                <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Eleven Labs" name="subWindowToggleRecraft" />
                             </ui:VisualElement>
                             <ui:Label tabindex="-1" text="Generate Multiple Content" parse-escape-sequences="true" display-tooltip-when-elided="true" class="sideMenuItemHeader" />
                             <ui:VisualElement class="sideMenuItemSeparator" />
@@ -55,6 +56,7 @@
                 <ContentGeneration.Editor.MainWindow.Components.Meshy.MeshyTab />
                 <ContentGeneration.Editor.MainWindow.Components.Suno.SunoTab />
                 <ContentGeneration.Editor.MainWindow.Components.ElevenLabs.ElevenLabsTab />
+                <ContentGeneration.Editor.MainWindow.Components.Recraft.RecraftTab />
                 <ContentGeneration.Editor.MainWindow.Components.Multi.MultiTextToImage />
                 <ContentGeneration.Editor.MainWindow.Components.Multi.MultiMasking />
                 <ContentGeneration.Editor.MainWindow.Components.RequestsList.RequestsListTab />

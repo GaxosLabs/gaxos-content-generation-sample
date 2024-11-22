@@ -10,6 +10,7 @@ using ContentGeneration.Models.DallE;
 using ContentGeneration.Models.ElevenLabs;
 using ContentGeneration.Models.Gaxos;
 using ContentGeneration.Models.Meshy;
+using ContentGeneration.Models.Recraft;
 using ContentGeneration.Models.Stability;
 using ContentGeneration.Models.Suno;
 using Newtonsoft.Json;
@@ -150,7 +151,7 @@ namespace ContentGeneration
             await SendRequest(ApiMethod.Delete, $"request/favorite/{requestId}");
         }
 
-        
+
         static string GetQueryParametersStr(QueryParameters queryParameters)
         {
             string queryParametersStr = null;
@@ -181,6 +182,7 @@ namespace ContentGeneration
                 {
                     queryParametersStr += $"&filter=player_id.{queryParameters.FilterByPlayerId}";
                 }
+
                 if (!string.IsNullOrEmpty(queryParameters.FilterByAssetType))
                 {
                     queryParametersStr += $"&filter=asset_type.{queryParameters.FilterByAssetType}";
@@ -399,7 +401,7 @@ namespace ContentGeneration
                 Generator.GaxosMasking,
                 generatorParameters, options, data);
         }
-        
+
         public Task<string> RequestSunoClipWithPromptGeneration(
             SunoClipParameters generatorParameters,
             GenerationOptions options = GenerationOptions.None,
@@ -409,6 +411,7 @@ namespace ContentGeneration
                 Generator.SunoClipWithPrompt,
                 generatorParameters, options, data);
         }
+
         public Task<string> RequestSunoClipWithLyricsGeneration(
             SunoClipWithLyricsParameters generatorParameters,
             GenerationOptions options = GenerationOptions.None,
@@ -418,6 +421,7 @@ namespace ContentGeneration
                 Generator.SunoClipWithLyrics,
                 generatorParameters, options, data);
         }
+
         public Task<string> RequestSunoLyricsGeneration(
             SunoLyricsParameters generatorParameters,
             GenerationOptions options = GenerationOptions.None,
@@ -427,6 +431,7 @@ namespace ContentGeneration
                 Generator.SunoLyrics,
                 generatorParameters, options, data);
         }
+
         public Task<string> RequestElevenLabsSoundGeneration(
             ElevenLabsSoundParameters generatorParameters,
             GenerationOptions options = GenerationOptions.None,
@@ -436,6 +441,7 @@ namespace ContentGeneration
                 Generator.ElevenLabsSound,
                 generatorParameters, options, data);
         }
+
         public Task<string> RequestElevenLabsTextToSpeechGeneration(
             ElevenLabsTextToSpeechParameters generatorParameters,
             GenerationOptions options = GenerationOptions.None,
@@ -443,6 +449,16 @@ namespace ContentGeneration
         {
             return RequestGeneration(
                 Generator.ElevenLabsTextToSpeech,
+                generatorParameters, options, data);
+        }
+
+        public Task<string> RequestRecraftTextToImageGeneration(
+            RecraftTextToImageParameters generatorParameters,
+            GenerationOptions options = GenerationOptions.None,
+            object data = null)
+        {
+            return RequestGeneration(
+                Generator.RecraftTextToImage,
                 generatorParameters, options, data);
         }
     }
