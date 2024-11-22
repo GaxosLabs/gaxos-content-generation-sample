@@ -7,7 +7,6 @@ using ContentGeneration.Editor.MainWindow.Components.DallE;
 using ContentGeneration.Editor.MainWindow.Components.ElevenLabs;
 using ContentGeneration.Editor.MainWindow.Components.Gaxos;
 using ContentGeneration.Editor.MainWindow.Components.Meshy;
-using ContentGeneration.Editor.MainWindow.Components.Suno;
 using ContentGeneration.Editor.MainWindow.Components.Multi;
 using ContentGeneration.Editor.MainWindow.Components.RequestsList;
 using ContentGeneration.Editor.MainWindow.Components.FavoritesList;
@@ -29,7 +28,6 @@ namespace ContentGeneration.Editor.MainWindow
         DallETab _dallETab;
         StabilityTab _stabilityAITab;
         MeshyTab _meshyTab;
-        SunoTab _sunoTab;
         ElevenLabsTab _elevenLabsTab;
         RecraftTab _recraftTab;
 
@@ -57,7 +55,6 @@ namespace ContentGeneration.Editor.MainWindow
             _dallETab = rootInstance.Q<DallETab>();
             _stabilityAITab = rootInstance.Q<StabilityTab>();
             _meshyTab = rootInstance.Q<MeshyTab>();
-            _sunoTab = rootInstance.Q<SunoTab>();
             _elevenLabsTab = rootInstance.Q<ElevenLabsTab>();
             _recraftTab = rootInstance.Q<RecraftTab>();
             var multiTextToImage = rootInstance.Q<MultiTextToImage>();
@@ -96,10 +93,6 @@ namespace ContentGeneration.Editor.MainWindow
             rootInstance.Q<SubWindowToggleIcon>("subWindowToggleMeshy").OnToggled += (sender, v) =>
             {
                 ToggleSubWindow(sender, v, subWindowsContainer, _meshyTab);
-            };
-            rootInstance.Q<SubWindowToggleIcon>("subWindowToggleSuno").OnToggled += (sender, v) =>
-            {
-                ToggleSubWindow(sender, v, subWindowsContainer, _sunoTab);
             };
             rootInstance.Q<SubWindowToggleIcon>("subWindowToggleElevenLabs").OnToggled += (sender, v) =>
             {
@@ -216,11 +209,6 @@ namespace ContentGeneration.Editor.MainWindow
                 case Generator.MeshyTextToVoxel:
                 case Generator.MeshyImageTo3d:
                     toggleName = "subWindowToggleMeshy";
-                    break;
-                case Generator.SunoClipWithPrompt:
-                case Generator.SunoClipWithLyrics:
-                case Generator.SunoLyrics:
-                    toggleName = "subWindowToggleSuno";
                     break;
                 case Generator.GaxosTextToImage:
                 case Generator.GaxosMasking:

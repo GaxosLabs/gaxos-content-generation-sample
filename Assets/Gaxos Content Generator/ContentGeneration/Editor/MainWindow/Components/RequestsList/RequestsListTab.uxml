@@ -21,8 +21,6 @@
         <ContentGeneration.Editor.MainWindow.Components.Meshy.MeshyTextToVoxelRequestedItem style="display: none; flex-grow: 0.5; min-height: 120px;" />
         <ContentGeneration.Editor.MainWindow.Components.Meshy.MeshyImageToMeshRequestedItem style="display: none; flex-grow: 0.5; min-height: 120px;" />
         <ContentGeneration.Editor.MainWindow.Components.StabilityAI.StabilityFast3dRequestedItem style="display: none; flex-grow: 0.5; min-height: 120px;" />
-        <ContentGeneration.Editor.MainWindow.Components.Suno.SunoClipRequestedItem style="display: none; flex-grow: 0.5; min-height: 120px;" />
-        <ContentGeneration.Editor.MainWindow.Components.Suno.SunoLyricsRequestedItem style="display: none; flex-grow: 0.5; min-height: 120px;" />
         <ContentGeneration.Editor.MainWindow.Components.ElevenLabs.ElevenLabSoundRequestedItem style="display: none; flex-grow: 0.5; min-height: 120px;" />
     </ContentGeneration.Editor.MainWindow.Components.SubWindow>
 </ui:UXML>
