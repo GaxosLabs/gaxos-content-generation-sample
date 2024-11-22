@@ -23,7 +23,6 @@
                                 <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Dall-E" name="subWindowToggleDallE" />
                                 <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Stability AI" name="subWindowToggleStabilityAI" />
                                 <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Meshy" name="subWindowToggleMeshy" />
-                                <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Suno" name="subWindowToggleSuno" />
                                 <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Eleven Labs" name="subWindowToggleElevenLabs" />
                             </ui:VisualElement>
                             <ui:Label tabindex="-1" text="Generate Multiple Content" parse-escape-sequences="true" display-tooltip-when-elided="true" class="sideMenuItemHeader" />
@@ -53,7 +52,6 @@
                 <ContentGeneration.Editor.MainWindow.Components.DallE.DallETab />
                 <ContentGeneration.Editor.MainWindow.Components.StabilityAI.StabilityTab />
                 <ContentGeneration.Editor.MainWindow.Components.Meshy.MeshyTab />
-                <ContentGeneration.Editor.MainWindow.Components.Suno.SunoTab />
                 <ContentGeneration.Editor.MainWindow.Components.ElevenLabs.ElevenLabsTab />
                 <ContentGeneration.Editor.MainWindow.Components.Multi.MultiTextToImage />
                 <ContentGeneration.Editor.MainWindow.Components.Multi.MultiMasking />

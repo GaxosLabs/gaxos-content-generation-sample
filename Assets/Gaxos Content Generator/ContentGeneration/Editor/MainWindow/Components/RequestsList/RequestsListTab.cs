@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using ContentGeneration.Editor.MainWindow.Components.ElevenLabs;
 using ContentGeneration.Editor.MainWindow.Components.Meshy;
 using ContentGeneration.Editor.MainWindow.Components.StabilityAI;
-using ContentGeneration.Editor.MainWindow.Components.Suno;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models;
 using Unity.EditorCoroutines.Editor;
@@ -41,8 +40,6 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
         IRequestedItem meshyTextToVoxelRequestedItem => this.Q<MeshyTextToVoxelRequestedItem>();
         IRequestedItem meshyImageToMeshRequestedItem => this.Q<MeshyImageToMeshRequestedItem>();
         IRequestedItem stabilityFast3dRequestedItem => this.Q<StabilityFast3dRequestedItem>();
-        IRequestedItem sunoClipRequestedItem => this.Q<SunoClipRequestedItem>();
-        IRequestedItem sunoLyricsRequestedItem => this.Q<SunoLyricsRequestedItem>();
         IRequestedItem elevenLabSoundRequestedItem => this.Q<ElevenLabSoundRequestedItem>();
 
         IRequestedItem[] allRequestedItems => new[]
@@ -51,7 +48,6 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
             meshyTextToMeshRequestedItem, meshyTextToTextureRequestedItem,
             meshyTextToVoxelRequestedItem, meshyImageToMeshRequestedItem, 
             stabilityFast3dRequestedItem,
-            sunoClipRequestedItem, sunoLyricsRequestedItem,
             elevenLabSoundRequestedItem
         };
 
@@ -267,14 +263,6 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                     else if (request.Generator == Generator.StabilityStableFast3d)
                     {
                         stabilityFast3dRequestedItem.value = request;
-                    }
-                    else if (request.Generator == Generator.SunoClipWithPrompt || request.Generator == Generator.SunoClipWithLyrics)
-                    {
-                        sunoClipRequestedItem.value = request;
-                    }
-                    else if (request.Generator == Generator.SunoLyrics)
-                    {
-                        sunoLyricsRequestedItem.value = request;
                     }
                     else if (request.Generator == Generator.ElevenLabsSound || request.Generator == Generator.ElevenLabsTextToSpeech)
                     {
