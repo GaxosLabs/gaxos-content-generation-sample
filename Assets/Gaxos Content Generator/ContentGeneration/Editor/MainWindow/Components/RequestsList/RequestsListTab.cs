@@ -264,7 +264,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                     {
                         stabilityFast3dRequestedItem.value = request;
                     }
-                    else if (request.Generator == Generator.ElevenLabsSound || request.Generator == Generator.ElevenLabsTextToSpeech)
+                    else if (request.Generator is Generator.ElevenLabsSound or Generator.ElevenLabsTextToSpeech)
                     {
                         elevenLabSoundRequestedItem.value = request;
                     }

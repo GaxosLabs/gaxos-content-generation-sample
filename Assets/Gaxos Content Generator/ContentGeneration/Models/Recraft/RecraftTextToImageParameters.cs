@@ -8,7 +8,7 @@ namespace ContentGeneration.Models.Recraft
     {
         [JsonProperty("prompt")] public string Prompt;
         [JsonProperty("n")] public int N = 1;
-        [JsonProperty("style"), JsonConverter(typeof(StyleConverter))] public Style Style = Style.Realistic;
+        [JsonProperty("style"), JsonConverter(typeof(StyleConverter))] public Style Style = Style.RealisticImage;
         [JsonProperty("substyle"), JsonConverter(typeof(SubstyleConverter))] public string Substyle;
         [JsonProperty("model"), JsonConverter(typeof(ModelConverter))] public Model Model = Model.Recraftv3;
         [JsonProperty("size"), JsonConverter(typeof(SizeConverter))] public Size Size = Size._1024x1024;

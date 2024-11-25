@@ -7,15 +7,14 @@
 >
     <Style src="../Common.uss" />
     <ui:VisualElement class="container-spaced">
-        
         <ContentGeneration.Editor.MainWindow.Components.PromptInput name="prompt" tooltip="Provide a clear and detailed description of what you want the AI to generate as an image. Example: &quot;Describe objects, scenes, or concepts to guide the AI in generating the image.&quot;" style="height: 140px;" />
         <ui:Label name="promptRequired" text="Prompt is required" class="error-label" style="visibility: hidden;" />
         <ui:Button name="improvePromptButton" text="Improve prompt" tooltip="Enhance your initial description using AI to achieve more precise and detailed results.  Usage: Useful if you want to refine your original request for better images" />
-
-        <ui:Slider name="n" label="N samples" show-input-field="true" value="1" low-value="1" high-value="2" />
-        <ui:EnumField name="style" label="Init image mode" type="ContentGeneration.Models.Recraft.Style, ContentGeneration" />
-        <ui:DropdownField name="substyle" label="Substyle" />
+        
+        <ui:SliderInt name="n" label="N samples" value="1" low-value="1" high-value="2" show-input-field="true" />
         <ui:EnumField name="model" label="Model" type="ContentGeneration.Models.Recraft.Model, ContentGeneration" />
+        <ui:DropdownField name="style" label="Style" />
+        <ui:DropdownField name="substyle" label="Substyle" />
         <ui:EnumField name="size" label="Size" type="ContentGeneration.Models.Recraft.Size, ContentGeneration" />
 
         <ContentGeneration.Editor.MainWindow.Components.GenerationOptionsElement name="generationOptions" AllowMakeTransparent="false" />

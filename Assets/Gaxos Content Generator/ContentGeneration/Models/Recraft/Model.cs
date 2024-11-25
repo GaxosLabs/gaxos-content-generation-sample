@@ -9,5 +9,9 @@ namespace ContentGeneration.Models.Recraft
     }
     internal class ModelConverter : EnumJsonConverter<Model>
     {
+        public override void WriteJson(JsonWriter writer, Model value, JsonSerializer serializer)
+        {
+            writer.WriteValue(value.ToString().ToLower());
+        }
     }
 }

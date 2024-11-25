@@ -8,7 +8,7 @@ namespace ContentGeneration.Models.Recraft
     {
         public override void WriteJson(JsonWriter writer, string value, JsonSerializer serializer)
         {
-            writer.WriteValue(value.CamelCaseToUnderscores());
+            writer.WriteValue(string.IsNullOrEmpty(value) ? "" : value.CamelCaseToUnderscores());
         }
 
         public override string ReadJson(JsonReader reader, Type objectType, string existingValue, bool hasExistingValue,

@@ -6,10 +6,10 @@
     xsi:noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd"
 >
     <Style src="../Common.uss" />
-    <ContentGeneration.Editor.MainWindow.Components.SubWindow Sub-Window-Name="Eleven Labs" style="flex-grow: 1;">
+    <ContentGeneration.Editor.MainWindow.Components.SubWindow Sub-Window-Name="Recraft" style="flex-grow: 1;">
         <ContentGeneration.Editor.MainWindow.Components.TabsContainer>
             <ContentGeneration.Editor.MainWindow.Components.Tab Tab-Name="Text To Speech">
-                <ContentGeneration.Editor.MainWindow.Components.Recraft.RecraftTextToImage style="flex-direction: column-reverse;" />
+                <ContentGeneration.Editor.MainWindow.Components.Recraft.TextToImage style="flex-direction: column-reverse;" />
             </ContentGeneration.Editor.MainWindow.Components.Tab>
         </ContentGeneration.Editor.MainWindow.Components.TabsContainer>
     </ContentGeneration.Editor.MainWindow.Components.SubWindow>

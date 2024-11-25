@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using ContentGeneration.Editor.MainWindow.Components;
 using UnityEngine.UIElements;
 
-namespace ContentGeneration.Editor.Gaxos_Content_Generator.ContentGeneration.Editor.MainWindow.Components.Recraft
+namespace ContentGeneration.Editor.MainWindow.Components.Recraft
 {
     public class RecraftTab: VisualElementComponent
     {

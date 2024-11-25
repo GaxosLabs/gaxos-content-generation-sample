@@ -5,7 +5,7 @@ namespace ContentGeneration.Models.Recraft
 {
     public enum Style
     {
-        Realistic, DigitalIllustration, VectorIllustration, Icon
+        RealisticImage, DigitalIllustration, VectorIllustration, Icon
     }
     internal class StyleConverter : EnumJsonConverter<Style>
     {

@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using ContentGeneration.Editor.Gaxos_Content_Generator.ContentGeneration.Editor.MainWindow.Components.Recraft;
+using ContentGeneration.Editor.MainWindow.Components.Recraft;
 using ContentGeneration.Editor.MainWindow.Components;
 using ContentGeneration.Editor.MainWindow.Components.BasicExamples;
 using ContentGeneration.Editor.MainWindow.Components.DallE;

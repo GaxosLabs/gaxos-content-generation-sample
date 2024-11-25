@@ -6,7 +6,7 @@ using ContentGeneration.Models;
 using ContentGeneration.Models.Recraft;
 using UnityEngine.UIElements;
 
-namespace ContentGeneration.Editor.Gaxos_Content_Generator.ContentGeneration.Editor.MainWindow.Components.Recraft
+namespace ContentGeneration.Editor.MainWindow.Components.Recraft
 {
     // https://www.recraft.ai/docs#generate-image
     public class TextToImage : ParametersBasedGenerator<TextToImageParameters, RecraftTextToImageParameters>
