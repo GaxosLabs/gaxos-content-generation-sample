@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models;
 using ContentGeneration.Models.Recraft;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -34,6 +35,11 @@ namespace ContentGeneration.Editor.MainWindow.Components.Recraft
         DropdownField substyle => this.Q<DropdownField>("substyle");
         EnumField model => this.Q<EnumField>("model");
         EnumField size => this.Q<EnumField>("size");
+
+        Toggle sendMainColor => this.Q<Toggle>("sendMainColor");
+        ColorField mainColor => this.Q<ColorField>("mainColor");
+        Toggle sendBackgroundColor => this.Q<Toggle>("sendBackgroundColor");
+        ColorField backgroundColor => this.Q<ColorField>("backgroundColor");
 
         public TextToImageParameters()
         {
@@ -67,9 +73,28 @@ namespace ContentGeneration.Editor.MainWindow.Components.Recraft
             styleField.RegisterValueChangedCallback(_ => RefreshSubStyles());
             model.RegisterValueChangedCallback(_ => RefreshStyles());
             size.RegisterValueChangedCallback(_ => codeHasChanged?.Invoke());
-            
+
+            sendMainColor.RegisterValueChangedCallback(_ => RefreshMainColor());
+            mainColor.RegisterValueChangedCallback(_ => RefreshMainColor());
+            sendBackgroundColor.RegisterValueChangedCallback(_ => RefreshBackgroundColor());
+            backgroundColor.RegisterValueChangedCallback(_ => RefreshBackgroundColor());
+
             RefreshStyles();
             RefreshSubStyles();
+            RefreshMainColor();
+            RefreshBackgroundColor();
+        }
+
+        void RefreshMainColor()
+        {
+            mainColor.style.display = sendMainColor.value ? DisplayStyle.Flex : DisplayStyle.None;
+            codeHasChanged?.Invoke();
+        }
+
+        void RefreshBackgroundColor()
+        {
+            backgroundColor.style.display = sendBackgroundColor.value ? DisplayStyle.Flex : DisplayStyle.None;
+            codeHasChanged?.Invoke();
         }
 
         void RefreshStyles()
@@ -79,6 +104,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Recraft
             {
                 currentStyle = Style.RealisticImage.ToString();
             }
+
             styleField.choices.Clear();
             var currentModel = (Model)model.value;
             switch (currentModel)
@@ -98,7 +124,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Recraft
                     throw new ArgumentOutOfRangeException();
             }
 
-            if(styleField.choices.Contains(currentStyle))
+            if (styleField.choices.Contains(currentStyle))
             {
                 styleField.value = currentStyle;
             }
@@ -106,6 +132,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Recraft
             {
                 styleField.value = styleField.choices[0];
             }
+
             RefreshSubStyles();
         }
 
@@ -151,6 +178,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Recraft
                         substyle.choices.Add("natural_light");
                         substyle.choices.Add("studio_portrait");
                     }
+
                     break;
                 case Style.DigitalIllustration:
                     if (currentModel == Model.Recraftv3)
@@ -215,6 +243,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Recraft
                         substyle.choices.Add("voxel");
                         substyle.choices.Add("watercolor");
                     }
+
                     break;
                 case Style.VectorIllustration:
                     if (currentModel == Model.Recraftv3)
@@ -255,6 +284,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Recraft
                         substyle.choices.Add("linocut");
                         substyle.choices.Add("seamless");
                     }
+
                     break;
                 case Style.Icon:
                     if (currentModel == Model.Recraftv3)
@@ -273,6 +303,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Recraft
                         substyle.choices.Add("outline_gradient");
                         substyle.choices.Add("uneven_fill");
                     }
+
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -286,6 +317,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Recraft
             {
                 substyle.value = "";
             }
+
             codeHasChanged?.Invoke();
         }
 
@@ -306,23 +338,50 @@ namespace ContentGeneration.Editor.MainWindow.Components.Recraft
             parameters.Substyle = string.IsNullOrEmpty(substyle.value) ? null : substyle.value;
             parameters.Model = (Model)model.value;
             parameters.Size = (Size)size.value;
-            parameters.Controls = null;
-            // new Controls()
-            // {
-            //     Colors = Array.Empty<Color>(),
-            //     BackgroundColor = null
-            // };
+            parameters.Controls = new Controls
+            {
+                Colors = sendMainColor.value ? new []{ mainColor.value } : Array.Empty<Color>(),
+                BackgroundColor = sendBackgroundColor.value ? backgroundColor.value : null
+            };
         }
 
         public string GetCode()
         {
-            return $"\t\tWidth = \n" +
-                   $"\t\tHeight = \n";        
+            return 
+                $"\t\tPrompt = \"{prompt.value}\",\n" +
+                $"\t\tN = {n.value},\n" +
+                $"\t\tStyle = Style.{styleField.value},\n" +
+                $"\t\tSubstyle = {(string.IsNullOrEmpty(substyle.value) ? "null" : $"\"{substyle.value}\"")},\n" +
+                $"\t\tModel = Model.{model.value},\n" +
+                $"\t\tSize = Size.{size.value},\n" +
+                $"\t\tControls = new Control,\n" +
+                $"\t\t{{,\n" +
+                $"\t\t\tColors = {(sendMainColor.value ? $"new []{{ new Color({mainColor.value.r}f, {mainColor.value.g}f, {mainColor.value.b}f) }}" : "Array.Empty<Color>()")},\n" +
+                $"\t\t\tBackgroundColor = {(sendBackgroundColor.value ? $"new Color({backgroundColor.value.r}f, {backgroundColor.value.g}f, {backgroundColor.value.b}f)" : "null")},\n" +
+                $"\t\t}}";
         }
 
-        public void Show(Favorite generatorParameters)
+        public void Show(Favorite favorite)
         {
-            throw new NotImplementedException();
+            var parameters = favorite.GeneratorParameters.ToObject<RecraftTextToImageParameters>();
+            
+            prompt.value = parameters.Prompt;
+            n.value = parameters.N;
+            styleField.value = parameters.Style.ToString();
+            substyle.value = parameters.Substyle;
+            model.value = parameters.Model;
+            size.value = parameters.Size;
+            sendMainColor.value = parameters.Controls?.Colors?.Length > 0;
+            if (sendMainColor.value)
+            {
+                mainColor.value = parameters.Controls!.Colors![0];
+            }
+
+            sendBackgroundColor.value = parameters.Controls?.BackgroundColor != null;
+            if (sendBackgroundColor.value)
+            {
+                backgroundColor.value = parameters.Controls!.BackgroundColor!.Value;
+            }
         }
     }
 }

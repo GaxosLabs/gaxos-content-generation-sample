@@ -17,6 +17,11 @@
         <ui:DropdownField name="substyle" label="Substyle" />
         <ui:EnumField name="size" label="Size" type="ContentGeneration.Models.Recraft.Size, ContentGeneration" />
 
+        <ui:Toggle name="sendMainColor" label="Send main color" />
+        <editor:ColorField name="mainColor" show-alpha="false" value="RGBA(1.000, 0.000, 1.000, 1.000)" />
+        <ui:Toggle name="sendBackgroundColor" label="Send background color" />
+        <editor:ColorField name="backgroundColor" show-alpha="false" value="RGBA(1.000, 0.000, 1.000, 1.000)" />
+
         <ContentGeneration.Editor.MainWindow.Components.GenerationOptionsElement name="generationOptions" AllowMakeTransparent="false" />
     </ui:VisualElement>
 

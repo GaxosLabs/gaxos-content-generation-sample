@@ -9,7 +9,7 @@ namespace ContentGeneration.Models.Recraft
         [JsonProperty("prompt")] public string Prompt;
         [JsonProperty("n")] public int N = 1;
         [JsonProperty("style"), JsonConverter(typeof(StyleConverter))] public Style Style = Style.RealisticImage;
-        [JsonProperty("substyle"), JsonConverter(typeof(SubstyleConverter))] public string Substyle;
+        [JsonProperty("substyle")] public string Substyle;
         [JsonProperty("model"), JsonConverter(typeof(ModelConverter))] public Model Model = Model.Recraftv3;
         [JsonProperty("size"), JsonConverter(typeof(SizeConverter))] public Size Size = Size._1024x1024;
         [JsonProperty("controls", NullValueHandling = NullValueHandling.Ignore)] public Controls Controls;
@@ -17,7 +17,7 @@ namespace ContentGeneration.Models.Recraft
 
     public record Controls
     {
-        [JsonProperty("colors"), JsonConverter(typeof(ColorConverter))] public Color[] Colors = Array.Empty<Color>();
+        [JsonProperty("colors", ItemConverterType = typeof(ColorConverter))] public Color[] Colors = Array.Empty<Color>();
         [JsonProperty("background_color"), JsonConverter(typeof(ColorConverter))] public Color? BackgroundColor;
-    }
+    } 
 }
