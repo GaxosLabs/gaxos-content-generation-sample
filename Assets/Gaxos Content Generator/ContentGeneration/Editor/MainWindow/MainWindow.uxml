@@ -22,9 +22,9 @@
                                 <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Gaxos Labs AI" name="subWindowToggleGaxos" />
                                 <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Dall-E" name="subWindowToggleDallE" />
                                 <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Stability AI" name="subWindowToggleStabilityAI" />
+                                <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Recraft" name="subWindowToggleRecraft" />
                                 <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Meshy" name="subWindowToggleMeshy" />
                                 <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Eleven Labs" name="subWindowToggleElevenLabs" />
-                                <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Recraft" name="subWindowToggleRecraft" />
                             </ui:VisualElement>
                             <ui:Label tabindex="-1" text="Generate Multiple Content" parse-escape-sequences="true" display-tooltip-when-elided="true" class="sideMenuItemHeader" />
                             <ui:VisualElement class="sideMenuItemSeparator" />
