@@ -206,10 +206,11 @@ namespace ContentGeneration
             Generator generator,
             object generatorParameters,
             GenerationOptions options = GenerationOptions.None,
-            object data = null)
+            object data = null,
+            bool estimate = false)
         {
             return SendRequest(ApiMethod.Post,
-                "request",
+                estimate ? "request/estimate-cost" : "request",
                 data: new
                 {
                     data,
@@ -222,92 +223,101 @@ namespace ContentGeneration
         public Task<string> RequestStabilityTextToImageGeneration(
             StabilityTextToImageParameters generatorParameters,
             GenerationOptions options = GenerationOptions.None,
-            object data = null)
+            object data = null,
+            bool estimate = false)
         {
             return RequestGeneration(
                 Generator.StabilityTextToImage,
-                generatorParameters, options, data);
+                generatorParameters, options, data, estimate);
         }
 
         public Task<string> RequestStabilityCoreTextToImageGeneration(
             StabilityCoreTextToImageParameters generatorParameters,
             GenerationOptions options = GenerationOptions.None,
-            object data = null)
+            object data = null,
+            bool estimate = false)
         {
             return RequestGeneration(
                 Generator.StabilityTextToImageCore,
-                generatorParameters, options, data);
+                generatorParameters, options, data, estimate);
         }
 
         public Task<string> RequestStabilityUltraTextToImageGeneration(
             StabilityUltraTextToImageParameters generatorParameters,
             GenerationOptions options = GenerationOptions.None,
-            object data = null)
+            object data = null,
+            bool estimate = false)
         {
             return RequestGeneration(
                 Generator.StabilityTextToImageUltra,
-                generatorParameters, options, data);
+                generatorParameters, options, data, estimate);
         }
 
         public Task<string> RequestStabilityStableDiffusion3Generation(
             StabilityStableDiffusion3Parameters generatorParameters,
             GenerationOptions options = GenerationOptions.None,
-            object data = null)
+            object data = null,
+            bool estimate = false)
         {
             return RequestGeneration(
                 Generator.StabilityDiffusion3,
-                generatorParameters, options, data);
+                generatorParameters, options, data, estimate);
         }
 
         public Task<string> RequestStabilityStableFast3dGeneration(
             StabilityStableFast3d generatorParameters,
             GenerationOptions options = GenerationOptions.None,
-            object data = null)
+            object data = null,
+            bool estimate = false)
         {
             return RequestGeneration(
                 Generator.StabilityStableFast3d,
-                generatorParameters, options, data);
+                generatorParameters, options, data, estimate);
         }
 
         public Task<string> RequestStabilityImageToImageGeneration(
             StabilityImageToImageParameters generatorParameters,
             GenerationOptions options = GenerationOptions.None,
-            object data = null)
+            object data = null,
+            bool estimate = false)
         {
             return RequestGeneration(
                 Generator.StabilityImageToImage,
-                generatorParameters, options, data);
+                generatorParameters, options, data, estimate);
         }
 
         public Task<string> RequestStabilityMaskedImageGeneration(
             StabilityMaskedImageParameters generatorParameters,
             GenerationOptions options = GenerationOptions.None,
-            object data = null)
+            object data = null,
+            bool estimate = false)
         {
             return RequestGeneration(
                 Generator.StabilityMasking,
-                generatorParameters, options, data);
+                generatorParameters, options, data, estimate);
         }
 
         public Task<string> RequestDallETextToImageGeneration(
             DallETextToImageParameters generatorParameters,
             GenerationOptions options = GenerationOptions.None,
-            object data = null)
+            object data = null,
+            bool estimate = false)
         {
             return RequestGeneration(
                 Generator.DallETextToImage,
-                generatorParameters, options, data);
+                generatorParameters, options, data, estimate);
         }
 
 
         public Task<string> RequestDallEInpaintingGeneration(
             DallEInpaintingParameters generatorParameters,
             GenerationOptions options = GenerationOptions.None,
-            object data = null)
+            object data = null,
+            bool estimate = false)
         {
             return RequestGeneration(
                 Generator.DallEInpainting,
-                generatorParameters, options, data);
+                generatorParameters, options, data, estimate);
         }
 
         public async Task MakeAssetPublic(string requestId, string assetId, bool makeItPublic)
@@ -339,11 +349,12 @@ namespace ContentGeneration
         public Task<string> RequestMeshyTextToMeshGeneration(
             MeshyTextToMeshParameters generatorParameters,
             GenerationOptions options = GenerationOptions.None,
-            object data = null)
+            object data = null,
+            bool estimate = false)
         {
             return RequestGeneration(
                 Generator.MeshyTextToMesh,
-                generatorParameters, options, data);
+                generatorParameters, options, data, estimate);
         }
 
         public async Task RefineMeshyTextToMesh(string id, MeshyRefineTextToMeshParameters parameters = null)
@@ -354,81 +365,89 @@ namespace ContentGeneration
         public Task<string> RequestMeshyTextToTextureGeneration(
             MeshyTextToTextureParameters generatorParameters,
             GenerationOptions options = GenerationOptions.None,
-            object data = null)
+            object data = null,
+            bool estimate = false)
         {
             return RequestGeneration(
                 Generator.MeshyTextToTexture,
-                generatorParameters, options, data);
+                generatorParameters, options, data, estimate);
         }
 
         public Task<string> RequestMeshyTextToVoxelGeneration(
             MeshyTextToVoxelParameters generatorParameters,
             GenerationOptions options = GenerationOptions.None,
-            object data = null)
+            object data = null,
+            bool estimate = false)
         {
             return RequestGeneration(
                 Generator.MeshyTextToVoxel,
-                generatorParameters, options, data);
+                generatorParameters, options, data, estimate);
         }
 
         public Task<string> RequestMeshyImageToMeshGeneration(
             MeshyImageToMeshParameters generatorParameters,
             GenerationOptions options = GenerationOptions.None,
-            object data = null)
+            object data = null,
+            bool estimate = false)
         {
             return RequestGeneration(
                 Generator.MeshyImageTo3d,
-                generatorParameters, options, data);
+                generatorParameters, options, data, estimate);
         }
 
         public Task<string> RequestGaxosTextToImageGeneration(
             GaxosTextToImageParameters generatorParameters,
             GenerationOptions options = GenerationOptions.None,
-            object data = null)
+            object data = null,
+            bool estimate = false)
         {
             return RequestGeneration(
                 Generator.GaxosTextToImage,
-                generatorParameters, options, data);
+                generatorParameters, options, data, estimate);
         }
 
         public Task<string> RequestGaxosMaskingGeneration(
             GaxosMaskingParameters generatorParameters,
             GenerationOptions options = GenerationOptions.None,
-            object data = null)
+            object data = null,
+            bool estimate = false)
         {
             return RequestGeneration(
                 Generator.GaxosMasking,
-                generatorParameters, options, data);
+                generatorParameters, options, data, estimate);
         }
 
         public Task<string> RequestElevenLabsSoundGeneration(
             ElevenLabsSoundParameters generatorParameters,
             GenerationOptions options = GenerationOptions.None,
-            object data = null)
+            object data = null,
+            bool estimate = false)
         {
             return RequestGeneration(
                 Generator.ElevenLabsSound,
-                generatorParameters, options, data);
+                generatorParameters, options, data, estimate);
         }
 
         public Task<string> RequestElevenLabsTextToSpeechGeneration(
             ElevenLabsTextToSpeechParameters generatorParameters,
             GenerationOptions options = GenerationOptions.None,
-            object data = null)
+            object data = null,
+            bool estimate = false)
         {
             return RequestGeneration(
                 Generator.ElevenLabsTextToSpeech,
-                generatorParameters, options, data);
+                generatorParameters, options, data, estimate);
         }
 
         public Task<string> RequestRecraftTextToImageGeneration(
             RecraftTextToImageParameters generatorParameters,
             GenerationOptions options = GenerationOptions.None,
-            object data = null)
+            object data = null,
+            bool estimate = false)
         {
             return RequestGeneration(
                 Generator.RecraftTextToImage,
-                generatorParameters, options, data);
+                generatorParameters, options, data, estimate);
         }
     }
 }

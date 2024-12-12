@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ContentGeneration.Editor.MainWindow.Components;
-using ContentGeneration.Editor.MainWindow.Components.Recraft;
 using ContentGeneration.Models;
 using ContentGeneration.Models.Recraft;
 using UnityEngine.UIElements;
