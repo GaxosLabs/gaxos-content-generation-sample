@@ -23,11 +23,11 @@ namespace ContentGeneration.Editor.MainWindow.Components.Recraft
 
         protected override string apiMethodName => nameof(ContentGenerationApi.RequestRecraftTextToImageGeneration);
 
-        protected override Task RequestToApi(RecraftTextToImageParameters parameters, GenerationOptions generationOptions, object data)
+        protected override Task<string> RequestToApi(RecraftTextToImageParameters parameters, GenerationOptions generationOptions, object data, bool estimate = false)
         {
             return ContentGenerationApi.Instance.RequestRecraftTextToImageGeneration(
                 parameters,
-                generationOptions, data: data);
+                generationOptions, data: data, estimate);
         }
 
         public override Generator generator => Generator.RecraftTextToImage;

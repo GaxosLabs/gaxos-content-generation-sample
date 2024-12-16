@@ -125,14 +125,17 @@ namespace ContentGeneration.Editor.MainWindow.Components.DallE
             RefreshCode();
         }
 
-        public bool Valid()
+        public bool Valid(bool updateUI)
         {
             if (hidePrompt)
                 return true;
 
             var thereArePrompts = !string.IsNullOrEmpty(prompt.value);
 
-            promptRequired.style.visibility = thereArePrompts ? Visibility.Hidden : Visibility.Visible;
+            if(updateUI)
+            {
+                promptRequired.style.visibility = thereArePrompts ? Visibility.Hidden : Visibility.Visible;
+            }
 
             return !string.IsNullOrEmpty(prompt.value);
         }

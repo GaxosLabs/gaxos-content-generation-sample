@@ -211,9 +211,9 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
             codeHasChanged?.Invoke();
         }
 
-        public bool Valid()
+        public bool Valid(bool updateUI)
         {
-            if (!stabilityParameters.Valid())
+            if (!stabilityParameters.Valid(updateUI))
             {
                 return false;
             }

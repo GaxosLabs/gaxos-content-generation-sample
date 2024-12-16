@@ -44,6 +44,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
             imageRequired.style.visibility = Visibility.Hidden;
             enablePbr.RegisterValueChangedCallback(_ => CodeHasChanged());
             surfaceMode.RegisterValueChangedCallback(_ => CodeHasChanged());
+            image.OnChanged += CodeHasChanged;
             CodeHasChanged();
         }
 
@@ -54,12 +55,19 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
             codeHasChanged?.Invoke();
         }
 
-        public bool Valid()
+        public bool Valid(bool updateUI)
         {
-            imageRequired.style.visibility = Visibility.Hidden;
+            if (updateUI)
+            {
+                imageRequired.style.visibility = Visibility.Hidden;
+            }
+
             if (image.image == null)
             {
-                imageRequired.style.visibility = Visibility.Visible;
+                if(updateUI)
+                {
+                    imageRequired.style.visibility = Visibility.Visible;
+                }
                 return false;
             }
 

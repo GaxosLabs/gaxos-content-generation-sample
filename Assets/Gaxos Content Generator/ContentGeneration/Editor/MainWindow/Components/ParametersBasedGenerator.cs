@@ -11,7 +11,7 @@ namespace ContentGeneration.Editor.MainWindow.Components
     {
         GenerationOptionsElement generationOptions { get; }
         Action codeHasChanged { set; }
-        bool Valid();
+        bool Valid(bool updateUI = false);
         void ApplyParameters(T parameters);
         string GetCode();
         void Show(Favorite generatorParameters);
@@ -55,10 +55,10 @@ namespace ContentGeneration.Editor.MainWindow.Components
                 generateButton.SetEnabled(false);
                 sendingRequest.style.display = DisplayStyle.Flex;
 
-                var stabilityTextToImageParameters = new TU();
-                parameters.ApplyParameters(stabilityTextToImageParameters);
+                var requestParameters = new TU();
+                parameters.ApplyParameters(requestParameters);
                 RequestToApi(
-                    stabilityTextToImageParameters,
+                    requestParameters,
                     parameters.generationOptions?.GetGenerationOptions(), 
                     data: new
                     {
@@ -84,8 +84,23 @@ namespace ContentGeneration.Editor.MainWindow.Components
             code.SetVerticalScrollerVisibility(ScrollerVisibility.Auto);
             RefreshCode();
         }
+        
+        Task<string> RequestGeneration(bool estimate = false)
+        {
+            var requestParameters = new TU();
+            parameters.ApplyParameters(requestParameters);
+            return RequestToApi(
+                requestParameters,
+                parameters.generationOptions?.GetGenerationOptions(),
+                new
+                {
+                    player_id = ContentGenerationStore.editorPlayerId
+                }, estimate);
+        }
 
-        protected abstract Task RequestToApi(TU parameters, GenerationOptions generationOptions, object data);
+        protected abstract Task<string> RequestToApi(TU parameters, 
+            GenerationOptions generationOptions, 
+            object data, bool estimate = false);
 
         protected abstract string apiMethodName { get; }
         void RefreshCode()
@@ -98,6 +113,21 @@ namespace ContentGeneration.Editor.MainWindow.Components
                 "\t},\n" +
                 parameters.generationOptions?.GetCode() +
                 ")";
+
+            if (parameters.Valid(false))
+            {
+                generateButton.text = "Generate [...]";
+                RequestGeneration(true).ContinueInMainThreadWith(t =>
+                {
+                    if (t.IsFaulted)
+                    {
+                        Debug.LogException(t.Exception!.GetBaseException());
+                        return;
+                    }
+
+                    generateButton.text = $"Generate [estimated cost: {t.Result}]";
+                });
+            }
         }
 
         public abstract Generator generator { get; }

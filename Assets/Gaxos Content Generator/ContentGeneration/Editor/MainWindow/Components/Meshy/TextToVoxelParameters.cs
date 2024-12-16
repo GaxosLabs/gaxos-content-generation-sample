@@ -106,14 +106,17 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
             codeHasChanged?.Invoke();
         }
 
-        public bool Valid()
+        public bool Valid(bool updateUI)
         {
             if (hidePrompt)
                 return true;
             
             var thereArePrompts = !string.IsNullOrEmpty(prompt.value);
 
-            promptRequired.style.visibility = thereArePrompts ? Visibility.Hidden : Visibility.Visible;
+            if(updateUI)
+            {
+                promptRequired.style.visibility = thereArePrompts ? Visibility.Hidden : Visibility.Visible;
+            }
 
             return thereArePrompts;
         }

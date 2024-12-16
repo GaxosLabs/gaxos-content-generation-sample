@@ -63,17 +63,24 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
             codeHasChanged?.Invoke();
         }
 
-        public bool Valid()
+        public bool Valid(bool updateUI)
         {
-            maskRequired.style.visibility = Visibility.Hidden;
-            if (!gaxosParametersElement.Valid())
+            if (updateUI)
+            {
+                maskRequired.style.visibility = Visibility.Hidden;
+            }
+
+            if (!gaxosParametersElement.Valid(updateUI))
             {
                 return false;
             }
 
             if (mask.image == null)
             {
-                maskRequired.style.visibility = Visibility.Visible;
+                if(updateUI)
+                {
+                    maskRequired.style.visibility = Visibility.Visible;
+                }
                 return false;
             }
 

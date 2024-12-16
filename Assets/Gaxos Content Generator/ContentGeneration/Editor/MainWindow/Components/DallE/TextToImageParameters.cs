@@ -49,9 +49,9 @@ namespace ContentGeneration.Editor.MainWindow.Components.DallE
             codeHasChanged?.Invoke();
         }
 
-        public bool Valid()
+        public bool Valid(bool updateUI)
         {
-            if (!dallEParametersElement.Valid())
+            if (!dallEParametersElement.Valid(updateUI))
             {
                 return false;
             }

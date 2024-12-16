@@ -28,7 +28,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.ElevenLabs
         }
 
         DropdownField voiceId => this.Q<DropdownField>("voiceId");
-        TextField text => this.Q<TextField>("text");
+        PromptInput text => this.Q<PromptInput>("text");
         Label textRequired => this.Q<Label>("textRequired");
         EnumField outputFormat => this.Q<EnumField>("outputFormat");
         Toggle sendVoiceSettings => this.Q<Toggle>("sendVoiceSettings");
@@ -72,50 +72,16 @@ namespace ContentGeneration.Editor.MainWindow.Components.ElevenLabs
             {
                 if (!generateButton.enabledSelf) return;
 
-                textRequired.style.visibility = Visibility.Hidden;
+                if (!IsValid(true)) return;
 
                 requestSent.style.display = DisplayStyle.None;
                 requestFailed.style.display = DisplayStyle.None;
                 sendingRequest.style.display = DisplayStyle.None;
 
-                if (string.IsNullOrEmpty(text.value))
-                {
-                    textRequired.style.visibility = Visibility.Visible;
-                    return;
-                }
-
                 generateButton.SetEnabled(false);
                 sendingRequest.style.display = DisplayStyle.Flex;
 
-                var parameters = new ElevenLabsTextToSpeechParameters
-                {
-                    VoiceID = _voiceIds[voiceId.index],
-                    OutputFormat = (OutputFormat)outputFormat.value,
-                    Text = text.value,
-                    Seed = seed.value,
-                    PreviousText = previousText.value,
-                    NextText = nextText.value,
-                    PreviousRequestIds = previousRequestIds.value.Split(','),
-                    NextRequestIds = nextRequestIds.value.Split(','),
-                    ApplyTextNormalization = (TextNormalization)applyTextNormalization.value
-                };
-                if (sendVoiceSettings.value)
-                {
-                    parameters.VoiceSettings = new VoiceSettings
-                    {
-                        Stability = stability.value,
-                        SimilarityBoost = similarityBoost.value,
-                        Style = styleField.value,
-                        UseSpeakerBoost = useSpeakerBoost.value,
-                    };
-                }
-
-                ContentGenerationApi.Instance.RequestElevenLabsTextToSpeechGeneration(
-                    parameters,
-                    data: new
-                    {
-                        player_id = ContentGenerationStore.editorPlayerId
-                    }).ContinueInMainThreadWith(
+                RequestGeneration(false).ContinueInMainThreadWith(
                     t =>
                     {
                         generateButton.SetEnabled(true);
@@ -136,7 +102,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.ElevenLabs
             });
 
             voiceId.RegisterValueChangedCallback(_ => RefreshCode());
-            text.RegisterValueChangedCallback(_ => RefreshCode());
+            text.OnChanged += _ => RefreshCode();
             textRequired.RegisterValueChangedCallback(_ => RefreshCode());
             outputFormat.RegisterValueChangedCallback(_ => RefreshCode());
             sendVoiceSettings.RegisterValueChangedCallback(v => RefreshVoiceSettings(v.newValue));
@@ -153,6 +119,57 @@ namespace ContentGeneration.Editor.MainWindow.Components.ElevenLabs
             applyTextNormalization.RegisterValueChangedCallback(_ => RefreshCode());
 
             RefreshVoiceSettings(sendVoiceSettings.value);
+        }
+
+        Task<string> RequestGeneration(bool estimate)
+        {
+            var parameters = new ElevenLabsTextToSpeechParameters
+            {
+                VoiceID = _voiceIds[voiceId.index],
+                OutputFormat = (OutputFormat)outputFormat.value,
+                Text = text.value,
+                Seed = seed.value,
+                PreviousText = previousText.value,
+                NextText = nextText.value,
+                PreviousRequestIds = previousRequestIds.value.Split(','),
+                NextRequestIds = nextRequestIds.value.Split(','),
+                ApplyTextNormalization = (TextNormalization)applyTextNormalization.value
+            };
+            if (sendVoiceSettings.value)
+            {
+                parameters.VoiceSettings = new VoiceSettings
+                {
+                    Stability = stability.value,
+                    SimilarityBoost = similarityBoost.value,
+                    Style = styleField.value,
+                    UseSpeakerBoost = useSpeakerBoost.value,
+                };
+            }
+
+            return ContentGenerationApi.Instance.RequestElevenLabsTextToSpeechGeneration(
+                parameters,
+                data: new
+                {
+                    player_id = ContentGenerationStore.editorPlayerId
+                }, estimate:estimate);
+        }
+
+        bool IsValid(bool updateUI)
+        {
+            if(updateUI)
+            {
+                textRequired.style.visibility = Visibility.Hidden;
+            }
+            if (string.IsNullOrEmpty(text.value))
+            {
+                if(updateUI)
+                {
+                    textRequired.style.visibility = Visibility.Visible;
+                }
+                return false;
+            }
+
+            return true;
         }
 
         void RefreshVoiceSettings(bool v)
@@ -235,6 +252,21 @@ namespace ContentGeneration.Editor.MainWindow.Components.ElevenLabs
                 parameters +
                 "\t}\n" +
                 ")";
+
+            if (IsValid(false))
+            {
+                generateButton.text = "Generate [...]";
+                RequestGeneration(true).ContinueInMainThreadWith(t =>
+                {
+                    if (t.IsFaulted)
+                    {
+                        Debug.LogException(t.Exception!.GetBaseException());
+                        return;
+                    }
+
+                    generateButton.text = $"Generate [estimated cost: {t.Result}]";
+                });
+            }
         }
 
         public Generator generator => Generator.ElevenLabsTextToSpeech;

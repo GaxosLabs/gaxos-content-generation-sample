@@ -23,12 +23,12 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
 
         protected override string apiMethodName => nameof(ContentGenerationApi.RequestMeshyTextToVoxelGeneration);
 
-        protected override Task RequestToApi(MeshyTextToVoxelParameters parameters, GenerationOptions generationOptions,
-            object data)
+        protected override Task<string> RequestToApi(MeshyTextToVoxelParameters parameters, GenerationOptions generationOptions,
+            object data, bool estimate = false)
         {
             return ContentGenerationApi.Instance.RequestMeshyTextToVoxelGeneration(
                 parameters,
-                generationOptions, data: data);
+                generationOptions, data: data, estimate);
         }
 
         public override Generator generator => Generator.MeshyTextToVoxel;

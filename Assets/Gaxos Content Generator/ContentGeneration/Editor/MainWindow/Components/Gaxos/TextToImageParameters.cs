@@ -55,9 +55,9 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
             codeHasChanged?.Invoke();
         }
 
-        public bool Valid()
+        public bool Valid(bool updateUI)
         {
-            if (!gaxosParametersElement.Valid())
+            if (!gaxosParametersElement.Valid(updateUI))
             {
                 return false;
             }

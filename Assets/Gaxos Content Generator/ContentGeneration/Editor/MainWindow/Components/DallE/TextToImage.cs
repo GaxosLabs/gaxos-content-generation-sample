@@ -21,12 +21,13 @@ namespace ContentGeneration.Editor.MainWindow.Components.DallE
         }
 
         protected override string apiMethodName => nameof(ContentGenerationApi.RequestDallETextToImageGeneration);
-        protected override Task RequestToApi(DallETextToImageParameters parameters, GenerationOptions generationOptions, object data)
+        protected override Task<string> RequestToApi(DallETextToImageParameters parameters, 
+            GenerationOptions generationOptions, object data, bool estimate = false)
         {
             return ContentGenerationApi.Instance.RequestDallETextToImageGeneration(
                     parameters,
                     generationOptions, 
-                    data: data);
+                    data: data, estimate);
         }
 
         public override Generator generator => Generator.DallETextToImage;

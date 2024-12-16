@@ -2,7 +2,7 @@
     <Style src="project://database/Assets/Gaxos%20Content%20Generator/ContentGeneration/Editor/MainWindow/Components/Common.uss?fileID=7433441132597879392&amp;guid=4c0a09080b844861802367d6e07fa07b&amp;type=3#Common" />
     <ui:VisualElement class="container-spaced">
         <ui:DropdownField label="Voice Id" name="voiceId" />
-        <ui:TextField label="Text" name="text" multiline="true" style="white-space: normal; text-overflow: ellipsis; font-size: 15px;" />
+        <ContentGeneration.Editor.MainWindow.Components.PromptInput name="text" tooltip="The text that will get converted into speech." style="height: 140px;" />
         <ui:Label name="textRequired" text="Text is required" class="error-label" style="visibility: hidden;" />
         <ui:EnumField label="Output format" type="ContentGeneration.Models.ElevenLabs.OutputFormat, ContentGeneration" name="outputFormat" />
         <ui:Toggle label="Send Voice Settings" name="sendVoiceSettings" />

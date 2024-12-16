@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models;
 using ContentGeneration.Models.Stability;
@@ -48,6 +49,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
             imageStrength.RegisterValueChangedCallback(_ => RefreshCode());
             stepScheduleStart.RegisterValueChangedCallback(_ => RefreshCode());
             stepScheduleEnd.RegisterValueChangedCallback(_ => RefreshCode());
+            image.OnChanged += RefreshCode;
 
             var engines = new[]
             {
@@ -98,41 +100,12 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
             {
                 if (!generateButton.enabledSelf) return;
 
-                requestSent.style.display = DisplayStyle.None;
-                requestFailed.style.display = DisplayStyle.None;
-                imageRequired.style.visibility = Visibility.Hidden;
-                if (!stabilityParameters.Valid())
-                {
-                    return;
-                }
-
-                if (image.image == null)
-                {
-                    imageRequired.style.visibility = Visibility.Visible;
-                    return;
-                }
+                if (!IsValid(true)) return;
 
                 generateButton.SetEnabled(false);
                 sendingRequest.style.display = DisplayStyle.Flex;
 
-                var imageMode = (InitImageMode)initImageMode.value;
-                
-                var parameters = new StabilityImageToImageParameters
-                {
-                    EngineId = engine.value,
-                    InitImage = (Texture2D)image.image,
-                    InitImageMode = imageMode,
-                    StepScheduleStart = imageMode == InitImageMode.StepSchedule ? stepScheduleStart.value : null,
-                    StepScheduleEnd = (imageMode == InitImageMode.StepSchedule && sendStepScheduleEnd.value) ? stepScheduleEnd.value : null,
-                    ImageStrength = imageMode == InitImageMode.ImageStrength ? imageStrength.value : null,
-                };
-                stabilityParameters.ApplyParameters(parameters);
-                ContentGenerationApi.Instance.RequestStabilityImageToImageGeneration(
-                    parameters,
-                    generationOptions.GetGenerationOptions(), data: new
-                    {
-                        player_id = ContentGenerationStore.editorPlayerId
-                    }).ContinueInMainThreadWith(
+                RequestGeneration(false).ContinueInMainThreadWith(
                     t =>
                     {
                         generateButton.SetEnabled(true);
@@ -156,6 +129,54 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
             RefreshCode();
         }
 
+        Task<string> RequestGeneration(bool estimate)
+        {
+            var imageMode = (InitImageMode)initImageMode.value;
+                
+            var parameters = new StabilityImageToImageParameters
+            {
+                EngineId = engine.value,
+                InitImage = (Texture2D)image.image,
+                InitImageMode = imageMode,
+                StepScheduleStart = imageMode == InitImageMode.StepSchedule ? stepScheduleStart.value : null,
+                StepScheduleEnd = (imageMode == InitImageMode.StepSchedule && sendStepScheduleEnd.value) ? stepScheduleEnd.value : null,
+                ImageStrength = imageMode == InitImageMode.ImageStrength ? imageStrength.value : null,
+            };
+            stabilityParameters.ApplyParameters(parameters);
+            var x = ContentGenerationApi.Instance.RequestStabilityImageToImageGeneration(
+                parameters,
+                generationOptions.GetGenerationOptions(), data: new
+                {
+                    player_id = ContentGenerationStore.editorPlayerId
+                }, estimate: estimate);
+            return x;
+        }
+
+        bool IsValid(bool updateUI)
+        {
+            if(updateUI)
+            {
+                requestSent.style.display = DisplayStyle.None;
+                requestFailed.style.display = DisplayStyle.None;
+                imageRequired.style.visibility = Visibility.Hidden;
+            }
+            if (!stabilityParameters.Valid(updateUI))
+            {
+                return false;
+            }
+
+            if (image.image == null)
+            {
+                if(updateUI)
+                {
+                    imageRequired.style.visibility = Visibility.Visible;
+                }
+                return false;
+            }
+
+            return true;
+        }
+
         void RefreshCode()
         {
             code.value =
@@ -173,6 +194,21 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
                 "\t},\n" +
                 $"{generationOptions.GetCode()}" +
                 ")";
+
+            if (IsValid(false))
+            {
+                generateButton.text = "Generate [...]";
+                RequestGeneration(true).ContinueInMainThreadWith(t =>
+                {
+                    if (t.IsFaulted)
+                    {
+                        Debug.LogException(t.Exception!.GetBaseException());
+                        return;
+                    }
+
+                    generateButton.text = $"Generate [estimated cost: {t.Result}]";
+                });
+            }
         }
 
         public Generator generator => Generator.StabilityImageToImage;

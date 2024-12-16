@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models;
 using ContentGeneration.Models.DallE;
@@ -37,6 +38,8 @@ namespace ContentGeneration.Editor.MainWindow.Components.DallE
         {
             dallEParametersElement.OnCodeChanged += RefreshCode;
             generationOptionsElement.OnCodeHasChanged = RefreshCode;
+            image.OnChanged += RefreshCode;
+            mask.OnChanged += RefreshCode;
             
             dallEParametersElement.model.value = Model.DallE2;
             dallEParametersElement.model.SetEnabled(false);
@@ -52,43 +55,12 @@ namespace ContentGeneration.Editor.MainWindow.Components.DallE
             {
                 if (!generateButton.enabledSelf) return;
 
-                requestSent.style.display = DisplayStyle.None;
-                requestFailed.style.display = DisplayStyle.None;
-                imageRequired.style.visibility = Visibility.Hidden;
-                maskRequired.style.visibility = Visibility.Hidden;
-
-                if (!dallEParametersElement.Valid())
-                {
-                    return;
-                }
-
-                if (image.image == null)
-                {
-                    imageRequired.style.visibility = Visibility.Visible;
-                    return;
-                }
-
-                if (mask.image == null)
-                {
-                    maskRequired.style.visibility = Visibility.Visible;
-                    return;
-                }
+                if (!IsValid(false)) return;
 
                 generateButton.SetEnabled(false);
                 sendingRequest.style.display = DisplayStyle.Flex;
 
-                var parameters = new DallEInpaintingParameters
-                {
-                    Image = (Texture2D)image.image,
-                    Mask = (Texture2D)mask.image,
-                };
-                dallEParametersElement.ApplyParameters(parameters);
-                ContentGenerationApi.Instance.RequestDallEInpaintingGeneration(
-                    parameters,
-                    generationOptionsElement.GetGenerationOptions(), data: new
-                    {
-                        player_id = ContentGenerationStore.editorPlayerId
-                    }).ContinueInMainThreadWith(
+                RequestGeneration().ContinueInMainThreadWith(
                     t =>
                     {
                         generateButton.SetEnabled(true);
@@ -109,6 +81,61 @@ namespace ContentGeneration.Editor.MainWindow.Components.DallE
             RefreshCode();
         }
 
+        Task<string> RequestGeneration(bool estimate=false)
+        {
+            var parameters = new DallEInpaintingParameters
+            {
+                Image = (Texture2D)image.image,
+                Mask = (Texture2D)mask.image,
+            };
+            dallEParametersElement.ApplyParameters(parameters);
+            var x = ContentGenerationApi.Instance.RequestDallEInpaintingGeneration(
+                parameters,
+                generationOptionsElement.GetGenerationOptions(), data: new
+                {
+                    player_id = ContentGenerationStore.editorPlayerId
+                }, estimate: estimate);
+            return x;
+        }
+
+        bool IsValid(bool updateUI)
+        {
+            if(updateUI)
+            {
+                requestSent.style.display = DisplayStyle.None;
+                requestFailed.style.display = DisplayStyle.None;
+                imageRequired.style.visibility = Visibility.Hidden;
+                maskRequired.style.visibility = Visibility.Hidden;
+            }
+
+            if (!dallEParametersElement.Valid(updateUI))
+            {
+                return false;
+            }
+
+            if (image.image == null)
+            {
+                if (updateUI)
+                {
+                    imageRequired.style.visibility = Visibility.Visible;
+                }
+
+                return false;
+            }
+
+            if (mask.image == null)
+            {
+                if (updateUI)
+                {
+                    maskRequired.style.visibility = Visibility.Visible;
+                }
+
+                return false;
+            }
+
+            return true;
+        }
+
         void RefreshCode()
         {
             code.value =
@@ -119,6 +146,21 @@ namespace ContentGeneration.Editor.MainWindow.Components.DallE
                 "\t},\n" +
                 $"{generationOptionsElement?.GetCode()}" +
                 ")";
+
+            if (IsValid(false))
+            {
+                generateButton.text = "Generate [...]";
+                RequestGeneration(true).ContinueInMainThreadWith(t =>
+                {
+                    if (t.IsFaulted)
+                    {
+                        Debug.LogException(t.Exception!.GetBaseException());
+                        return;
+                    }
+
+                    generateButton.text = $"Generate [estimated cost: {t.Result}]";
+                });
+            }
         }
 
         public Generator generator => Generator.DallEInpainting;

@@ -104,25 +104,37 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
             codeHasChanged?.Invoke();
         }
 
-        public bool Valid()
+        public bool Valid(bool updateUI)
         {
-            imageRequired.style.visibility = Visibility.Hidden;
-            maskRequired.style.visibility = Visibility.Hidden;
-            if (!stabilityParameters.Valid())
+            if (updateUI)
+            {
+                imageRequired.style.visibility = Visibility.Hidden;
+                maskRequired.style.visibility = Visibility.Hidden;
+            }
+
+            if (!stabilityParameters.Valid(updateUI))
             {
                 return false;
             }
 
             if (image.image == null)
             {
-                imageRequired.style.visibility = Visibility.Visible;
+                if (updateUI)
+                {
+                    imageRequired.style.visibility = Visibility.Visible;
+                }
+
                 return false;
             }
 
             var maskSourceValue = (MaskSource)maskSource.value;
             if (mask.image == null && maskSourceValue != MaskSource.InitImageAlpha)
             {
-                maskRequired.style.visibility = Visibility.Visible;
+                if (updateUI)
+                {
+                    maskRequired.style.visibility = Visibility.Visible;
+                }
+
                 return false;
             }
 

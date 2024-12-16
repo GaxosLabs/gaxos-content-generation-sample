@@ -321,11 +321,14 @@ namespace ContentGeneration.Editor.MainWindow.Components.Recraft
             codeHasChanged?.Invoke();
         }
 
-        public bool Valid()
+        public bool Valid(bool updateUI)
         {
             var thereArePrompts = !string.IsNullOrEmpty(prompt.value);
 
-            promptRequired.style.visibility = thereArePrompts ? Visibility.Hidden : Visibility.Visible;
+            if(updateUI)
+            {
+                promptRequired.style.visibility = thereArePrompts ? Visibility.Hidden : Visibility.Visible;
+            }
 
             return !string.IsNullOrEmpty(prompt.value);
         }
