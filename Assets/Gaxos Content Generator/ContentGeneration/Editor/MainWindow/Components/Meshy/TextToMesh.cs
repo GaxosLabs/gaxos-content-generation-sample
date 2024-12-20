@@ -28,14 +28,12 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
         VisualElement requestFailed => this.Q<VisualElement>("requestFailed");
         VisualElement sendingRequest => this.Q<VisualElement>("sendingRequest");
         Button generateButton => this.Q<Button>("generateButton");
-
         PromptInput prompt => this.Q<PromptInput>("prompt");
         VisualElement promptRequired => this.Q<VisualElement>("promptRequired");
         PromptInput negativePrompt => this.Q<PromptInput>("negativePrompt");
         DropdownField artStyle => this.Q<DropdownField>("artStyle");
         Toggle sendSeed => this.Q<Toggle>("sendSeed");
         SliderInt seed => this.Q<SliderInt>("seed");
-        EnumField aiModel => this.Q<EnumField>("aiModel");
         EnumField topology => this.Q<EnumField>("topology");
         SliderInt targetPolyCount => this.Q<SliderInt>("targetPolyCount");
 
@@ -50,7 +48,6 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
 
             sendSeed.RegisterValueChangedCallback(v => SendSeedChanged(v.newValue));
             seed.RegisterValueChangedCallback(_ => RefreshCode());
-            aiModel.RegisterValueChangedCallback(v => AiModelChanged(v.newValue));
             topology.RegisterValueChangedCallback(_ => RefreshCode());
             targetPolyCount.RegisterValueChangedCallback(_ => RefreshCode());
 
@@ -107,7 +104,6 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
                     NegativePrompt = string.IsNullOrEmpty(negativePrompt.value) ? null : negativePrompt.value,
                     ArtStyle =Enum.Parse<TextToMeshArtStyle>(artStyle.value, true),
                     Seed = sendSeed.value ? seed.value : null,
-                    AIModel = (AiModel)aiModel.value,
                     Topology = (Topology)topology.value,
                     TargetPolyCount = targetPolyCount.value,
                 };
@@ -134,38 +130,14 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
                     });
             });
 
-            SendSeedChanged(sendSeed.value);
-            AiModelChanged(aiModel.value);
-        }
-
-        void AiModelChanged(Enum value)
-        {
-            var aiModelValue = (AiModel)value;
-            var selectedArtStyle = Enum.Parse<TextToMeshArtStyle>(
-                artStyle.value ?? TextToMeshArtStyle.Realistic.ToString(), 
-                true);
             artStyle.choices.Clear();
-            if (aiModelValue == AiModel.Meshy4)
-            {
-                artStyle.choices.Add(TextToMeshArtStyle.Realistic.ToString());
-                artStyle.choices.Add(TextToMeshArtStyle.Sculpture.ToString());
-                artStyle.choices.Add(TextToMeshArtStyle.Pbr.ToString());
-                if (selectedArtStyle is TextToMeshArtStyle.Cartoon or TextToMeshArtStyle.LowPoly)
-                {
-                    selectedArtStyle = TextToMeshArtStyle.Realistic;
-                }
-            }
-            else
-            {
-                artStyle.choices.Add(TextToMeshArtStyle.Realistic.ToString());
-                artStyle.choices.Add(TextToMeshArtStyle.Cartoon.ToString());
-                artStyle.choices.Add(TextToMeshArtStyle.LowPoly.ToString());
-                artStyle.choices.Add(TextToMeshArtStyle.Sculpture.ToString());
-                artStyle.choices.Add(TextToMeshArtStyle.Pbr.ToString());
-            }
+            artStyle.choices.Add(TextToMeshArtStyle.Realistic.ToString());
+            artStyle.choices.Add(TextToMeshArtStyle.Sculpture.ToString());
+            artStyle.choices.Add(TextToMeshArtStyle.Pbr.ToString());
 
-            artStyle.value = selectedArtStyle.ToString();
-            RefreshCode();
+            artStyle.value = TextToMeshArtStyle.Realistic.ToString();
+
+            SendSeedChanged(sendSeed.value);
         }
 
         void SendSeedChanged(bool sendSeed)
@@ -184,7 +156,6 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
                 (string.IsNullOrEmpty(negativePrompt.value) ? "" : $"\t\tNegativePrompt = \"{negativePrompt.value}\",\n") +
                 $"\t\tArtStyle = ArtStyle.{artStyle.value},\n" +
                 (sendSeed.value ? $"\t\tSeed = {seed.value},\n": "") +
-                $"\t\tAIModel = AiModel.{aiModel.value},\n" +
                 $"\t\tTopology = Topology.{topology.value},\n" +
                 $"\t\tTargetPolyCount = {targetPolyCount.value},\n" +
                 "\t},\n" +
@@ -206,12 +177,10 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
             {
                 seed.value = parameters.Seed.Value;
             }
-            aiModel.value = parameters.AIModel;
             topology.value = parameters.Topology;
             targetPolyCount.value = parameters.TargetPolyCount;
             
             SendSeedChanged(sendSeed.value);
-            AiModelChanged(aiModel.value);
         }
     }
 }

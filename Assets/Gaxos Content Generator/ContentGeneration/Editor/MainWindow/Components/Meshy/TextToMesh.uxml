@@ -10,7 +10,6 @@
         <ui:DropdownField label="Art Style" name="artStyle" tooltip="Choose the artistic style you want for your 3D model and texturing (Realistic, Low Poly, Cartoon).  Tip: Select a style that suits your project&apos;s aesthetic requirements" />
         <ui:Toggle label="Send Seed" name="sendSeed" />
         <ui:SliderInt show-input-field="true" picking-mode="Ignore" label="Seed" high-value="4294967295" name="seed" tooltip="Seed for random latent noise generation (optional).  Usage: Use for deterministic results or leave as default for randomization" />
-        <ui:EnumField label="AI Model" type="ContentGeneration.Models.Meshy.AiModel, ContentGeneration" name="aiModel" />
         <ui:EnumField label="Topology" type="ContentGeneration.Models.Meshy.Topology, ContentGeneration" name="topology" />
         <ui:SliderInt show-input-field="true" picking-mode="Ignore" label="Target Poly Count" low-value="3000" high-value="100000" value="30000" name="targetPolyCount" />
         <ContentGeneration.Editor.MainWindow.Components.GenerationOptionsElement 

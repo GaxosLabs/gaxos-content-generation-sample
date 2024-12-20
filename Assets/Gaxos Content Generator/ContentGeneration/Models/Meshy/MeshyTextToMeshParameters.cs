@@ -16,8 +16,8 @@ namespace ContentGeneration.Models.Meshy
 
         [JsonProperty("seed", NullValueHandling = NullValueHandling.Ignore)] public int? Seed;
 
-        [JsonProperty("ai_model"), JsonConverter(typeof(AiModelConverter))] 
-        public AiModel AIModel;
+        [JsonProperty("ai_model")]
+        string AIModel => "meshy-4";
 
         [JsonProperty("topology"), JsonConverter(typeof(TopologyConverter))] 
         public Topology Topology;
