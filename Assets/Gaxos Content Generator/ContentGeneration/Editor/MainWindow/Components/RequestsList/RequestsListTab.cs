@@ -134,7 +134,9 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
             listView.columns["creditsCost"].bindCell = (element, index) =>
             {
                 var label = (element as Label)!;
-                label.text = ContentGenerationStore.Instance.Requests[index].DeductedCredits
+                label.text = 
+                    (ContentGenerationStore.Instance.Requests[index].DeductedSubscriptionCredits + 
+                     ContentGenerationStore.Instance.Requests[index].DeductedTopupCredits)
                     .ToString(CultureInfo.InvariantCulture);
             };
             listView.columns["status"].bindCell = (element, index) =>
