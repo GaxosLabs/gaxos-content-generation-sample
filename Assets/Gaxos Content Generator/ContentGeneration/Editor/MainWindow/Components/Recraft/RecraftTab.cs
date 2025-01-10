@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using ContentGeneration.Editor.MainWindow.Components;
 using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components.Recraft

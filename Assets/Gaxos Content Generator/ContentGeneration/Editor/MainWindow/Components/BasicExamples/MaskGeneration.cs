@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models.Stability;
 using UnityEngine;
@@ -21,25 +22,26 @@ namespace ContentGeneration.Editor.MainWindow.Components.BasicExamples
             }
         }
         
+        TextField codeTextField => this.Q<TextField>("code");
+        PromptInput prompt => this.Q<PromptInput>("promptInput");
+        Label promptRequired => this.Q<Label>("promptRequiredLabel");
+        ImageSelection maskImage => this.Q<ImageSelection>("mask");
+        Label maskImageRequired => this.Q<Label>("maskImageRequiredLabel");
+        Button generateButton => this.Q<Button>("generateButton");
+
         public MaskGeneration()
         {
-            var codeTextField = this.Q<TextField>("code");
-
-            var prompt = this.Q<PromptInput>("promptInput");
-            prompt.OnChanged += value =>
+            prompt.OnChanged += _ =>
             {
-                RefreshCode(codeTextField, value);
+                RefreshCode();
             };
-            RefreshCode(codeTextField, prompt.value);
+            maskImage.OnChanged += RefreshCode;
+            RefreshCode();
 
-            var promptRequired = this.Q<Label>("promptRequiredLabel");
             promptRequired.style.visibility = Visibility.Hidden;
 
-            var maskImage = this.Q<ImageSelection>("mask");
-            var maskImageRequired = this.Q<Label>("maskImageRequiredLabel");
             maskImageRequired.style.visibility = Visibility.Hidden;
 
-            var generateButton = this.Q<Button>("generateButton");
             var sendingRequest = this.Q<VisualElement>("sendingRequest");
             var requestSent = this.Q<VisualElement>("requestSent");
             generateButton.RegisterCallback<ClickEvent>(_ =>
@@ -47,37 +49,15 @@ namespace ContentGeneration.Editor.MainWindow.Components.BasicExamples
                 if (!generateButton.enabledSelf) return;
 
                 requestSent.style.display = DisplayStyle.None;
-                if (string.IsNullOrWhiteSpace(prompt.value))
+                if (!IsValid())
                 {
-                    promptRequired.style.visibility = Visibility.Visible;
-                    return;
-                }
-
-                if (maskImage.image == null)
-                {
-                    maskImageRequired.style.visibility = Visibility.Visible;
                     return;
                 }
 
                 generateButton.SetEnabled(false);
                 sendingRequest.style.display = DisplayStyle.Flex;
 
-                ContentGenerationApi.Instance.RequestStabilityMaskedImageGeneration
-                (new StabilityMaskedImageParameters
-                {
-                    TextPrompts = new[]
-                    {
-                        new Prompt
-                        {
-                            Text = prompt.value,
-                            Weight = 1,
-                        }
-                    },
-                    InitImage = (Texture2D)maskImage.image
-                }, data: new
-                {
-                    player_id = ContentGenerationStore.editorPlayerId
-                }).ContinueInMainThreadWith(
+                RequestGeneration().ContinueInMainThreadWith(
                     t =>
                     {
                         try
@@ -104,7 +84,52 @@ namespace ContentGeneration.Editor.MainWindow.Components.BasicExamples
             });
         }
 
-        void RefreshCode(TextField codeTextField, string promptText)
+        bool IsValid(bool updateUI = true)
+        {
+            promptRequired.style.visibility = Visibility.Hidden;
+            maskImageRequired.style.visibility = Visibility.Hidden;
+            if (string.IsNullOrWhiteSpace(prompt.value))
+            {
+                if(updateUI)
+                {
+                    promptRequired.style.visibility = Visibility.Visible;
+                }
+                return false;
+            }
+
+            if (maskImage.image == null)
+            {
+                if(updateUI)
+                {
+                    maskImageRequired.style.visibility = Visibility.Visible;
+                }
+                return false;
+            }
+
+            return true;
+        }
+
+        Task<string> RequestGeneration(bool estimate = false)
+        {
+            return ContentGenerationApi.Instance.RequestStabilityMaskedImageGeneration
+            (new StabilityMaskedImageParameters
+            {
+                TextPrompts = new[]
+                {
+                    new Prompt
+                    {
+                        Text = prompt.value,
+                        Weight = 1,
+                    }
+                },
+                InitImage = (Texture2D)maskImage.image
+            }, data: new
+            {
+                player_id = ContentGenerationStore.editorPlayerId
+            }, estimate: estimate);
+        }
+
+        void RefreshCode()
         {
             codeTextField.value =
                 "var requestId = await ContentGenerationApi.Instance.RequestMaskedImageGeneration\n" +
@@ -114,12 +139,27 @@ namespace ContentGeneration.Editor.MainWindow.Components.BasicExamples
                 "\t\t{\n" +
                 "\t\t\tnew Prompt\n" +
                 "\t\t\t{\n" +
-                $"\t\t\t\tText = \"{promptText}\",\n" +
+                $"\t\t\t\tText = \"{prompt.value}\",\n" +
                 "\t\t\t\tWeight = 1,\n" +
                 "\t\t\t},\n" +
                 "\t\t\tMaskImage = <Texture2D object>\n" +
                 "\t\t}\n" +
                 "\t})";
+
+            if (IsValid(false))
+            {
+                generateButton.text = "Generate [...]";
+                RequestGeneration(true).ContinueInMainThreadWith(t =>
+                {
+                    if (t.IsFaulted)
+                    {
+                        Debug.LogException(t.Exception!.GetBaseException());
+                        return;
+                    }
+
+                    generateButton.text = $"Generate [estimated cost: {t.Result}]";
+                });
+            }
         }
     }
 }

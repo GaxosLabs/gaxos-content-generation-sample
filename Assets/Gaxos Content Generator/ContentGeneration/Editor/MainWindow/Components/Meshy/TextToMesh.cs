@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models;
 using ContentGeneration.Models.Meshy;
@@ -84,13 +85,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
             {
                 if (!generateButton.enabledSelf) return;
 
-                if (string.IsNullOrEmpty(prompt.value))
-                {
-                    promptRequired.style.visibility = Visibility.Visible;
-                    return;
-                }
-
-                promptRequired.style.visibility = Visibility.Hidden;
+                if (!IsValid(true)) return;
 
                 requestSent.style.display = DisplayStyle.None;
                 requestFailed.style.display = DisplayStyle.None;
@@ -98,21 +93,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
                 generateButton.SetEnabled(false);
                 sendingRequest.style.display = DisplayStyle.Flex;
 
-                var parameters = new MeshyTextToMeshParameters
-                {
-                    Prompt = prompt.value,
-                    NegativePrompt = string.IsNullOrEmpty(negativePrompt.value) ? null : negativePrompt.value,
-                    ArtStyle =Enum.Parse<TextToMeshArtStyle>(artStyle.value, true),
-                    Seed = sendSeed.value ? seed.value : null,
-                    Topology = (Topology)topology.value,
-                    TargetPolyCount = targetPolyCount.value,
-                };
-                ContentGenerationApi.Instance.RequestMeshyTextToMeshGeneration(
-                    parameters,
-                    generationOptionsElement.GetGenerationOptions(), data: new
-                    {
-                        player_id = ContentGenerationStore.editorPlayerId
-                    }).ContinueInMainThreadWith(
+                RequestGeneration(false).ContinueInMainThreadWith(
                     t =>
                     {
                         generateButton.SetEnabled(true);
@@ -130,14 +111,46 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
                     });
             });
 
-            artStyle.choices.Clear();
-            artStyle.choices.Add(TextToMeshArtStyle.Realistic.ToString());
-            artStyle.choices.Add(TextToMeshArtStyle.Sculpture.ToString());
-            artStyle.choices.Add(TextToMeshArtStyle.Pbr.ToString());
-
-            artStyle.value = TextToMeshArtStyle.Realistic.ToString();
-
             SendSeedChanged(sendSeed.value);
+        }
+
+        Task<string> RequestGeneration(bool estimate)
+        {
+            
+            var parameters = new MeshyTextToMeshParameters
+            {
+                Prompt = prompt.value,
+                NegativePrompt = string.IsNullOrEmpty(negativePrompt.value) ? null : negativePrompt.value,
+                ArtStyle =Enum.Parse<TextToMeshArtStyle>(artStyle.value, true),
+                Seed = sendSeed.value ? seed.value : null,
+                Topology = (Topology)topology.value,
+                TargetPolyCount = targetPolyCount.value,
+            };
+            return ContentGenerationApi.Instance.RequestMeshyTextToMeshGeneration(
+                parameters,
+                generationOptionsElement.GetGenerationOptions(), data: new
+                {
+                    player_id = ContentGenerationStore.editorPlayerId
+                }, estimate:estimate);
+        }
+
+        bool IsValid(bool updateUI)
+        {
+            if (string.IsNullOrEmpty(prompt.value))
+            {
+                if(updateUI)
+                {
+                    promptRequired.style.visibility = Visibility.Visible;
+                }
+                return false;
+            }
+
+            if (updateUI)
+            {
+                promptRequired.style.visibility = Visibility.Hidden;
+            }
+
+            return true;
         }
 
         void SendSeedChanged(bool sendSeed)
@@ -161,6 +174,21 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
                 "\t},\n" +
                 $"{generationOptionsElement?.GetCode()}" +
                 ")";
+
+            if (IsValid(false))
+            {
+                generateButton.text = "Generate [...]";
+                RequestGeneration(true).ContinueInMainThreadWith(t =>
+                {
+                    if (t.IsFaulted)
+                    {
+                        Debug.LogException(t.Exception!.GetBaseException());
+                        return;
+                    }
+
+                    generateButton.text = $"Generate [estimated cost: {t.Result}]";
+                });
+            }
         }
 
         public Generator generator => Generator.MeshyTextToMesh;

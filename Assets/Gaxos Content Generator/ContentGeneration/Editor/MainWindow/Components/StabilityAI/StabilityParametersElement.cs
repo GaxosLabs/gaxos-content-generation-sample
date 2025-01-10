@@ -102,7 +102,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
             }
         }
 
-        public bool Valid()
+        public bool Valid(bool updateUI)
         {
             if (hidePrompt)
             {
@@ -112,7 +112,10 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
             var thereArePrompts = prompts.Length > 0 &&
                                   prompts.Any(p => !string.IsNullOrEmpty(p.prompt.Text));
 
-            promptRequired.style.visibility = thereArePrompts ? Visibility.Hidden : Visibility.Visible;
+            if(updateUI)
+            {
+                promptRequired.style.visibility = thereArePrompts ? Visibility.Hidden : Visibility.Visible;
+            }
 
             return thereArePrompts;
         }

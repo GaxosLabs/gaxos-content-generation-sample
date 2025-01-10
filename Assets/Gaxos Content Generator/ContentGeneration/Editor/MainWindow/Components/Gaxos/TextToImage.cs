@@ -22,12 +22,12 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
 
         protected override string apiMethodName => nameof(ContentGenerationApi.RequestGaxosTextToImageGeneration);
 
-        protected override Task RequestToApi(GaxosTextToImageParameters parameters, GenerationOptions generationOptions,
-            object data)
+        protected override Task<string> RequestToApi(GaxosTextToImageParameters parameters, GenerationOptions generationOptions,
+            object data, bool estimate = false)
         {
             return ContentGenerationApi.Instance.RequestGaxosTextToImageGeneration(
                 parameters,
-                generationOptions, data: data);
+                generationOptions, data: data, estimate);
         }
 
         public override Generator generator => Generator.GaxosTextToImage;

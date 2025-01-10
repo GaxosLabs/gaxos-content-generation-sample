@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models.Stability;
 using UnityEngine;
@@ -21,25 +22,22 @@ namespace ContentGeneration.Editor.MainWindow.Components.BasicExamples
             }
         }
 
+        PromptInput prompt => this.Q<PromptInput>("promptInput");
+        ImageSelection image => this.Q<ImageSelection>("image");
+        Button generateButton => this.Q<Button>("generateButton");
+
+        Label promptRequired => this.Q<Label>("promptRequiredLabel");
+        Label imageRequired => this.Q<Label>("imageRequiredLabel");
+        TextField codeTextField => this.Q<TextField>("code");
+
         public ImageToImage()
         {
-            var codeTextField = this.Q<TextField>("code");
+            prompt.OnChanged += _ => RefreshCode();
+            image.OnChanged += RefreshCode;
 
-            var prompt = this.Q<PromptInput>("promptInput");
-            prompt.OnChanged += value =>
-            {
-                RefreshCode(codeTextField, value);
-            };
-            RefreshCode(codeTextField, prompt.value);
-        
-            var promptRequired = this.Q<Label>("promptRequiredLabel");
             promptRequired.style.visibility = Visibility.Hidden;
-
-            var image = this.Q<ImageSelection>("image");
-            var imageRequired = this.Q<Label>("imageRequiredLabel");
             imageRequired.style.visibility = Visibility.Hidden;
 
-            var generateButton = this.Q<Button>("generateButton");
             var sendingRequest = this.Q<VisualElement>("sendingRequest");
             var requestSent = this.Q<VisualElement>("requestSent");
             generateButton.RegisterCallback<ClickEvent>(_ =>
@@ -47,37 +45,13 @@ namespace ContentGeneration.Editor.MainWindow.Components.BasicExamples
                 if (!generateButton.enabledSelf) return;
 
                 requestSent.style.display = DisplayStyle.None;
-                if (string.IsNullOrWhiteSpace(prompt.value))
-                {
-                    promptRequired.style.visibility = Visibility.Visible;
-                    return;
-                }
-
-                if (image.image == null)
-                {
-                    imageRequired.style.visibility = Visibility.Visible;
-                    return;
-                }
+                
+                if (!IsValid()) return;
 
                 generateButton.SetEnabled(false);
                 sendingRequest.style.display = DisplayStyle.Flex;
 
-                ContentGenerationApi.Instance.RequestStabilityImageToImageGeneration
-                (new StabilityImageToImageParameters
-                {
-                    TextPrompts = new[]
-                    {
-                        new Prompt
-                        {
-                            Text = prompt.value,
-                            Weight = 1,
-                        }
-                    },
-                    InitImage = (Texture2D)image.image
-                }, data: new
-                {
-                    player_id = ContentGenerationStore.editorPlayerId
-                }).ContinueInMainThreadWith(
+                RequestGeneration().ContinueInMainThreadWith(
                     t =>
                     {
                         try
@@ -100,12 +74,60 @@ namespace ContentGeneration.Editor.MainWindow.Components.BasicExamples
                         {
                             Debug.LogException(ex);
                         }
-                        ContentGenerationStore.Instance.RefreshRequestsAsync().Finally(() => ContentGenerationStore.Instance.RefreshStatsAsync().CatchAndLog());
+
+                        ContentGenerationStore.Instance.RefreshRequestsAsync().Finally(() =>
+                            ContentGenerationStore.Instance.RefreshStatsAsync().CatchAndLog());
                     });
             });
+            RefreshCode();
         }
 
-        void RefreshCode(TextField codeTextField, string promptText)
+        bool IsValid(bool updateUI = true)
+        {
+            promptRequired.style.visibility = Visibility.Hidden;
+            imageRequired.style.visibility = Visibility.Hidden;
+            if (string.IsNullOrWhiteSpace(prompt.value))
+            {
+                if(updateUI)
+                {
+                    promptRequired.style.visibility = Visibility.Visible;
+                }
+                return false;
+            }
+
+            if (image.image == null)
+            {
+                if(updateUI)
+                {
+                    imageRequired.style.visibility = Visibility.Visible;
+                }
+                return false;
+            }
+
+            return true;
+        }
+
+        Task<string> RequestGeneration(bool estimate = false)
+        {
+            return ContentGenerationApi.Instance.RequestStabilityImageToImageGeneration
+            (new StabilityImageToImageParameters
+            {
+                TextPrompts = new[]
+                {
+                    new Prompt
+                    {
+                        Text = prompt.value,
+                        Weight = 1,
+                    }
+                },
+                InitImage = (Texture2D)image.image
+            }, data: new
+            {
+                player_id = ContentGenerationStore.editorPlayerId
+            }, estimate: estimate);
+        }
+
+        void RefreshCode()
         {
             codeTextField.value =
                 "var requestId = await ContentGenerationApi.Instance.RequestImageToImageGeneration\n" +
@@ -115,12 +137,27 @@ namespace ContentGeneration.Editor.MainWindow.Components.BasicExamples
                 "\t\t{\n" +
                 "\t\t\tnew Prompt\n" +
                 "\t\t\t{\n" +
-                $"\t\t\t\tText = \"{promptText}\",\n" +
+                $"\t\t\t\tText = \"{prompt.value}\",\n" +
                 "\t\t\t\tWeight = 1,\n" +
                 "\t\t\t},\n" +
                 "\t\t\tInitImage = <Texture2D object>\n" +
                 "\t\t}\n" +
                 "\t})";
+
+            if(IsValid(false))
+            {
+                generateButton.text = "Generate [...]";
+                RequestGeneration(true).ContinueInMainThreadWith(t =>
+                {
+                    if (t.IsFaulted)
+                    {
+                        Debug.LogException(t.Exception!.GetBaseException());
+                        return;
+                    }
+
+                    generateButton.text = $"Generate [estimated cost: {t.Result}]";
+                });
+            }
         }
     }
 }

@@ -123,13 +123,19 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
             codeHasChanged?.Invoke();
         }
 
-        public bool Valid()
+        public bool Valid(bool updateUI)
         {
-            imageRequired.style.visibility = Visibility.Hidden;
+            if (updateUI)
+            {
+                imageRequired.style.visibility = Visibility.Hidden;
+            }
 
             var thereArePrompts = !string.IsNullOrEmpty(prompt.value);
 
-            promptRequired.style.visibility = thereArePrompts ? Visibility.Hidden : Visibility.Visible;
+            if (updateUI)
+            {
+                promptRequired.style.visibility = thereArePrompts ? Visibility.Hidden : Visibility.Visible;
+            }
 
             if ((Mode)mode.value == Mode.TextToImage)
             {
@@ -138,7 +144,11 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
 
             if (image.image == null)
             {
-                imageRequired.style.visibility = Visibility.Visible;
+                if (updateUI)
+                {
+                    imageRequired.style.visibility = Visibility.Visible;
+                }
+
                 return false;
             }
 

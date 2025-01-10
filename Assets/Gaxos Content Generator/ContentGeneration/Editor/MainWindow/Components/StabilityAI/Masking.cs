@@ -21,11 +21,11 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
         }
 
         protected override string apiMethodName => nameof(ContentGenerationApi.RequestStabilityMaskedImageGeneration);
-        protected override Task RequestToApi(StabilityMaskedImageParameters parameters, GenerationOptions generationOptions, object data)
+        protected override Task<string> RequestToApi(StabilityMaskedImageParameters parameters, GenerationOptions generationOptions, object data, bool estimate = false)
         {
             return ContentGenerationApi.Instance.RequestStabilityMaskedImageGeneration(
                     parameters,
-                    generationOptions, data: data);
+                    generationOptions, data: data, estimate);
         }
 
         public override Generator generator => Generator.StabilityMasking;

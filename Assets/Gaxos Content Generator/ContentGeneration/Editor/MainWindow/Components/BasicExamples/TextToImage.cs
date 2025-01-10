@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models.Stability;
 using UnityEngine;
@@ -20,22 +21,17 @@ namespace ContentGeneration.Editor.MainWindow.Components.BasicExamples
             }
         }
 
-        
+        TextField codeTextField => this.Q<TextField>("code");
+        PromptInput prompt => this.Q<PromptInput>("promptInput");
+        Label promptRequired => this.Q<Label>("promptRequiredLabel");
+        Button generateButton => this.Q<Button>("generateButton");
+
         public TextToImage()
         {
-            var codeTextField = this.Q<TextField>("code");
+            prompt.OnChanged += _ => { RefreshCode(); };
+            RefreshCode();
 
-            var prompt = this.Q<PromptInput>("promptInput");
-            prompt.OnChanged += t =>
-            {
-                RefreshCode(codeTextField, t);
-            };
-            RefreshCode(codeTextField, prompt.value);
-
-            var promptRequired = this.Q<Label>("promptRequiredLabel");
             promptRequired.style.visibility = Visibility.Hidden;
-
-            var generateButton = this.Q<Button>("generateButton");
 
             var sendingRequest = this.Q<VisualElement>("sendingRequest");
             sendingRequest.style.display = DisplayStyle.None;
@@ -50,30 +46,16 @@ namespace ContentGeneration.Editor.MainWindow.Components.BasicExamples
 
                 requestSent.style.display = DisplayStyle.None;
                 requestFailed.style.display = DisplayStyle.None;
-                if (string.IsNullOrWhiteSpace(prompt.value))
+
+                if (!IsValid())
                 {
-                    promptRequired.style.visibility = Visibility.Visible;
                     return;
                 }
 
                 generateButton.SetEnabled(false);
                 sendingRequest.style.display = DisplayStyle.Flex;
 
-                ContentGenerationApi.Instance.RequestStabilityTextToImageGeneration
-                (new StabilityTextToImageParameters
-                {
-                    TextPrompts = new[]
-                    {
-                        new Prompt
-                        {
-                            Text = prompt.value,
-                            Weight = 1,
-                        }
-                    },
-                }, data: new
-                {
-                    player_id = ContentGenerationStore.editorPlayerId
-                }).ContinueInMainThreadWith(
+                RequestGeneration().ContinueInMainThreadWith(
                     t =>
                     {
                         generateButton.SetEnabled(true);
@@ -88,11 +70,49 @@ namespace ContentGeneration.Editor.MainWindow.Components.BasicExamples
                             prompt.value = null;
                             requestSent.style.display = DisplayStyle.Flex;
                         }
-                        ContentGenerationStore.Instance.RefreshRequestsAsync().Finally(() => ContentGenerationStore.Instance.RefreshStatsAsync().CatchAndLog());
+
+                        ContentGenerationStore.Instance.RefreshRequestsAsync().Finally(() =>
+                            ContentGenerationStore.Instance.RefreshStatsAsync().CatchAndLog());
                     });
             });
         }
-        void RefreshCode(TextField codeTextField, string promptText)
+
+        bool IsValid(bool updateUI = true)
+        {
+            promptRequired.style.visibility = Visibility.Hidden;
+            if (string.IsNullOrWhiteSpace(prompt.value))
+            {
+                if (updateUI)
+                {
+                    promptRequired.style.visibility = Visibility.Visible;
+                }
+
+                return false;
+            }
+
+            return true;
+        }
+
+        Task<string> RequestGeneration(bool estimate = false)
+        {
+            return ContentGenerationApi.Instance.RequestStabilityTextToImageGeneration
+            (new StabilityTextToImageParameters
+            {
+                TextPrompts = new[]
+                {
+                    new Prompt
+                    {
+                        Text = prompt.value,
+                        Weight = 1,
+                    }
+                },
+            }, data: new
+            {
+                player_id = ContentGenerationStore.editorPlayerId
+            }, estimate: estimate);
+        }
+
+        void RefreshCode()
         {
             codeTextField.value =
                 "var requestId = await ContentGenerationApi.Instance.RequestGeneration\n" +
@@ -102,11 +122,26 @@ namespace ContentGeneration.Editor.MainWindow.Components.BasicExamples
                 "\t\t{\n" +
                 "\t\t\tnew Prompt\n" +
                 "\t\t\t{\n" +
-                $"\t\t\t\tText = \"{promptText}\",\n" +
+                $"\t\t\t\tText = \"{prompt.value}\",\n" +
                 "\t\t\t\tWeight = 1,\n" +
                 "\t\t\t}\n" +
                 "\t\t}\n" +
                 "\t})";
+
+            if (IsValid(false))
+            {
+                generateButton.text = "Generate [...]";
+                RequestGeneration(true).ContinueInMainThreadWith(t =>
+                {
+                    if (t.IsFaulted)
+                    {
+                        Debug.LogException(t.Exception!.GetBaseException());
+                        return;
+                    }
+
+                    generateButton.text = $"Generate [estimated cost: {t.Result}]";
+                });
+            }
         }
     }
 }

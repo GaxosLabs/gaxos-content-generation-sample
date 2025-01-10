@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models;
 using ContentGeneration.Models.ElevenLabs;
@@ -84,12 +85,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.ElevenLabs
             {
                 if (!generateButton.enabledSelf) return;
 
-                if (string.IsNullOrEmpty(text.value))
-                {
-                    promptRequired.style.visibility = Visibility.Visible;
-                    return;
-                }
-                promptRequired.style.visibility = Visibility.Hidden;
+                if (!IsValid(true)) return;
 
                 requestSent.style.display = DisplayStyle.None;
                 requestFailed.style.display = DisplayStyle.None;
@@ -97,18 +93,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.ElevenLabs
                 generateButton.SetEnabled(false);
                 sendingRequest.style.display = DisplayStyle.Flex;
 
-                var parameters = new ElevenLabsSoundParameters
-                {
-                    Text = text.value,
-                    DurationSeconds = sendDuration.value ? duration.value: null,
-                    PromptInfluence = promptInfluence.value,
-                };
-                ContentGenerationApi.Instance.RequestElevenLabsSoundGeneration(
-                    parameters,
-                    generationOptionsElement.GetGenerationOptions(), data: new
-                    {
-                        player_id = ContentGenerationStore.editorPlayerId
-                    }).ContinueInMainThreadWith(
+                RequestGeneration(false).ContinueInMainThreadWith(
                     t =>
                     {
                         generateButton.SetEnabled(true);
@@ -129,6 +114,40 @@ namespace ContentGeneration.Editor.MainWindow.Components.ElevenLabs
             RefreshCode();
         }
 
+        Task<string> RequestGeneration(bool estimate)
+        {
+            var parameters = new ElevenLabsSoundParameters
+            {
+                Text = text.value,
+                DurationSeconds = sendDuration.value ? duration.value: null,
+                PromptInfluence = promptInfluence.value,
+            };
+            return ContentGenerationApi.Instance.RequestElevenLabsSoundGeneration(
+                parameters,
+                generationOptionsElement.GetGenerationOptions(), data: new
+                {
+                    player_id = ContentGenerationStore.editorPlayerId
+                }, estimate:estimate);
+        }
+
+        bool IsValid(bool updateUI)
+        {
+            if (string.IsNullOrEmpty(text.value))
+            {
+                if(updateUI)
+                {
+                    promptRequired.style.visibility = Visibility.Visible;
+                }
+                return true;
+            }
+
+            if(updateUI)
+            {
+                promptRequired.style.visibility = Visibility.Hidden;
+            }
+            return false;
+        }
+
         void RefreshCode()
         {
             code.value =
@@ -141,6 +160,21 @@ namespace ContentGeneration.Editor.MainWindow.Components.ElevenLabs
                 "\t},\n" +
                 $"{generationOptionsElement?.GetCode()}" +
                 ")";
+
+            if (IsValid(false))
+            {
+                generateButton.text = "Generate [...]";
+                RequestGeneration(true).ContinueInMainThreadWith(t =>
+                {
+                    if (t.IsFaulted)
+                    {
+                        Debug.LogException(t.Exception!.GetBaseException());
+                        return;
+                    }
+
+                    generateButton.text = $"Generate [estimated cost: {t.Result}]";
+                });
+            }
         }
 
         public Generator generator => Generator.ElevenLabsSound;

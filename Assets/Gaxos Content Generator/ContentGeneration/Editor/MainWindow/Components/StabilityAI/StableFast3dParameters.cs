@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using ContentGeneration.Models;
 using ContentGeneration.Models.Stability;
+using Mono.Cecil.Cil;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -51,6 +52,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
             textureResolution.RegisterValueChangedCallback(_ => CodeHasChanged());
             foregroundRatio.RegisterValueChangedCallback(_ => CodeHasChanged());
             remesh.RegisterValueChangedCallback(_ => CodeHasChanged());
+            image.OnChanged += CodeHasChanged;
 
             CodeHasChanged();
         }
@@ -62,12 +64,20 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
             codeHasChanged?.Invoke();
         }
 
-        public bool Valid()
+        public bool Valid(bool updateUI)
         {
-            imageRequired.style.visibility = Visibility.Hidden;
+            if (updateUI)
+            {
+                imageRequired.style.visibility = Visibility.Hidden;
+            }
+
             if (image.image == null)
             {
-                imageRequired.style.visibility = Visibility.Visible;
+                if (updateUI)
+                {
+                    imageRequired.style.visibility = Visibility.Visible;
+                }
+
                 return false;
             }
 

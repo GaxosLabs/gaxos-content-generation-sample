@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
@@ -71,7 +72,10 @@ namespace ContentGeneration.Editor.MainWindow.Components
                 texture.LoadImage(bytes);
                 texture.Apply();
                 image = texture;
+                OnChanged?.Invoke();
             });
         }
+
+        public event Action OnChanged;
     }
 }

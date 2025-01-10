@@ -21,11 +21,11 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
         }
 
         protected override string apiMethodName => nameof(ContentGenerationApi.RequestGaxosMaskingGeneration);
-        protected override Task RequestToApi(GaxosMaskingParameters parameters, GenerationOptions generationOptions, object data)
+        protected override Task<string> RequestToApi(GaxosMaskingParameters parameters, GenerationOptions generationOptions, object data, bool estimate = false)
         {
             return ContentGenerationApi.Instance.RequestGaxosMaskingGeneration(
                     parameters,
-                    generationOptions, data: data);
+                    generationOptions, data: data, estimate);
         }
 
         public override Generator generator => Generator.GaxosMasking;

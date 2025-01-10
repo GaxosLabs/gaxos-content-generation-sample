@@ -22,12 +22,12 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
 
         protected override string apiMethodName => nameof(ContentGenerationApi.RequestMeshyImageToMeshGeneration);
 
-        protected override Task RequestToApi(MeshyImageToMeshParameters parameters, GenerationOptions generationOptions,
-            object data)
+        protected override Task<string> RequestToApi(MeshyImageToMeshParameters parameters, GenerationOptions generationOptions,
+            object data, bool estimate = false)
         {
             return ContentGenerationApi.Instance.RequestMeshyImageToMeshGeneration(
                 parameters,
-                generationOptions, data: data);
+                generationOptions, data: data, estimate);
         }
 
         public override Generator generator => Generator.MeshyImageTo3d;

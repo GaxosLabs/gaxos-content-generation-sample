@@ -21,13 +21,13 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
         }
 
         protected override string apiMethodName => nameof(ContentGenerationApi.RequestStabilityCoreTextToImageGeneration);
-        protected override Task RequestToApi(StabilityCoreTextToImageParameters parameters,
-            GenerationOptions generationOptions, object data)
+        protected override Task<string> RequestToApi(StabilityCoreTextToImageParameters parameters,
+            GenerationOptions generationOptions, object data, bool estimate = false)
         {
             return ContentGenerationApi.Instance.RequestStabilityCoreTextToImageGeneration(
                 parameters,
                 generationOptions,
-                data: data);
+                data: data, estimate);
         }
 
         public override Generator generator => Generator.StabilityTextToImageCore;

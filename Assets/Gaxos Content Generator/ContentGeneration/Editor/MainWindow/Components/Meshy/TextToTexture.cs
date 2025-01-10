@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models;
 using ContentGeneration.Models.Meshy;
@@ -43,12 +44,12 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
         Toggle enableOriginalUv => this.Q<Toggle>("enableOriginalUv");
         Toggle enablePbr => this.Q<Toggle>("enablePbr");
         EnumField resolution => this.Q<EnumField>("resolution");
-        
+
         EnumField artStyle => this.Q<EnumField>("artStyle");
 
         byte[] _modelBytes;
         string _modelExtension;
-        
+
         Button improvePrompt => this.Q<Button>("improvePromptButton");
 
         public TextToTexture()
@@ -59,24 +60,25 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
             {
                 _modelBytes = null;
                 _modelExtension = null;
-                if(v.newValue!= null)
+                if (v.newValue != null)
                 {
                     var path = AssetDatabase.GetAssetPath(v.newValue);
                     _modelBytes = File.ReadAllBytes(path);
                     _modelExtension = Path.GetExtension(path).TrimStart('.');
                 }
+
                 RefreshCode();
             });
-            
+
             objectPrompt.OnChanged += _ => RefreshCode();
             stylePrompt.OnChanged += _ => RefreshCode();
-            
+
             negativePrompt.OnChanged += _ => RefreshCode();
 
             enableOriginalUv.RegisterValueChangedCallback(_ => RefreshCode());
             enablePbr.RegisterValueChangedCallback(_ => RefreshCode());
             resolution.RegisterValueChangedCallback(_ => RefreshCode());
-            
+
             artStyle.RegisterValueChangedCallback(_ => RefreshCode());
 
             requestSent.style.display = DisplayStyle.None;
@@ -87,8 +89,8 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
             {
                 if (string.IsNullOrEmpty(stylePrompt.value))
                     return;
-                
-                if(!improvePrompt.enabledSelf)
+
+                if (!improvePrompt.enabledSelf)
                     return;
 
                 improvePrompt.SetEnabled(false);
@@ -108,30 +110,12 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
                         stylePrompt.value = t.Result;
                     });
             };
-            
+
             generateButton.RegisterCallback<ClickEvent>(_ =>
             {
                 if (!generateButton.enabledSelf) return;
 
-                if (_modelBytes == null)
-                {
-                    modelRequired.style.visibility = Visibility.Visible;
-                    return;
-                }
-                modelRequired.style.visibility = Visibility.Hidden;
-
-                if (string.IsNullOrEmpty(objectPrompt.value))
-                {
-                    objectPromptRequired.style.visibility = Visibility.Visible;
-                    return;
-                }
-                objectPromptRequired.style.visibility = Visibility.Hidden;
-                if (string.IsNullOrEmpty(stylePrompt.value))
-                {
-                    stylePromptRequired.style.visibility = Visibility.Visible;
-                    return;
-                }
-                stylePromptRequired.style.visibility = Visibility.Hidden;
+                if (!IsValid(true)) return;
 
                 requestSent.style.display = DisplayStyle.None;
                 requestFailed.style.display = DisplayStyle.None;
@@ -139,24 +123,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
                 generateButton.SetEnabled(false);
                 sendingRequest.style.display = DisplayStyle.Flex;
 
-                var parameters = new MeshyTextToTextureParameters
-                {
-                    Model = _modelBytes,
-                    ModelExtension = _modelExtension,
-                    ObjectPrompt = objectPrompt.value,
-                    StylePrompt = stylePrompt.value,
-                    NegativePrompt = string.IsNullOrEmpty(negativePrompt.value) ? null : negativePrompt.value,
-                    EnableOriginalUV = enableOriginalUv.value,
-                    EnablePbr = enablePbr.value,
-                    Resolution = (Resolution)resolution.value,
-                    ArtStyle = (TextToTextureArtStyle)artStyle.value
-                };
-                ContentGenerationApi.Instance.RequestMeshyTextToTextureGeneration(
-                    parameters,
-                    generationOptionsElement.GetGenerationOptions(), data: new
-                    {
-                        player_id = ContentGenerationStore.editorPlayerId
-                    }).ContinueInMainThreadWith(
+                RequestGeneration(false).ContinueInMainThreadWith(
                     t =>
                     {
                         generateButton.SetEnabled(true);
@@ -170,11 +137,68 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
                         {
                             requestSent.style.display = DisplayStyle.Flex;
                         }
-                        ContentGenerationStore.Instance.RefreshRequestsAsync().Finally(() => ContentGenerationStore.Instance.RefreshStatsAsync().CatchAndLog());
+
+                        ContentGenerationStore.Instance.RefreshRequestsAsync().Finally(() =>
+                            ContentGenerationStore.Instance.RefreshStatsAsync().CatchAndLog());
                     });
             });
 
             RefreshCode();
+        }
+
+        Task<string> RequestGeneration(bool estimate)
+        {
+            var parameters = new MeshyTextToTextureParameters
+            {
+                Model = _modelBytes,
+                ModelExtension = _modelExtension,
+                ObjectPrompt = objectPrompt.value,
+                StylePrompt = stylePrompt.value,
+                NegativePrompt = string.IsNullOrEmpty(negativePrompt.value) ? null : negativePrompt.value,
+                EnableOriginalUV = enableOriginalUv.value,
+                EnablePbr = enablePbr.value,
+                Resolution = (Resolution)resolution.value,
+                ArtStyle = (TextToTextureArtStyle)artStyle.value
+            };
+            return ContentGenerationApi.Instance.RequestMeshyTextToTextureGeneration(
+                parameters,
+                generationOptionsElement.GetGenerationOptions(), data: new
+                {
+                    player_id = ContentGenerationStore.editorPlayerId
+                }, estimate: estimate);
+        }
+
+        bool IsValid(bool updateUI)
+        {
+            if (updateUI)
+            {
+                modelRequired.style.visibility = Visibility.Hidden;
+                objectPromptRequired.style.visibility = Visibility.Hidden;
+                stylePromptRequired.style.visibility = Visibility.Hidden;
+            }
+
+            if (_modelBytes == null)
+            {
+                if (updateUI)
+                    modelRequired.style.visibility = Visibility.Visible;
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(objectPrompt.value))
+            {
+                if (updateUI)
+                    objectPromptRequired.style.visibility = Visibility.Visible;
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(stylePrompt.value))
+            {
+                if (updateUI)
+                    stylePromptRequired.style.visibility = Visibility.Visible;
+                return false;
+            }
+
+            return true;
         }
 
         void RefreshCode()
@@ -187,7 +211,9 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
                 $"\t\tModel = \"{_modelExtension}\",\n" +
                 $"\t\tObjectPrompt = \"{objectPrompt.value}\",\n" +
                 $"\t\tStylePrompt = \"{stylePrompt.value}\",\n" +
-                (string.IsNullOrEmpty(negativePrompt.value) ? "" : $"\t\tNegativePrompt = \"{negativePrompt.value}\",\n") +
+                (string.IsNullOrEmpty(negativePrompt.value)
+                    ? ""
+                    : $"\t\tNegativePrompt = \"{negativePrompt.value}\",\n") +
                 $"\t\tEnableOriginalUV = {enableOriginalUv.value},\n" +
                 $"\t\tEnablePbr = {enablePbr.value},\n" +
                 $"\t\tResolution = Resolution.{resolution.value},\n" +
@@ -195,9 +221,25 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
                 "\t},\n" +
                 $"{generationOptionsElement?.GetCode()}" +
                 ")";
+
+            if (IsValid(false))
+            {
+                generateButton.text = "Generate [...]";
+                RequestGeneration(true).ContinueInMainThreadWith(t =>
+                {
+                    if (t.IsFaulted)
+                    {
+                        Debug.LogException(t.Exception!.GetBaseException());
+                        return;
+                    }
+
+                    generateButton.text = $"Generate [estimated cost: {t.Result}]";
+                });
+            }
         }
 
         public Generator generator => Generator.MeshyTextToTexture;
+
         public void Show(Favorite favorite)
         {
             var parameters = favorite.GeneratorParameters.ToObject<MeshyTextToTextureParameters>();
@@ -210,7 +252,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
             enablePbr.value = parameters.EnablePbr;
             resolution.value = parameters.Resolution;
             artStyle.value = parameters.ArtStyle;
-                
+
             RefreshCode();
         }
     }
