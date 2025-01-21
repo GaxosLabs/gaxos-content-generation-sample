@@ -114,7 +114,6 @@ namespace ContentGeneration.Generators
             {
                 ShowStatus($"Error: {result.GeneratorError.Message}");
                 await ContentGenerationApi.Instance.DeleteRequest(id);
-                PlayerPrefs.DeleteKey(generationIdPlayerPrefKey);
             }
 
             await Task.Delay(3000);
