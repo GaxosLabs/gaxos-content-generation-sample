@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using ContentGeneration.Helpers;
+using ContentGeneration.Models;
 using ContentGeneration.Models.Gaxos;
 using UnityEngine;
 using UnityEngine.Events;
@@ -23,11 +24,11 @@ namespace ContentGeneration.Generators
         {
         }
 
-        [SerializeField] UnityEventTexture TextureGenerated;
+        [SerializeField] UnityEventTexture _textureGenerated;
 
-        protected override async Task ReportGeneration(string url)
+        protected override async Task ReportGeneration(PublishedAsset asset)
         {
-            TextureGenerated?.Invoke(await TextureHelper.DownloadImage(url));
+            _textureGenerated?.Invoke(await TextureHelper.DownloadImage(asset.URL));
         }
     }
 }

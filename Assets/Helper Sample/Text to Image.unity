@@ -327,10 +327,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcccf7bdd110402b86e71486c239248f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InputField: {fileID: 263520819}
-  Label: {fileID: 1631966633}
-  Button: {fileID: 646057237}
-  TextureGenerated:
+  _inputField: {fileID: 263520819}
+  _label: {fileID: 1631966633}
+  _button: {fileID: 646057237}
+  _textureGenerated:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1419251361}

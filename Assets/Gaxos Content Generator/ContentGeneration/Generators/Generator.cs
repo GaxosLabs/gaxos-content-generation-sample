@@ -1,17 +1,20 @@
+using System.Linq;
 using System.Threading.Tasks;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models;
+using Newtonsoft.Json;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using QueryParameters = ContentGeneration.Models.QueryParameters;
 
 namespace ContentGeneration.Generators
 {
     public abstract class Generator : MonoBehaviour
     {
-        [SerializeField] TMP_InputField InputField;
-        [SerializeField] TMP_Text Label;
-        [SerializeField] Button Button;
+        [SerializeField] TMP_InputField _inputField;
+        [SerializeField] TMP_Text _label;
+        [SerializeField] Button _button;
 
         string generationIdPlayerPrefKey => $"{gameObject.name}_{GetType().Name}_contentGeneratorKey";
         string assetUrlPlayerPrefKey => $"{gameObject.name}_{GetType().Name}_assetUrl";
@@ -23,24 +26,24 @@ namespace ContentGeneration.Generators
                 ShowStatus("Generating...");
             }
 
-            var assetUrl = PlayerPrefs.GetString(assetUrlPlayerPrefKey);
-            if (!string.IsNullOrEmpty(assetUrl))
+            var generatedAsset = PlayerPrefs.GetString(assetUrlPlayerPrefKey);
+            if (!string.IsNullOrEmpty(generatedAsset))
             {
                 Enable(false);
                 enabled = false;
-                ReportGeneration(assetUrl).Finally(() =>
+                ReportGeneration(JsonConvert.DeserializeObject<PublishedAsset>(generatedAsset)).Finally(() =>
                 {
                     Enable(true);
                     enabled = true;
                 });
             }
 
-            Button.onClick.AddListener(() =>
+            _button.onClick.AddListener(() =>
             {
                 Enable(false);
                 enabled = false;
                 ShowStatus("Requesting...");
-                RequestGeneration(InputField.text).ContinueInMainThreadWith(t =>
+                RequestGeneration(_inputField.text).ContinueInMainThreadWith(t =>
                 {
                     enabled = true;
                     if (t.IsFaulted)
@@ -61,27 +64,35 @@ namespace ContentGeneration.Generators
 
         void ShowStatus(string text)
         {
-            Label.text = text;
-            Label.gameObject.SetActive(true);
+            _label.text = text;
+            _label.gameObject.SetActive(true);
         }
 
         void Enable(bool enable)
         {
-            InputField.interactable = enable;
-            Button.interactable = enable;
+            _inputField.interactable = enable;
+            _button.interactable = enable;
         }
 
-        bool refreshing;
+        bool _refreshing;
 
         void Update()
         {
             if (!string.IsNullOrEmpty(PlayerPrefs.GetString(generationIdPlayerPrefKey)))
             {
                 Enable(false);
-                if (!refreshing)
+                if (!_refreshing)
                 {
-                    refreshing = true;
-                    Refresh().Finally(() => refreshing = false);
+                    _refreshing = true;
+                    Refresh().ContinueInMainThreadWith((t) =>
+                    {
+                        if (t.IsFaulted)
+                        {
+                            PlayerPrefs.DeleteKey(generationIdPlayerPrefKey);
+                        }
+
+                        _refreshing = false;
+                    });
                 }
             }
             else
@@ -97,12 +108,7 @@ namespace ContentGeneration.Generators
             var result = await ContentGenerationApi.Instance.GetRequest(id);
             if (result.Status == RequestStatus.Generated)
             {
-                ShowStatus("Generated!");
-                await ContentGenerationApi.Instance.MakeAssetPublic(id, result.Assets[0].ID, true);
-                await ContentGenerationApi.Instance.DeleteRequest(id);
-                await ReportGeneration(result.Assets[0].URL);
-                PlayerPrefs.SetString(assetUrlPlayerPrefKey, result.Assets[0].URL);
-                PlayerPrefs.DeleteKey(generationIdPlayerPrefKey);
+                await RequestWasGenerated(id, result);
             }
             else if (result.Status == RequestStatus.Failed)
             {
@@ -114,6 +120,28 @@ namespace ContentGeneration.Generators
             await Task.Delay(3000);
         }
 
-        protected abstract Task ReportGeneration(string url);
+        protected virtual async Task RequestWasGenerated(string id, Request result)
+        {
+            ShowStatus("Generated!");
+            await ContentGenerationApi.Instance.MakeAssetPublic(id, result.Assets[0].ID, true);
+            await ContentGenerationApi.Instance.DeleteRequest(id);
+            var publishedAssets = await ContentGenerationApi.Instance.GetPublishedAssets(new QueryParameters()
+            {
+                Sort = new[]
+                {
+                    new QueryParameters.SortBy
+                    {
+                        Target = QueryParameters.SortTarget.CreatedAt,
+                        Direction = QueryParameters.SortDirection.Descending
+                    }
+                }
+            });
+            var publishedAsset = publishedAssets.First(i => i.Request.ID == id);
+            await ReportGeneration(publishedAsset);
+            PlayerPrefs.SetString(assetUrlPlayerPrefKey, JsonConvert.SerializeObject(publishedAsset));
+            PlayerPrefs.DeleteKey(generationIdPlayerPrefKey);
+        }
+
+        protected abstract Task ReportGeneration(PublishedAsset asset);
     }
 }
