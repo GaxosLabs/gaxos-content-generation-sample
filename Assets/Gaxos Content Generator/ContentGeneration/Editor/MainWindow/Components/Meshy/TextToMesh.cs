@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ContentGeneration.Helpers;
@@ -32,7 +31,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
         PromptInput prompt => this.Q<PromptInput>("prompt");
         VisualElement promptRequired => this.Q<VisualElement>("promptRequired");
         PromptInput negativePrompt => this.Q<PromptInput>("negativePrompt");
-        DropdownField artStyle => this.Q<DropdownField>("artStyle");
+        EnumField artStyle => this.Q<EnumField>("artStyle");
         Toggle sendSeed => this.Q<Toggle>("sendSeed");
         SliderInt seed => this.Q<SliderInt>("seed");
         EnumField topology => this.Q<EnumField>("topology");
@@ -121,7 +120,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
             {
                 Prompt = prompt.value,
                 NegativePrompt = string.IsNullOrEmpty(negativePrompt.value) ? null : negativePrompt.value,
-                ArtStyle =Enum.Parse<TextToMeshArtStyle>(artStyle.value, true),
+                ArtStyle = (TextToMeshArtStyle)artStyle.value,
                 Seed = sendSeed.value ? seed.value : null,
                 Topology = (Topology)topology.value,
                 TargetPolyCount = targetPolyCount.value,
@@ -199,7 +198,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
 
             prompt.value = parameters.Prompt;
             negativePrompt.value = parameters.NegativePrompt;
-            artStyle.value = parameters.ArtStyle.ToString();
+            artStyle.value = (TextToMeshArtStyle)artStyle.value;
             sendSeed.value = parameters.Seed != null;
             if (parameters.Seed.HasValue)
             {
