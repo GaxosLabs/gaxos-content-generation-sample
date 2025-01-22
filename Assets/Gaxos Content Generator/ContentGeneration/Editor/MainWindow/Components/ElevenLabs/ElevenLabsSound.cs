@@ -138,14 +138,14 @@ namespace ContentGeneration.Editor.MainWindow.Components.ElevenLabs
                 {
                     promptRequired.style.visibility = Visibility.Visible;
                 }
-                return true;
+                return false;
             }
 
             if(updateUI)
             {
                 promptRequired.style.visibility = Visibility.Hidden;
             }
-            return false;
+            return true;
         }
 
         void RefreshCode()

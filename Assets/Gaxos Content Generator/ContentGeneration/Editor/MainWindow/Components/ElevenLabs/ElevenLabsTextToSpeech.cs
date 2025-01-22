@@ -64,8 +64,6 @@ namespace ContentGeneration.Editor.MainWindow.Components.ElevenLabs
                 {
                     Debug.LogException(t.Exception!.GetBaseException());
                 }
-
-                generateButton.SetEnabled(true);
             });
 
             generateButton.RegisterCallback<ClickEvent>(_ =>
@@ -101,7 +99,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.ElevenLabs
                     });
             });
 
-            voiceId.RegisterValueChangedCallback(_ => RefreshCode());
+            voiceId.RegisterValueChangedCallback(VoiceIdHasChanged);
             text.OnChanged += _ => RefreshCode();
             textRequired.RegisterValueChangedCallback(_ => RefreshCode());
             outputFormat.RegisterValueChangedCallback(_ => RefreshCode());
@@ -119,6 +117,12 @@ namespace ContentGeneration.Editor.MainWindow.Components.ElevenLabs
             applyTextNormalization.RegisterValueChangedCallback(_ => RefreshCode());
 
             RefreshVoiceSettings(sendVoiceSettings.value);
+        }
+
+        void VoiceIdHasChanged(ChangeEvent<string> evt)
+        {
+            generateButton.SetEnabled(voiceId.index > 0);
+            RefreshCode();
         }
 
         Task<string> RequestGeneration(bool estimate)
