@@ -345,6 +345,9 @@ MonoBehaviour:
   _inputField: {fileID: 263520819}
   _label: {fileID: 1631966633}
   _button: {fileID: 646057237}
+  OnError:
+    m_PersistentCalls:
+      m_Calls: []
   _mask: {fileID: 2800000, guid: 8632c194f95c8475fac6f7130de9dbc7, type: 3}
   _textureGenerated:
     m_PersistentCalls:

@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using ContentGeneration.Helpers;
@@ -5,6 +6,7 @@ using ContentGeneration.Models;
 using Newtonsoft.Json;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using QueryParameters = ContentGeneration.Models.QueryParameters;
 
@@ -49,6 +51,7 @@ namespace ContentGeneration.Generators
                     if (t.IsFaulted)
                     {
                         ShowStatus($"Error: {t.Exception!.Message}");
+                        OnError?.Invoke(t.Exception!.Message);
                         Enable(true);
                     }
                     else
@@ -101,6 +104,11 @@ namespace ContentGeneration.Generators
             }
         }
 
+        [Serializable]
+        public class UnityEventError : UnityEvent<string>
+        {
+        }
+        [SerializeField] UnityEventError OnError;
         async Task Refresh()
         {
             var id = PlayerPrefs.GetString(generationIdPlayerPrefKey);
@@ -113,6 +121,7 @@ namespace ContentGeneration.Generators
             else if (result.Status == RequestStatus.Failed)
             {
                 ShowStatus($"Error: {result.GeneratorError.Message}");
+                OnError?.Invoke(result.GeneratorError.Message);
                 await ContentGenerationApi.Instance.DeleteRequest(id);
             }
 
