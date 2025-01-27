@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="./Common.uss" />
+    <ui:VisualElement>
+        <ui:Toggle label="Make color transparent" name="makeTransparentColor" tooltip="Select a color to be removed and turned transparent in the final image.  Usage: Useful if you need to easily integrate generated images into other visual environments" />
+        <uie:ColorField name="transparentColor" show-alpha="false" value="RGBA(1.000, 0.000, 1.000, 1.000)" tooltip="Select a color to be removed and turned transparent in the final image.  Usage: Useful if you need to easily integrate generated images into other visual environments" />
+        <ui:Slider value="20" name="transparentColorReplaceDelta" label="Replace delta" low-value="0" high-value="100" show-input-field="true" />
+        <ui:Toggle label="Improve prompt" name="improvePrompt" />
+    </ui:VisualElement>
+</ui:UXML>

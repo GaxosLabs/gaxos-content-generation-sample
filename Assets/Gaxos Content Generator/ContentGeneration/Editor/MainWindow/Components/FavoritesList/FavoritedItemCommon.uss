@@ -1,0 +1,33 @@
+#generatorParameters {
+    flex-grow: 0;
+    flex-shrink: 1;
+    min-height: 100px;
+    max-height: 200px;
+}
+
+#generatorParameters TextElement {
+    -unity-text-align: upper-left;
+}
+
+#generatorParameters .unity-text-element {
+    color: #02e7f4;
+}
+
+.row {
+    margin-bottom: 10px;
+    flex-direction: row;
+    align-items: center;
+}
+
+#deleteButton {
+    width: 201px;
+    height: 30px;
+    border-radius: 15px;
+    font-size: 15px;
+}
+
+#applyFavorite {
+    -unity-background-image-tint-color: #29e8ed;
+    background-image: url('../../separator.png');
+    font-size: 15px;
+}

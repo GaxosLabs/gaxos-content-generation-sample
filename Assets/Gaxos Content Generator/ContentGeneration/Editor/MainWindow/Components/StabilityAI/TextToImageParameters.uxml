@@ -1,0 +1,16 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="../Common.uss" />
+    <Style src="./TextToImage.uss" />
+    <ui:VisualElement name="textToImage" class="container-spaced">
+        <ContentGeneration.Editor.MainWindow.Components.StabilityAI.StabilityParametersElement name="stabilityParameters" />
+        <ui:DropdownField label="Engine" name="engine" tooltip="Select the version of the AI engine to use for image generation.  Note: Choose based on desired features and performance" />
+        <ui:VisualElement tooltip="Image resolution returned by the AI.  Recommendation: Select a resolution that meets your project&apos;s needs" style="flex-grow: 1; flex-direction: row; height: 20px;">
+            <ui:Label tabindex="-1" text="Resolution" parse-escape-sequences="true" display-tooltip-when-elided="true" style="width: 151px;" />
+            <ui:DropdownField name="width" style="min-width: 111px;" />
+            <ui:Label tabindex="-1" text="x" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+            <ui:DropdownField name="height" style="min-width: 111px;" />
+        </ui:VisualElement>
+        <ContentGeneration.Editor.MainWindow.Components.GenerationOptionsElement 
+                name="generationOptions" AllowMakeTransparent="false" />
+    </ui:VisualElement>
+</ui:UXML>

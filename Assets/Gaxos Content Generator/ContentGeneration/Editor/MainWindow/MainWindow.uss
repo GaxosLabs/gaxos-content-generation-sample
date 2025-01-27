@@ -1,0 +1,124 @@
+#mainWindow {
+    flex-grow: 1;
+    border-radius: 20px;
+    background-color: rgb(62, 62, 62);
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-left-color: rgba(255, 255, 255, 0.37);
+    border-right-color: rgba(101, 101, 101, 0.37);
+    border-top-color: rgba(255, 255, 255, 0.37);
+    border-bottom-color: rgba(77, 77, 77, 0.37);
+}
+
+#mainWindow #mainContainer {
+    flex-grow: 1;
+    flex-direction: row;
+    border-radius: 20px;
+    background-color: rgb(81, 82, 82);
+    margin: 2px;
+}
+
+#mainWindow #sideMenuContainer {
+    width: 251px;
+    height: 100%;
+    flex-shrink: 0;
+}
+
+#mainWindow #sideMenuHeader {
+    height: 59px;
+    flex-shrink: 0;
+    flex-direction: row;
+}
+
+#mainWindow #headerImage {
+    width: 47.06px;
+    height: 44px;
+    left: 7.75px;
+    top: 10px;
+    background-image: url('./Gaxos-Header-Icon.png');
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+#mainWindow #headerTitle {
+    font-size: 21px;
+    position: absolute;
+    -unity-text-align: lower-right;
+    right: 5px;
+    color: rgb(0, 241, 255);
+    -unity-font: url('./Bebas Neue Pro Regular.otf');
+    -unity-font-definition: url('./Bebas Neue Pro Regular SDF.asset');
+    top: 7px;
+}
+
+#mainWindow #headerIndicator {
+    position: absolute;
+    top: 42px;
+    right: 14px;
+    width: 168px;
+    height: 12px;
+    flex-shrink: 0;
+    border-radius: 2px;
+    background-image: url('./separator.png');
+}
+
+#mainWindow #sideMenuItemsContainer {
+    flex-grow: 1;
+    margin: 2px 0 0;
+    padding: 35px 24px;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+#mainWindow #subWindowsContainer {
+    height: 100%;
+    background-color: rgb(62, 62, 62);
+    flex-grow: 1;
+    border-radius: 20px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 0;
+    flex-direction: row;
+}
+
+#mainWindow .sideMenuItemHeader {
+    -unity-font: url('./Lato-Regular.ttf');
+    -unity-font-definition: url('./Lato-Regular SDF.asset');
+    font-size: 15px;
+    color: rgb(255, 255, 255);
+    padding-top: 35px;
+}
+
+#mainWindow .sideMenuItemSeparator {
+    flex-grow: 0;
+    height: 6px;
+    flex-shrink: 0;
+    background-image: url('./separator.png');
+    border-radius: 2px;
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+
+#mainWindow #sideMenuBackground {
+    left: 0;
+    top: 67px;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    background-color: rgb(60, 70, 79);
+}
+
+#subWindowsContainer > * {
+    flex-grow: 1; 
+    display: none;
+}
+
+.version {
+    position: absolute;
+    left: 230px;
+    top: 55px;
+    -unity-text-align: lower-right;
+    color: rgba(65, 132, 237, 0.8);
+}

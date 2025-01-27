@@ -1,0 +1,16 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="../Common.uss" />
+    <ui:VisualElement name="stabilityParametersElement" class="container-spaced">
+        <ui:VisualElement name="promptsContainer" style="min-height: 20px;" />
+        <ui:Button text="Add another prompt" parse-escape-sequences="true" display-tooltip-when-elided="true" name="addPrompt" tooltip="Provide a detailed description of what you want the AI to generate as an image.  Tip: Be specific and include all relevant details to guide the AI accurately" />
+        <ui:Label name="promptRequiredLabel" text="At least one prompt is required" class="error-label" style="visibility: hidden;" />
+        <ui:SliderInt show-input-field="true" picking-mode="Ignore" label="Cfg scale" low-value="1" value="7" high-value="35" name="cfgScale" tooltip="Determines how closely the engine matches the generation to the provided prompt.  Tip: Adjust based on the AI model version (v2-x, v1-x, SDXL) for optimal results.  Recommended Ranges:  v2-x models: 4-8  v1-x models: 7-14  SDXL models: 4-12" />
+        <ui:EnumField label="Clip guidance preset" type="ContentGeneration.Models.Stability.ClipGuidancePreset, ContentGeneration" name="clipGuidancePreset" tooltip="CLIP guidance preset used with ancestral sampler for enhancing results.  Usage: Choose a preset that aligns with your desired image characteristics" />
+        <ui:Toggle label="Send sampler" name="sendSampler" value="false" tooltip="Sampling engine to use for denoising the generated image.  Default: Automatically selected based on the declared inference engine" />
+        <ui:EnumField label="Sampler" type="ContentGeneration.Models.Stability.Sampler, ContentGeneration" name="sampler" tooltip="Sampling engine to use for denoising the generated image.  Default: Automatically selected based on the declared inference engine" />
+        <ui:SliderInt show-input-field="true" picking-mode="Ignore" label="Samples" value="4" low-value="1" high-value="10" name="samples" tooltip="Number of sample images you want the AI to return.  Tip: Increase for more diverse output options" />
+        <ui:SliderInt show-input-field="true" picking-mode="Ignore" label="Seed" value="0" high-value="4294967295" name="seed" tooltip="Seed for random latent noise generation (optional).  Usage: Use for deterministic results or leave as default for randomization" />
+        <ui:SliderInt show-input-field="true" picking-mode="Ignore" label="Steps" value="30" low-value="10" high-value="50" name="steps" tooltip="Number of diffusion steps performed on the requested generation.  Purpose: Affects the image generation process; adjust as needed" />
+        <ui:DropdownField label="Style" name="stylePreset" tooltip="Choose the AI style for generating the image (Realistic, Cartoon, Low Poly, etc.).  Selection: Pick a style that suits your project&apos;s visual requirements" />
+    </ui:VisualElement>
+</ui:UXML>

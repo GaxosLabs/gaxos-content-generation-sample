@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="./SettingsInspector.uss" />
+    <uie:PropertyField label="Api Key" binding-path="apiKey" />
+    <ui:Button text="Refresh" parse-escape-sequences="true" display-tooltip-when-elided="true" name="refresh" />
+    <ui:TextField label="Credits" value="42.2" name="credits" readonly="true" />
+    <ui:TextField label="Storage" value="42.2/42.8 Gb" name="storage" readonly="true" />
+    <ui:TextField label="Requests" value="42000/52000" name="requests" readonly="true" />
+</ui:UXML>

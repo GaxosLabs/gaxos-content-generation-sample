@@ -1,0 +1,16 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="../Common.uss" />
+    <Style src="./FavoritesListTab.uss" />
+    <ContentGeneration.Editor.MainWindow.Components.SubWindow name="favoritesListTab" Sub-Window-Name="Favorites List" style="flex-grow: 1;">
+        <ui:Button text="Refresh" parse-escape-sequences="true" display-tooltip-when-elided="true" name="refreshButton" style="margin-bottom: 13px;" />
+        <ui:MultiColumnListView fixed-item-height="40" selection-type="Single" style="margin-right: 20px; margin-left: 20px; margin-bottom: 15px; flex-grow: 1; min-height: 120px; max-height: 400px;">
+            <ui:Columns>
+                <ui:Column name="id" title="Id" width="126" />
+                <ui:Column name="generator" title="Generator" width="129" />
+                <ui:Column name="creditsCost" title="Cost" width="86" />
+                <ui:Column name="delete" width="46" />
+            </ui:Columns>
+        </ui:MultiColumnListView>
+        <ContentGeneration.Editor.MainWindow.Components.FavoritesList.FavoritedItem name="defaultFavoritedItem" style="flex-grow: 0.5; min-height: 120px;" />
+    </ContentGeneration.Editor.MainWindow.Components.SubWindow>
+</ui:UXML>

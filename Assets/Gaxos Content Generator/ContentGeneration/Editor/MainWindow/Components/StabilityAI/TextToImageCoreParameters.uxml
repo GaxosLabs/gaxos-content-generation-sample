@@ -1,0 +1,27 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="../Common.uss" />
+    <Style src="./TextToImage.uss" />
+    <ui:VisualElement name="textToImage" class="container-spaced">
+        <ContentGeneration.Editor.MainWindow.Components.PromptInput name="prompt" tooltip="Provide a clear and detailed description of what you want the AI to generate as an image. Example: &quot;Describe objects, scenes, or concepts to guide the AI in generating the image.&quot;" style="height: 140px;" />
+        <ui:Label name="promptRequired" text="Prompt is required" class="error-label" style="visibility: hidden;" />
+        <ui:Button name="improvePromptButton" text="Improve prompt" tooltip="Enhance your initial description using AI to achieve more precise and detailed results.  Usage: Useful if you want to refine your original request for better images" />
+
+        <ui:Label tabindex="-1" text="Negative prompt:" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+        <ContentGeneration.Editor.MainWindow.Components.PromptInput name="negativePrompt" tooltip="Specify details that you do not want the 3D model or texturing to include. This helps the AI avoid certain elements.  Usage: Useful for excluding specific characteristics or styles from the generated model" style="height: 140px;" />
+        
+        <ui:EnumField label="Aspect ratio" type="ContentGeneration.Models.Stability.AspectRatio, ContentGeneration" 
+                      name="aspectRatio" 
+                      tooltip="Aspect ratio for the returned image" />
+        <ui:SliderInt show-input-field="true" picking-mode="Ignore" label="Seed" value="0" high-value="4294967295" name="seed" tooltip="Seed for random latent noise generation (optional).  Usage: Use for deterministic results or leave as default for randomization" />
+        <ui:Toggle label="Send style preset" name="sendStylePreset" value="false" tooltip="Send a style preset for the generated image." />
+        <ui:EnumField label="Style preset" type="ContentGeneration.Models.Stability.StylePreset, ContentGeneration" 
+                      name="stylePreset" 
+                      tooltip="Choose the AI style for generating the image (Realistic, Cartoon, Low Poly, etc.).  Selection: Pick a style that suits your project&apos;s visual requirements" />
+        <ui:EnumField label="Output format" type="ContentGeneration.Models.Stability.OutputFormat, ContentGeneration" 
+                      name="outputFormat" 
+                      tooltip="Choose the output format of the generated image" />
+
+        <ContentGeneration.Editor.MainWindow.Components.GenerationOptionsElement 
+                name="generationOptions" AllowMakeTransparent="false" />
+    </ui:VisualElement>
+</ui:UXML>

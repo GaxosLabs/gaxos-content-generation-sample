@@ -1,0 +1,129 @@
+.unity-multi-column-header {
+    min-height: 20px;
+    background-color: rgb(75, 75, 75);
+}
+
+.unity-multi-column-header__column__content-container {
+    background-color: rgb(75, 75, 75);
+}
+
+.unity-multi-column-header__column__content {
+    background-color: rgb(111, 111, 111);
+    margin-right: 5px;
+}
+
+.unity-multi-column-header__column {
+    border-right-width: 0;
+}
+
+#id .unity-multi-column-header__column__content {
+    border-top-left-radius: 10px;
+    margin-right: 5px;
+    flex-grow: 1;
+}
+
+#status .unity-multi-column-header__column__content {
+    border-top-right-radius: 10px;
+}
+
+#delete .unity-multi-column-header__column__content {
+    margin-right: 0;
+    background-color: #3b3b3b;
+}
+
+.unity-multi-column-view__header-container {
+    border-bottom-width: 0;
+}
+
+.unity-multi-column-header__column-resize-handle {
+    background-color: rgb(74, 74, 74);
+}
+
+.unity-multi-column-header__column-container {
+    border-bottom-width: 1px;
+    border-bottom-color: #03d1e0;
+}
+
+.unity-multi-column-header__column__title {
+    -unity-font-style: bold;
+}
+
+.unity-multi-column-view__row-container:hover {
+    background-color: rgba(255, 255, 255, 0);
+}
+.unity-multi-column-view__row-container:checked {
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.unity-multi-column-view__cell {
+    margin-top: 7px;
+    padding: 1px;
+}
+.unity-multi-column-view__row-container:hover .unity-multi-column-view__cell {
+    background-color: rgba(255, 255, 255, 0.7);
+}
+.unity-multi-column-view__row-container:checked .unity-multi-column-view__cell {
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+.unity-multi-column-view__cell .unity-text-element {
+    background-color: #363636;
+    -unity-text-align: middle-left;
+    height: 31px;
+    padding: 0 5px;
+    color: #00f1ff;
+}
+
+.unity-multi-column-view__cell .p0 {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.unity-multi-column-view__cell .p1 {
+}
+
+.unity-multi-column-view__cell .p2 {
+    -unity-text-align: middle-center;
+}
+
+.unity-multi-column-view__cell .p3 {
+    -unity-text-align: middle-center;
+}
+
+.unity-multi-column-view__cell .p4 {
+    -unity-text-align: middle-center;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    margin-right: 3px;
+    margin-left: 3px;
+}
+
+.unity-multi-column-view__cell .p5 {
+    border-radius: 10px;
+    -unity-text-align: middle-center;
+}
+
+.unity-multi-column-view__cell .p6 {
+    border-radius: 10px;
+    -unity-text-align: middle-center;
+}
+
+.unity-multi-column-view__cell .p7 {
+    border-radius: 10px;
+}
+
+.unity-multi-column-view__cell .generated {
+    color: #07f302;
+}
+
+.unity-multi-column-view__cell .failed {
+    color: #f34802;
+}
+
+.deleteButton {
+    border-width: 0;
+    border-radius: 0;
+    -unity-background-scale-mode: scale-to-fit;
+    background-size: 25px;
+    background-image: url('./Favorite Erase.png');
+}

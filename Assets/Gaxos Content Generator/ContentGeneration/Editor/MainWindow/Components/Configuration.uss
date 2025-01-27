@@ -1,0 +1,10 @@
+.documentationButtonsRow 
+{
+    flex-direction: row;
+    flex-grow: 0;
+}
+.documentationButtonsRow > *
+{
+    margin: 0 5px;
+    flex-grow: 1;
+}

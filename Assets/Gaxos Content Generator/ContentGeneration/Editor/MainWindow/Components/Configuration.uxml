@@ -1,0 +1,19 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="./Common.uss" />
+    <Style src="./Configuration.uss" />
+    <ContentGeneration.Editor.MainWindow.Components.SubWindow Sub-Window-Name="Configuration" class="container-spaced" style="flex-grow: 1;">
+        <ui:TextField picking-mode="Ignore" name="apiKey" label="API key" style="margin-bottom: 8px;" />
+        <ui:Button name="refresh" text="Refresh" />
+        <ui:TextField picking-mode="Ignore" readonly="true" name="credits" label="Credits" />
+        <ui:TextField picking-mode="Ignore" readonly="true" name="storage" label="Storage" />
+        <ui:TextField picking-mode="Ignore" readonly="true" name="requests" label="Requests" />
+        <ui:VisualElement class="documentationButtonsRow">
+            <ContentGeneration.Editor.MainWindow.Components.WeblinkButton Title="Dall-E\nDocumentation" Icon="Dall-E" URl="https://platform.openai.com/docs/api-reference/introduction" />
+            <ContentGeneration.Editor.MainWindow.Components.WeblinkButton Title="Stability AI\nDocumentation" Icon="Stability AI" URl="https://platform.stability.ai/docs/getting-started" />
+        </ui:VisualElement>
+        <ui:VisualElement class="documentationButtonsRow">
+            <ContentGeneration.Editor.MainWindow.Components.WeblinkButton Title="Meshy\nDocumentation" Icon="Meshy" URl="https://docs.meshy.ai/api-introduction" />
+            <ContentGeneration.Editor.MainWindow.Components.WeblinkButton Title="Content Generator\nDocumentation" Icon="Requests List" URl="https://gaxoslabs.ai/documentation/getting-started" />
+        </ui:VisualElement>
+    </ContentGeneration.Editor.MainWindow.Components.SubWindow>
+</ui:UXML>

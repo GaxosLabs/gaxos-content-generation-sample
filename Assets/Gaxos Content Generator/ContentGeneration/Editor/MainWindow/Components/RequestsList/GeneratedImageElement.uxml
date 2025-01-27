@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="../Common.uss" />
+    <Style src="./GeneratedImageElement.uss" />
+    <ui:VisualElement name="generatedImageElement">
+        <ui:VisualElement style="flex-grow: 1; background-color: rgb(55, 55, 55); border-top-left-radius: 16px; border-top-right-radius: 16px; border-bottom-right-radius: 16px; border-bottom-left-radius: 16px;">
+            <ui:Image name="image" />
+        </ui:VisualElement>
+        <ui:Button text="Save to project" name="saveToProject" parse-escape-sequences="true" display-tooltip-when-elided="true" style="margin-top: 14px;" />
+    </ui:VisualElement>
+</ui:UXML>

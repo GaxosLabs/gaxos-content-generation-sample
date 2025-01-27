@@ -1,0 +1,15 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="../Common.uss" />
+    <Style src="./TextPrompt.uss" />
+    <ui:VisualElement name="textPrompt" style="flex-grow: 1;">
+        <ui:VisualElement name="header" style="flex-direction: row; height: 18px;">
+            <ui:Label tabindex="-1" text="Text Prompt" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+            <ui:VisualElement style="flex-grow: 1; flex-direction: row-reverse;">
+                <ui:Button text="Remove Prompt" parse-escape-sequences="true" display-tooltip-when-elided="true" name="removePrompt" />
+                <ui:Button text="Improve Prompt" parse-escape-sequences="true" display-tooltip-when-elided="true" name="improvePromptButton" />
+                <ui:FloatField value="1" name="weight" label="Text Weight" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ContentGeneration.Editor.MainWindow.Components.PromptInput name="promptInput" style="flex-grow: 1;" />
+    </ui:VisualElement>
+</ui:UXML>

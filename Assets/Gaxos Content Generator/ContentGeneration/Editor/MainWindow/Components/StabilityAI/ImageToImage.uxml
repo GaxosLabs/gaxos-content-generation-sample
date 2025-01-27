@@ -1,0 +1,38 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="../Common.uss" />
+    <ui:ScrollView name="ImageToImage" class="container-spaced" style="flex-grow: 1;">
+        <ContentGeneration.Editor.MainWindow.Components.StabilityAI.StabilityParametersElement name="stabilityParameters" />
+        <ui:DropdownField label="Engine" name="engine" tooltip="Select the version of the AI engine to use for image generation.  Note: Choose based on desired features and performance" />
+        <ContentGeneration.Editor.MainWindow.Components.ImageSelection Label="Image" name="image" Button-Text="Select Image" tooltip="Base image used for adding, changing, or enhancing via AI.  Usage: Upload the image you want to modify or influence the AI-generated result." />
+        <ui:Label name="imageRequired" text="Image is required" class="error-label" />
+        <ui:EnumField label="Init image mode" type="ContentGeneration.Models.Stability.InitImageMode, ContentGeneration" name="initImageMode" tooltip="Controls the influence of the initial image on the final result during diffusion steps.  Tip: Adjust to balance between the initial image and diffusion-generated changes" />
+        <ui:VisualElement name="imageStrengthModeContainer" style="flex-grow: 1;">
+            <ui:Slider show-input-field="true" picking-mode="Ignore" label="Image Strength" value="0.35" high-value="1" name="imageStrength" tooltip="Slider controlling the influence of the initial image on the final result.  Usage: Adjust to control the similarity or difference between the generated image and the initial image.  " />
+        </ui:VisualElement>
+        <ui:VisualElement name="stepScheduleModeContainer" style="flex-grow: 1; display: none;">
+            <ui:Slider show-input-field="true" picking-mode="Ignore" label="Step Schedule Start" value="0.65" high-value="1" name="stepScheduleStart" />
+            <ui:Toggle label="Send step schedule end" name="sendStepScheduleEnd" />
+            <ui:Slider show-input-field="true" picking-mode="Ignore" label="Step Schedule End" value="0.35" high-value="1" name="stepScheduleEnd" />
+        </ui:VisualElement>
+        <ContentGeneration.Editor.MainWindow.Components.GenerationOptionsElement 
+                name="generationOptions" 
+        />
+        <ui:Button name="generate" text="Generate" class="generateButton" />
+        <ui:VisualElement>
+            <ui:VisualElement name="sendingRequest">
+                <ui:Label text="Sending request" />
+            </ui:VisualElement>
+            <ui:VisualElement name="requestSent">
+                <ui:Label text="Request sent" />
+            </ui:VisualElement>
+            <ui:VisualElement name="requestFailed" class="error-label">
+                <ui:Label text="Request failed, check the console for details" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement style="flex-grow: 1;">
+            <ui:Label tabindex="-1" text="Code" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+            <ui:TextField picking-mode="Ignore" readonly="true" multiline="true" name="code" class="code" />
+        </ui:VisualElement>
+        <ContentGeneration.Editor.MainWindow.Components.WeblinkButton URl="https://platform.stability.ai/docs/api-reference#tag/Image-to-Image/operation/imageToImage" Icon="Stability AI" Title="Stability AI\nDocumentation" class="documentationLink" />
+    </ui:ScrollView>
+</ui:UXML>

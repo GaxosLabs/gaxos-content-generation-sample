@@ -1,0 +1,45 @@
+#tabsContainer .unity-radio-button-group__container {
+    flex-direction: row;
+    flex: 1;
+    padding-left: -15px;
+    padding-right: -15px;
+}
+
+#tabsContainer RadioButton {
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
+    background-color: rgb(55, 55, 55);
+    margin: 0 15px 0 0;
+}
+
+#tabsContainer RadioButton:checked {
+    background-color: rgb(111, 111, 111);
+}
+#tabsContainer RadioButton:checked Label {
+    color: rgb(255, 255, 255);
+}
+
+#tabsContainer .unity-radio-button__label {
+    color: rgb(65, 137, 244);
+    -unity-font-style: bold;
+    bottom: 0;
+    -unity-text-align: middle-center;
+    margin: 0 15px 0 15px;
+    padding: 0;
+    font-size: 12px;
+    -unity-font: url('../Lato-Regular.ttf');
+    -unity-font-definition: url('../Lato-Regular SDF.asset');
+}
+#tabsContainer .unity-radio-button__input {
+    display: none;
+}
+
+#list {
+    height: 19px;
+}
+
+.unity-base-popup-field__arrow {
+    -unity-background-image-tint-color: #26a4e6;
+    width: 21px;
+    height: 21px;
+}

@@ -1,0 +1,20 @@
+.image-container {
+    flex-direction: row;
+    height: 100px;
+    margin: 3px 3px;
+}
+
+.image-container Label {
+    width: 150px;
+}
+
+.image-container Image {
+    flex-grow: 1;
+    background-color: rgb(55, 55, 55);
+    border-radius: 20px;
+}
+
+.image-container Button {
+    height: 30px;
+    margin-left: 10px;
+}

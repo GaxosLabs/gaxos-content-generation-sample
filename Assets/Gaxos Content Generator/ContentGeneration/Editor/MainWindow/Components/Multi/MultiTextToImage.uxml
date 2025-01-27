@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ui:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ui="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../../../../../../../UIElementsSchema/UIElements.xsd">
+    <Style src="../Common.uss" />
+    <Style src="./MultiTextToImage.uss" />
+    <ContentGeneration.Editor.MainWindow.Components.SubWindow
+        Sub-Window-Name="Multiple Text To Image"
+        style="flex-grow: 1;">
+        <ContentGeneration.Editor.MainWindow.Components.PromptInput name="prompt"
+                                                                    tooltip="Provide a clear and detailed description of what you want the AI to generate as an image. Example: &quot;Describe objects, scenes, or concepts to guide the AI in generating the image.&quot;"
+                                                                    style="height: 140px;" />
+        <ui:Label name="promptRequired" text="Prompt is required" class="error-label" style="visibility: hidden;" />
+        <ui:Button name="improvePromptButton" text="Improve prompt"
+                   tooltip="Enhance your initial description using AI to achieve more precise and detailed results.  Usage: Useful if you want to refine your original request for better images" />
+
+        <ui:ScrollView class="advancedScrollView">
+            <ContentGeneration.Editor.MainWindow.Components.SubWindow
+                Sub-Window-Name="Gaxos Labs AI"
+                Foldable="true"
+                class="subSubWindow">
+                <ContentGeneration.Editor.MainWindow.Components.Gaxos.TextToImageParameters
+                    HidePrompt="true"
+                    name="gaxosParameters" />
+            </ContentGeneration.Editor.MainWindow.Components.SubWindow>
+            <ContentGeneration.Editor.MainWindow.Components.SubWindow
+                Sub-Window-Name="Dall-E"
+                Foldable="true"
+                class="subSubWindow">
+                <ContentGeneration.Editor.MainWindow.Components.DallE.TextToImageParameters
+                    HidePrompt="true"
+                    name="dallEParameters" />
+            </ContentGeneration.Editor.MainWindow.Components.SubWindow>
+            <ContentGeneration.Editor.MainWindow.Components.SubWindow
+                Sub-Window-Name="Stability AI"
+                Foldable="true"
+                class="subSubWindow">
+                <ContentGeneration.Editor.MainWindow.Components.StabilityAI.TextToImageParameters
+                    HidePrompt="true"
+                    name="stabilityAiParameters" />
+            </ContentGeneration.Editor.MainWindow.Components.SubWindow>
+        </ui:ScrollView>
+        
+        <ui:Button name="generateButton" text="Generate" class="generateButton" />
+        <ui:VisualElement>
+            <ui:VisualElement name="sendingRequest">
+                <ui:Label text="Sending request" />
+            </ui:VisualElement>
+            <ui:VisualElement name="requestSent">
+                <ui:Label text="Request sent" />
+            </ui:VisualElement>
+            <ui:VisualElement name="requestFailed" class="error-label">
+                <ui:Label text="Request failed, check the console for details" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ContentGeneration.Editor.MainWindow.Components.SubWindow>
+</ui:UXML>

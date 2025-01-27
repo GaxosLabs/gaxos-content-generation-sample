@@ -1,0 +1,18 @@
+#textPrompt #weight .unity-base-field__label {
+    min-width: auto;
+    margin: 0 5px 0 5px;
+}
+#weight .unity-base-text-field__input {
+    border-radius: 5px;
+    min-width: 24px;
+}
+#weight {
+    min-height: 0;
+}
+#textPrompt Button {
+    background-color: #6f6f6f;
+    border-radius: 5px;
+    border-width: 1px;
+    margin: 0 0 0 15px;
+    padding: 0 5px 0 5px;
+}

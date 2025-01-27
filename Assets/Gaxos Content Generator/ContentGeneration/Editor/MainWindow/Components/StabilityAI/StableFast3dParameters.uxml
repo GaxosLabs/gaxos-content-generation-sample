@@ -1,0 +1,20 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements"
+         xsi="http://www.w3.org/2001/XMLSchema-instance" editor="UnityEditor.UIElements"
+         noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="../Common.uss" />
+    <ui:VisualElement class="container-spaced">
+        <ContentGeneration.Editor.MainWindow.Components.ImageSelection
+            name="image" Label="Image" Button-Text="Select Image"
+            tooltip="The image to generate a 3D model from" />
+        <ui:Label name="imageRequired" text="Image is required" class="error-label" />
+        <ui:EnumField label="Texture resolution" type="ContentGeneration.Models.Stability.TextureResolution, ContentGeneration"
+                      name="textureResolution"
+                      tooltip="Determines the resolution of the textures used for both the albedo (color) map and the normal map. The resolution is specified in pixels, and a higher value corresponds to a higher level of detail in the textures, allowing for more intricate and precise rendering of surfaces. However, increasing the resolution also results in larger asset sizes, which may impact loading times and performance. 1024 is a good default value and rarely requires changing." />
+        <ui:Slider show-input-field="true" picking-mode="Ignore" label="Foreground ratio" value="0.85" low-value="0.1" high-value="1"
+                   name="foregroundRatio"
+                   tooltip="Controls the amount of padding around the object to be processed within the frame. This ratio determines the relative size of the object compared to the total frame size. A higher ratio means less padding and a larger object, while a lower ratio increases the padding, effectively reducing the object’s size within the frame. This can be useful when a long and narrow object, such as a car or bus, is viewed from the front (the narrow side). Here, lowering the foreground ratio might help prevent the generated 3D assets from appearing squished or distorted. The default value of 0.85 is good for most objects." />
+        <ui:EnumField label="Remesh" type="ContentGeneration.Models.Stability.Remesh, ContentGeneration"
+                      name="remesh"
+                      tooltip="Controls the remeshing algorithm used to generate the 3D model. The remeshing algorithm determines how the 3D model is constructed from the input image. The default value of 'none' means that the model is generated without remeshing, which is suitable for most use cases. The 'triangle' option generates a model with triangular faces." />
+    </ui:VisualElement>
+</ui:UXML>

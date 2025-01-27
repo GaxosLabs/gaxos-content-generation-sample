@@ -1,0 +1,30 @@
+.unity-base-text-field__label {
+    color: rgb(155, 155, 155);
+    position: absolute;
+    top: 5px;
+    left: 5px;
+}
+
+.unity-base-field__input {
+    color: rgb(2, 231, 244);
+    background-color: rgba(255, 255, 255, 0);
+    white-space: normal;
+    -unity-text-align: upper-center;
+}
+
+.unity-base-text-field__input--multiline {
+    border-width: 0;
+    position: absolute;
+    top: 5px;
+    bottom: 5px;
+    left: 5px;
+    right: 5px;
+}
+
+.unity-base-text-field__input--multiline TextElement {
+    margin-top: 20px;
+}
+
+#unity-text-input TextElement {
+    font-size: 15px;
+}

@@ -1,0 +1,68 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Packages/gaxos.content-generation/Runtime/ContentGeneration/Editor/MainWindow/Components/Common.uss?fileID=7433441132597879392&amp;guid=4c0a09080b844861802367d6e07fa07b&amp;type=3#Common" />
+    <Style src="project://database/Packages/gaxos.content-generation/Runtime/ContentGeneration/Editor/MainWindow/MainWindow.uss?fileID=7433441132597879392&amp;guid=70e0781e73b74492491282378c5e0857&amp;type=3#MainWindow" />
+    <ui:VisualElement name="mainWindow">
+        <ui:VisualElement name="mainContainer">
+            <ui:VisualElement name="sideMenuContainer">
+                <ui:VisualElement name="sideMenuHeader">
+                    <ui:VisualElement name="headerImage" style="-unity-background-image-tint-color: rgb(0, 241, 255);" />
+                    <ui:Label name="headerTitle" text="AI &lt;b&gt;Content Generation&lt;/b&gt;" />
+                    <ui:VisualElement name="headerIndicator" />
+                </ui:VisualElement>
+                <ui:VisualElement name="sideMenuBackground">
+                    <ui:ScrollView>
+                        <ui:VisualElement name="sideMenuItemsContainer">
+                            <ui:Label tabindex="-1" text="Credits" parse-escape-sequences="true" display-tooltip-when-elided="true" class="sideMenuItemHeader" />
+                            <ui:VisualElement class="sideMenuItemSeparator" />
+                            <ui:TextField picking-mode="Ignore" readonly="true" name="credits" style="margin-bottom: 8px;" />
+                            <ui:Button name="refreshCredits" text="Refresh" style="height: 30px;" />
+                            <ui:Label tabindex="-1" text="Generate Content" parse-escape-sequences="true" display-tooltip-when-elided="true" class="sideMenuItemHeader" />
+                            <ui:VisualElement class="sideMenuItemSeparator" />
+                            <ui:VisualElement style="flex-direction: row;" name="sideMenuGeneratorsContainer">
+                                <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Gaxos Labs AI" name="subWindowToggleGaxos" />
+                                <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Dall-E" name="subWindowToggleDallE" />
+                                <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Stability AI" name="subWindowToggleStabilityAI" />
+                                <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Recraft" name="subWindowToggleRecraft" />
+                                <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Meshy" name="subWindowToggleMeshy" />
+                                <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Eleven Labs" name="subWindowToggleElevenLabs" />
+                            </ui:VisualElement>
+                            <ui:Label tabindex="-1" text="Generate Multiple Content" parse-escape-sequences="true" display-tooltip-when-elided="true" class="sideMenuItemHeader" />
+                            <ui:VisualElement class="sideMenuItemSeparator" />
+                            <ui:VisualElement style="flex-direction: row;" name="sideMenuMultiGeneratorsContainer">
+                                <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Multiple Text To Image" name="subWindowToggleMultiTextToImage" />
+                                <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Multiple Masking" name="subWindowToggleMultiMasking" />
+                            </ui:VisualElement>
+                            <ui:Label tabindex="-1" text="Requests List" parse-escape-sequences="true" display-tooltip-when-elided="true" class="sideMenuItemHeader" />
+                            <ui:VisualElement class="sideMenuItemSeparator" />
+                            <ContentGeneration.Editor.MainWindow.Components.SubWindowToggle Sub-Window-Name="Requests List" name="subWindowToggleRequestsList" />
+                            <ui:Label tabindex="-1" text="Favorites List" parse-escape-sequences="true" display-tooltip-when-elided="true" class="sideMenuItemHeader" />
+                            <ui:VisualElement class="sideMenuItemSeparator" />
+                            <ContentGeneration.Editor.MainWindow.Components.SubWindowToggle Sub-Window-Name="Favorites List" name="subWindowToggleFavoritesList" />
+                            <ui:Label tabindex="-1" text="Basic Examples" parse-escape-sequences="true" display-tooltip-when-elided="true" class="sideMenuItemHeader" />
+                            <ui:VisualElement class="sideMenuItemSeparator" />
+                            <ContentGeneration.Editor.MainWindow.Components.SubWindowToggle Sub-Window-Name="Basic Examples" name="subWindowToggleBasicExamples" />
+                            <ui:Label tabindex="-1" text="Settings" parse-escape-sequences="true" display-tooltip-when-elided="true" class="sideMenuItemHeader" />
+                            <ui:VisualElement class="sideMenuItemSeparator" />
+                            <ContentGeneration.Editor.MainWindow.Components.SubWindowToggle Sub-Window-Name="Configuration" name="subWindowToggleSettings" />
+                        </ui:VisualElement>
+                    </ui:ScrollView>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="subWindowsContainer" style="flex-direction: row; flex-grow: 1;">
+                <ContentGeneration.Editor.MainWindow.Components.Gaxos.GaxosTab />
+                <ContentGeneration.Editor.MainWindow.Components.DallE.DallETab />
+                <ContentGeneration.Editor.MainWindow.Components.StabilityAI.StabilityTab />
+                <ContentGeneration.Editor.MainWindow.Components.Meshy.MeshyTab />
+                <ContentGeneration.Editor.MainWindow.Components.ElevenLabs.ElevenLabsTab />
+                <ContentGeneration.Editor.MainWindow.Components.Recraft.RecraftTab />
+                <ContentGeneration.Editor.MainWindow.Components.Multi.MultiTextToImage />
+                <ContentGeneration.Editor.MainWindow.Components.Multi.MultiMasking />
+                <ContentGeneration.Editor.MainWindow.Components.RequestsList.RequestsListTab />
+                <ContentGeneration.Editor.MainWindow.Components.FavoritesList.FavoritesListTab />
+                <ContentGeneration.Editor.MainWindow.Components.BasicExamples.BasicExamplesTab />
+                <ContentGeneration.Editor.MainWindow.Components.Configuration />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:Label class="version" text="v1.1" />
+    </ui:VisualElement>
+</ui:UXML>

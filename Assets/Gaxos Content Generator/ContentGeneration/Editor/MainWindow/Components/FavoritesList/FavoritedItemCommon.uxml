@@ -1,0 +1,19 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="../Common.uss" />
+    <Style src="./FavoritedItemCommon.uss" />
+    <ContentGeneration.Editor.MainWindow.Components.SubWindow name="favoritedItem" Sub-Window-Name="??" style="flex-grow: 1;">
+        <ui:ScrollView style="flex-grow: 1;">
+            <ui:VisualElement class="row">
+                <ui:Label tabindex="-1" text="Generator:" parse-escape-sequences="true" display-tooltip-when-elided="true" style="margin-right: 7px;" />
+                <ui:Label tabindex="-1" text="&lt;generator&gt;" parse-escape-sequences="true" display-tooltip-when-elided="true" name="generator" style="color: rgb(0, 241, 255);" />
+                <ui:VisualElement style="flex-grow: 1;" />
+                <ui:Button name="deleteButton" text="Delete Favorite" style="background-color: rgb(191, 80, 73); color: rgb(255, 255, 255); -unity-font-style: bold; margin-bottom: 14px;" />
+            </ui:VisualElement>
+            <ui:Button name="applyFavorite" text="Apply Favorite" />
+            <ui:VisualElement style="margin-bottom: 9px; margin-top: 9px; flex-grow: 1;">
+                <ui:Label tabindex="-1" text="Generator Parameters:" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+                <ui:TextField picking-mode="Ignore" readonly="true" multiline="true" name="generatorParameters" />
+            </ui:VisualElement>
+        </ui:ScrollView>
+    </ContentGeneration.Editor.MainWindow.Components.SubWindow>
+</ui:UXML>

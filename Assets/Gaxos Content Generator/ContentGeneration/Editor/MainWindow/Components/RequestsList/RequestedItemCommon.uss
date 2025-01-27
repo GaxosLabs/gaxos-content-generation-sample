@@ -1,0 +1,62 @@
+#imagesContainer {
+    height: 205px;
+}
+
+#generatorParameters {
+    flex-grow: 0;
+    flex-shrink: 1;
+    min-height: 100px;
+    max-height: 200px;
+}
+
+#generatorParameters TextElement {
+    -unity-text-align: upper-left;
+}
+
+#generatorParameters .unity-text-element {
+    color: #02e7f4;
+}
+
+.row {
+    margin-bottom: 10px;
+    flex-direction: row;
+    align-items: center;
+}
+
+.generated {
+    color: #07f302;
+}
+.failed {
+    color: #f34802;
+}
+
+#imagesContainer {
+    margin-bottom: 10px;
+}
+
+.favoriteButton {
+    width: 201px;
+    height: 30px;
+    border-radius: 15px;
+    -unity-text-align: middle-right;
+    font-size: 15px;
+}
+
+.favoriteButton .icon {
+    flex-grow: 1;
+    position: absolute;
+    left: 5px;
+    width: 22px;
+    height: 22px;
+    background-image: url('./Favorite Add.png');
+    top: 2px;
+}
+
+.deleteButton {
+    width: 201px;
+    height: 30px;
+    border-radius: 15px;
+    font-size: 15px;
+    background-color: rgb(191, 80, 73);
+    -unity-font-style: bold;
+}

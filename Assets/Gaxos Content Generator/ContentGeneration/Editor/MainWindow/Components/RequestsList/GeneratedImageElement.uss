@@ -1,0 +1,12 @@
+#image {
+    flex-grow: 1;
+    margin: 14px;
+    border-radius: 9px;
+    background-color: rgba(255, 0, 213, 0);
+    height: 100px;
+}
+
+#generatedImageElement {
+    width: 200px;
+    flex-grow: 1;
+}

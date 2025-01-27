@@ -1,0 +1,14 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Gaxos%20Content%20Generator/ContentGeneration/Editor/MainWindow/Components/SubWindow.uss?fileID=7433441132597879392&amp;guid=705522b36ef4646ba871cbae471c1cdb&amp;type=3#SubWindow" />
+    <ui:VisualElement name="subWindow" style="margin-right: 5px; margin-left: 5px; margin-top: 5px; margin-bottom: 5px;">
+        <ui:VisualElement name="header">
+            <ui:VisualElement name="icon" />
+            <ui:VisualElement class="titleAndFoldButton">
+                <ui:Button name="foldButton" style="" />
+                <ui:Label tabindex="-1" text="Title" parse-escape-sequences="true" display-tooltip-when-elided="true" name="label" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="headerBar" />
+        <ui:VisualElement name="contents" style="flex-grow: 1; margin-top: 16px;" />
+    </ui:VisualElement>
+</ui:UXML>

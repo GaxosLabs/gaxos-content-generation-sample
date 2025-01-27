@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ui="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd"
+>
+    <Style src="./Common.uss" />
+    <Style src="./ImageSelection.uss" />
+    <ui:VisualElement class="image-container" style="flex-grow: 1;">
+        <ui:Label tabindex="-1" name="labelElement" text="Image" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+        <ui:Image name="imageElement" />
+        <ui:Button name="selectImage" text="Select image" />
+    </ui:VisualElement>
+
+</ui:UXML>

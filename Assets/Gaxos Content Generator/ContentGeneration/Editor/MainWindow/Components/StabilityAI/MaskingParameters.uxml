@@ -1,0 +1,14 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="../Common.uss" />
+    <Style src="./ImageToImage.uss" />
+    <ui:ScrollView class="container-spaced">
+        <ui:DropdownField label="Engine" name="engine" tooltip="Select the version of the AI engine to use for image generation.  Note: Choose based on desired features and performance" />
+        <ContentGeneration.Editor.MainWindow.Components.ImageSelection name="image" Label="Image" Button-Text="Select Image" tooltip="Base image used as a mask to shape the resulting image.  Usage: Upload an image that will influence the generated result" />
+        <ui:Label name="imageRequired" text="Image is required" class="error-label" />
+        <ui:EnumField label="Mask source" type="ContentGeneration.Models.Stability.MaskSource, ContentGeneration" name="maskSource" value="InitImageAlpha" tooltip="Specify the base color of the mask for AI identification" />
+        <ContentGeneration.Editor.MainWindow.Components.ImageSelection name="mask" Label="Mask" Button-Text="Select Mask" />
+        <ui:Label name="maskRequired" text="Mask is required" class="error-label" />
+        <ContentGeneration.Editor.MainWindow.Components.StabilityAI.StabilityParametersElement name="stabilityParameters" />
+        <ContentGeneration.Editor.MainWindow.Components.GenerationOptionsElement name="generationOptions" />
+    </ui:ScrollView>
+</ui:UXML>

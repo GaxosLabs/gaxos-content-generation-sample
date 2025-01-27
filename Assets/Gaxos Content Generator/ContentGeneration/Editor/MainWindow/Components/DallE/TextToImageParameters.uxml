@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="../Common.uss" />
+    <ui:VisualElement class="container-spaced">
+        <ContentGeneration.Editor.MainWindow.Components.DallE.DallEParametersElement name="dallEParametersElement" />
+        <ContentGeneration.Editor.MainWindow.Components.GenerationOptionsElement name="generationOptions" 
+                                                                                 AllowMakeTransparent="false"
+        />
+    </ui:VisualElement>
+</ui:UXML>
