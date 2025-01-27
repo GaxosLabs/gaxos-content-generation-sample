@@ -1,9 +1,0 @@
-#generateButton {
-    margin-top: 20px;
-}
-.advancedScrollView {
-    margin-top: 20px;
-}
-.subSubWindow {
-    flex-grow: 1;
-}
