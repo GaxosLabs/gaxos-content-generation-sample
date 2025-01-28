@@ -91,6 +91,7 @@ namespace ContentGeneration.Generators
                     {
                         if (t.IsFaulted)
                         {
+                            Debug.LogException(t.Exception);
                             PlayerPrefs.DeleteKey(generationIdPlayerPrefKey);
                         }
 
@@ -128,9 +129,13 @@ namespace ContentGeneration.Generators
             await Task.Delay(3000);
         }
 
-        protected virtual async Task RequestWasGenerated(string id, Request result)
+        async Task RequestWasGenerated(string id, Request result)
         {
             ShowStatus("Generated!");
+            ReportRequestWasJustGenerated(result);
+            if(result.Assets == null || result.Assets.Length == 0)
+                return;
+            
             await ContentGenerationApi.Instance.MakeAssetPublic(id, result.Assets[0].ID, true);
             await ContentGenerationApi.Instance.DeleteRequest(id);
             var publishedAssets = await ContentGenerationApi.Instance.GetPublishedAssets(new QueryParameters()
@@ -148,6 +153,10 @@ namespace ContentGeneration.Generators
             await ReportGeneration(publishedAsset);
             PlayerPrefs.SetString(assetUrlPlayerPrefKey, JsonConvert.SerializeObject(publishedAsset));
             PlayerPrefs.DeleteKey(generationIdPlayerPrefKey);
+        }
+
+        protected virtual void ReportRequestWasJustGenerated(Request request)
+        {
         }
 
         protected abstract Task ReportGeneration(PublishedAsset asset);

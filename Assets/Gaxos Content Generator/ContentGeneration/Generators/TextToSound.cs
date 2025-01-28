@@ -1,12 +1,9 @@
 using System;
 using System.Threading.Tasks;
-using ContentGeneration.Helpers;
 using ContentGeneration.Models;
 using ContentGeneration.Models.ElevenLabs;
-using ContentGeneration.Models.Gaxos;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 namespace ContentGeneration.Generators
 {
@@ -27,9 +24,14 @@ namespace ContentGeneration.Generators
 
         [SerializeField] UnityEventUrl _soundUrl;
 
+        protected override void ReportRequestWasJustGenerated(Request request)
+        {
+            _soundUrl?.Invoke(request.GeneratorResult["url"]!.ToObject<string>());
+            base.ReportRequestWasJustGenerated(request);
+        }
+
         protected override Task ReportGeneration(PublishedAsset asset)
         {
-            _soundUrl?.Invoke(asset.Request.GeneratorResult["url"]!.ToObject<string>());
             return Task.CompletedTask;
         }
     }
