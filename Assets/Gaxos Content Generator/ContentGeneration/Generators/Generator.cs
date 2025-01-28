@@ -19,7 +19,7 @@ namespace ContentGeneration.Generators
         [SerializeField] Button _button;
 
         string generationIdPlayerPrefKey => $"{gameObject.name}_{GetType().Name}_contentGeneratorKey";
-        string assetUrlPlayerPrefKey => $"{gameObject.name}_{GetType().Name}_assetUrl";
+        protected string assetUrlPlayerPrefKey => $"{gameObject.name}_{GetType().Name}_assetUrl";
 
         void Awake()
         {
@@ -115,7 +115,7 @@ namespace ContentGeneration.Generators
             var id = PlayerPrefs.GetString(generationIdPlayerPrefKey);
 
             var result = await ContentGenerationApi.Instance.GetRequest(id);
-            if (result.Status == RequestStatus.Generated)
+            if (await IsRequestGenerated(result))
             {
                 await RequestWasGenerated(id, result);
             }
@@ -129,12 +129,20 @@ namespace ContentGeneration.Generators
             await Task.Delay(3000);
         }
 
+        protected virtual Task<bool> IsRequestGenerated(Request result)
+        {
+            return Task.FromResult(result.Status == RequestStatus.Generated);
+        }
+
         async Task RequestWasGenerated(string id, Request result)
         {
             ShowStatus("Generated!");
             ReportRequestWasJustGenerated(result);
             if(result.Assets == null || result.Assets.Length == 0)
+            {
+                await ContentGenerationApi.Instance.DeleteRequest(id);
                 return;
+            }
             
             await ContentGenerationApi.Instance.MakeAssetPublic(id, result.Assets[0].ID, true);
             await ContentGenerationApi.Instance.DeleteRequest(id);
